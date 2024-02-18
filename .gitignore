@@ -1,0 +1,17 @@
+# IDE files and directories
+.idea/
+.vscode/
+
+# Build directory
+bin/
+
+# Temp files and directories
+tmp/
+temp/
+
+# Code coverage files
+.coverage.*
+
+# Any TODO file
+*.todo
+*.TODO
