@@ -1,0 +1,126 @@
+components:
+  requestBodies:
+    PostPassword:
+      description: Describes a form for adding password to the store
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AddPassword'
+    PutPassword:
+      description: Describes a form for updating password to the store
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Password'
+
+  responses:
+    AddPassword201:
+      description: operation successful
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  password:
+                    $ref: '#/components/schemas/Password'
+    GetPasswords200:
+      description: operation successful
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  passwords:
+                    $ref: '#/components/schemas/Passwords'
+
+  schemas:
+    AddPassword:
+      type: object
+      properties:
+        name:
+          description: Password description
+          type: string
+          minLength: 3
+          maxLength: 200
+        login:
+          description: login or email
+          type: string
+          minLength: 3
+          maxLength: 200
+        password:
+          type: string
+          format: password
+          maxLength: 200
+        url:
+          description: Site url
+          type: string
+        notes:
+          description: Password notes
+          type: string
+        expired_at:
+          description: Time of password expired
+          type: string
+          format: date-time
+          example: '2023-01-01T00:00:00Z'
+      required:
+        - name
+        - login
+        - password
+    Password:
+      type: object
+      properties:
+        id:
+          type: integer
+          minimum: 1
+        name:
+          description: Password description
+          type: string
+          minLength: 3
+          maxLength: 200
+        login:
+          description: login or email
+          type: string
+          minLength: 3
+          maxLength: 200
+        password:
+          type: string
+          format: password
+          maxLength: 200
+        url:
+          description: Site url
+          type: string
+        notes:
+          description: Password notes
+          type: string
+        expired_at:
+          description: Time of password expired in UNIX format
+          type: string
+          format: date-time
+          example: '2023-01-01T00:00:00Z'
+        created_at:
+          description: Time of password create
+          type: string
+          format: date-time
+          example: '2023-01-01T00:00:00Z'
+        updated_at:
+          description: Time of password update
+          type: string
+          format: date-time
+          example: '2023-01-01T00:00:00Z'
+      required:
+        - id
+        - name
+        - login
+        - password
+    Passwords:
+      type: array
+      items:
+        $ref: '#/components/schemas/Password'

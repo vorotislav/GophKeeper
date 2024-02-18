@@ -1,0 +1,75 @@
+post:
+  operationId: addNote
+  tags:
+    - notes
+  security:
+    - BearerAuth: [ ]
+  summary: Add new note to the store
+  requestBody:
+    $ref: 'info.yaml#/components/requestBodies/PostNote'
+  responses:
+    '201':
+      $ref: 'info.yaml#/components/responses/AddNote201'
+    default:
+      $ref: '../schemas.yaml#/components/responses/Errors'
+
+get:
+  operationId: getNotes
+  tags:
+    - notes
+  security:
+    - BearerAuth: [ ]
+  summary: Find multiple notes in the store using its IDs
+  parameters:
+    - name: ids
+      in: query
+      description: List of IDs of notes to return
+      schema:
+        type: array
+        items:
+          type: integer
+          minimum: 1
+      example: [ 1, 2, 3 ]
+  responses:
+    '200':
+      $ref: 'info.yaml#/components/responses/GetNotes200'
+    default:
+      $ref: '../schemas.yaml#/components/responses/Errors'
+
+delete:
+  operationId: deleteNotes
+  tags:
+    - notes
+  security:
+    - BearerAuth: [ ]
+  summary: Delete notes.
+  requestBody:
+    description: Describes deleting notes
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            type: integer
+            minimum: 1
+        example: [ 1, 2, 3 ]
+  responses:
+    '204':
+      description: Notes was deleted successfully
+    'default':
+      $ref: '../schemas.yaml#/components/responses/Errors'
+
+put:
+  operationId: updateNote
+  tags:
+    - notes
+  security:
+    - BearerAuth: [ ]
+  summary: Update note
+  requestBody:
+    $ref: 'info.yaml#/components/requestBodies/PutNote'
+  responses:
+    '202':
+      description: The note was updated successfully
+    default:
+      $ref: '../schemas.yaml#/components/responses/Errors'

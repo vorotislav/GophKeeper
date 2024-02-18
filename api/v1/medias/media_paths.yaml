@@ -1,0 +1,75 @@
+post:
+  operationId: addMedia
+  tags:
+    - medias
+  security:
+    - BearerAuth: [ ]
+  summary: Add new media to the store
+  requestBody:
+    $ref: 'info.yaml#/components/requestBodies/PostMedia'
+  responses:
+    '201':
+      $ref: 'info.yaml#/components/responses/AddMedia201'
+    default:
+      $ref: '../schemas.yaml#/components/responses/Errors'
+
+get:
+  operationId: getMedias
+  tags:
+    - medias
+  security:
+    - BearerAuth: [ ]
+  summary: Find multiple medias in the store using its IDs
+  parameters:
+    - name: ids
+      in: query
+      description: List of IDs of media to return
+      schema:
+        type: array
+        items:
+          type: integer
+          minimum: 1
+      example: [ 1, 2, 3 ]
+  responses:
+    '200':
+      $ref: 'info.yaml#/components/responses/GetMedias200'
+    default:
+      $ref: '../schemas.yaml#/components/responses/Errors'
+
+delete:
+  operationId: deleteMedias
+  tags:
+    - medias
+  security:
+    - BearerAuth: [ ]
+  summary: Delete medias
+  requestBody:
+    description: Describes deleting medias
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            type: integer
+            minimum: 1
+        example: [ 1, 2, 3 ]
+  responses:
+    '204':
+      description: Medias was deleted successfully
+    'default':
+      $ref: '../schemas.yaml#/components/responses/Errors'
+
+put:
+  operationId: updateMedias
+  tags:
+    - medias
+  security:
+    - BearerAuth: [ ]
+  summary: Update media
+  requestBody:
+    $ref: 'info.yaml#/components/requestBodies/PutMedia'
+  responses:
+    '202':
+      description: The media was updated successfully
+    default:
+      $ref: '../schemas.yaml#/components/responses/Errors'

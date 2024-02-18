@@ -1,0 +1,90 @@
+components:
+  requestBodies:
+    PostNote:
+      description: Describes a form for adding note to the store
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AddNote'
+    PutNote:
+      description: Describes a form for updating note to the store
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Note'
+
+  responses:
+    AddNote201:
+      description: operation successful
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  note:
+                    $ref: '#/components/schemas/Note'
+    GetNotes200:
+      description: operation successful
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  notes:
+                    $ref: '#/components/schemas/Notes'
+
+  schemas:
+    AddNote:
+      type: object
+      properties:
+        name:
+          description: Note description
+          type: string
+          minLength: 3
+          maxLength: 200
+        note:
+          description: Text of note
+          type: string
+        expired_at:
+          description: Time of note expired
+          type: string
+          format: date-time
+          example: '2023-01-01T00:00:00Z'
+      required:
+        - name
+        - note
+    Note:
+      type: object
+      properties:
+        id:
+          type: integer
+          minimum: 1
+        name:
+          description: Note description
+          type: string
+          minLength: 3
+          maxLength: 200
+        note:
+          description: Text of note
+          type: string
+        expired_at:
+          description: Time of note expired
+          type: string
+          format: date-time
+          example: '2023-01-01T00:00:00Z'
+      required:
+        - id
+        - name
+        - note
+    Notes:
+      type: array
+      items:
+        $ref: '#/components/schemas/Note'

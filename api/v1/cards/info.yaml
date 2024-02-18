@@ -1,0 +1,121 @@
+components:
+  requestBodies:
+    PostCard:
+      description: Describes a form for adding card to the store
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AddCard'
+    PutCard:
+      description: Describes a form for updating card to the store
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Card'
+
+  responses:
+    AddCard201:
+      description: operation successful
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  card:
+                    $ref: '#/components/schemas/Card'
+    GetCards200:
+      description: operation successful
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  cards:
+                    $ref: '#/components/schemas/Cards'
+
+  schemas:
+    AddCard:
+      type: object
+      properties:
+        name:
+          description: Password description
+          type: string
+          minLength: 3
+          maxLength: 200
+        card:
+          description: card number
+          type: string
+        expired_month_at:
+          description: the month the card expires
+          type: integer
+          minimum: 1
+          maximum: 12
+          example: 5
+        expired_year_at:
+          description: the year the card expires
+          type: integer
+          example: 25
+        cvv:
+          description: cvv or cvc code
+          type: integer
+          minimum: 1
+          maximum: 999
+        notes:
+          description: Password notes
+          type: string
+      required:
+        - name
+        - card
+        - expired_month_at
+        - expired_year_at
+        - cvv
+    Card:
+      type: object
+      properties:
+        id:
+          type: integer
+          minimum: 1
+        name:
+          description: Password description
+          type: string
+          minLength: 3
+          maxLength: 200
+          card:
+            description: card number
+            type: string
+          expired_month_at:
+            description: the month the card expires
+            type: integer
+            minimum: 1
+            maximum: 12
+            example: 5
+          expired_year_at:
+            description: the year the card expires
+            type: integer
+            example: 25
+          cvv:
+            description: cvv or cvc code
+            type: integer
+            minimum: 1
+            maximum: 999
+          notes:
+            description: Password notes
+            type: string
+          required:
+            - name
+            - card
+            - expired_month_at
+            - expired_year_at
+            - cvv
+    Cards:
+      type: array
+      items:
+        $ref: '#/components/schemas/Card'

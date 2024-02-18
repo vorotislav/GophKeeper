@@ -1,0 +1,31 @@
+openapi: 3.0.3
+servers:
+  - url: http://localhost:8080/v1
+    description: local
+
+info:
+  title: GophKeeper
+  description: Сервис хранения паролей и других данных
+  version: 1.0.0
+
+paths:
+  /register:
+    $ref: 'v1/register/register_paths.yaml'
+  /login:
+    $ref: 'v1/login/login_paths.yaml'
+  /passwords:
+    $ref: 'v1/passwords/passwords_paths.yaml'
+  /cards:
+    $ref: 'v1/cards/cards_paths.yaml'
+  /notes:
+    $ref: 'v1/notes/notes_paths.yaml'
+  /medias:
+    $ref: 'v1/medias/media_paths.yaml'
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: "JWT"
+      description: "JWT authorization header using the Bearer scheme"

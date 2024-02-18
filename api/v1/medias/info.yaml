@@ -1,0 +1,105 @@
+components:
+  requestBodies:
+    PostMedia:
+      description: Describes a form for adding Media to the store
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AddMedia'
+    PutMedia:
+      description: Describes a form for updating Media to the store
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Media'
+
+  responses:
+    AddMedia201:
+      description: operation successful
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  media:
+                    $ref: '#/components/schemas/Media'
+    GetMedias200:
+      description: operation successful
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  medias:
+                    $ref: '#/components/schemas/Medias'
+
+  schemas:
+    AddMedia:
+      type: object
+      properties:
+        name:
+          description: Media description
+          type: string
+          minLength: 3
+          maxLength: 200
+        media:
+          description: Media
+          type: string
+          format: binary
+        media_type:
+          description: media type
+          type: string
+        note:
+          description: Media notes
+          type: string
+        expired_at:
+          description: Time of media expired
+          type: string
+          format: date-time
+          example: '2023-01-01T00:00:00Z'
+      required:
+        - name
+        - media
+        - media_type
+    Media:
+      type: object
+      properties:
+        id:
+          type: integer
+          minimum: 1
+        name:
+          description: Media description
+          type: string
+          minLength: 3
+          maxLength: 200
+          media:
+            description: Media
+            type: string
+            format: binary
+          media_type:
+            description: media type
+            type: string
+          note:
+            description: Media notes
+            type: string
+          expired_at:
+            description: Time of media expired
+            type: string
+            format: date-time
+            example: '2023-01-01T00:00:00Z'
+      required:
+        - name
+        - media
+        - media_type
+    Medias:
+      type: array
+      items:
+        $ref: '#/components/schemas/Media'

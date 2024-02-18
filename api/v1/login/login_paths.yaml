@@ -1,0 +1,42 @@
+post:
+  tags:
+    - login
+  operationId: loginUser
+  requestBody:
+    description: Describes a form required to user login
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            login:
+              title: Login
+              type: string
+              minLength: 3
+              maxLength: 200
+            password:
+              title: Password
+              type: string
+              format: password
+              minLength: 3
+              maxLength: 200
+          required:
+            - login
+            - password
+  responses:
+    '200':
+      description: The user is login
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  token:
+                    title: User token for authentication
+                    type: string
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+    default:
+      $ref: '../schemas.yaml#/components/responses/Errors'
