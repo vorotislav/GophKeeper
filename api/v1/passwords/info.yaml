@@ -16,18 +16,6 @@ components:
             $ref: '#/components/schemas/Password'
 
   responses:
-    AddPassword201:
-      description: operation successful
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              data:
-                type: object
-                properties:
-                  password:
-                    $ref: '#/components/schemas/Password'
     GetPasswords200:
       description: operation successful
       content:
@@ -45,7 +33,7 @@ components:
     AddPassword:
       type: object
       properties:
-        name:
+        title:
           description: Password description
           type: string
           minLength: 3
@@ -71,7 +59,7 @@ components:
           format: date-time
           example: '2023-01-01T00:00:00Z'
       required:
-        - name
+        - title
         - login
         - password
     Password:
@@ -80,7 +68,7 @@ components:
         id:
           type: integer
           minimum: 1
-        name:
+        title:
           description: Password description
           type: string
           minLength: 3
@@ -117,7 +105,7 @@ components:
           example: '2023-01-01T00:00:00Z'
       required:
         - id
-        - name
+        - title
         - login
         - password
     Passwords:

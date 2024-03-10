@@ -1,0 +1,14 @@
+components:
+  responses:
+    GetKey200:
+      description: operation successful
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  key:
+                    type: string

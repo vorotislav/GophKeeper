@@ -1,0 +1,378 @@
+{"level":"debug","time":"2024-03-10T13:59:08.32648536+05:00","caller":"session/client.go:61","message":"Client for gophkeeper server","url":"http://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T13:59:08.326585073+05:00","caller":"password/client.go:52","message":"Client for gophkeeper server","url":"http://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T13:59:08.326619154+05:00","caller":"cards/client.go:52","message":"Client for gophkeeper server","url":"http://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T13:59:08.326658697+05:00","caller":"notes/client.go:51","message":"Client for gophkeeper server","url":"http://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T13:59:08.326721022+05:00","caller":"media/client.go:52","message":"Client for gophkeeper server","url":"http://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T13:59:18.398001375+05:00","logger":"user client","caller":"session/client.go:67","message":"new request for user login"}
+{"level":"debug","time":"2024-03-10T14:01:01.6089197+05:00","caller":"session/client.go:61","message":"Client for gophkeeper server","url":"http://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:01:01.609104055+05:00","caller":"password/client.go:52","message":"Client for gophkeeper server","url":"http://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:01:01.609720459+05:00","caller":"cards/client.go:52","message":"Client for gophkeeper server","url":"http://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:01:01.609778033+05:00","caller":"notes/client.go:51","message":"Client for gophkeeper server","url":"http://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:01:01.609827628+05:00","caller":"media/client.go:52","message":"Client for gophkeeper server","url":"http://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:01:18.705988827+05:00","caller":"session/client.go:61","message":"Client for gophkeeper server","url":"http://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:01:18.706161798+05:00","caller":"password/client.go:52","message":"Client for gophkeeper server","url":"http://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:01:18.706228156+05:00","caller":"cards/client.go:52","message":"Client for gophkeeper server","url":"http://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:01:18.706276169+05:00","caller":"notes/client.go:51","message":"Client for gophkeeper server","url":"http://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:01:18.706337958+05:00","caller":"media/client.go:52","message":"Client for gophkeeper server","url":"http://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:01:22.021441194+05:00","logger":"user client","caller":"session/client.go:67","message":"new request for user login"}
+{"level":"debug","time":"2024-03-10T14:01:22.021904168+05:00","logger":"user client","caller":"session/client.go:125","message":"user login","status code":400}
+{"level":"debug","time":"2024-03-10T14:06:17.595940906+05:00","caller":"session/client.go:61","message":"Client for gophkeeper server","url":"http://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:06:17.596073029+05:00","caller":"password/client.go:52","message":"Client for gophkeeper server","url":"http://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:06:17.596140395+05:00","caller":"cards/client.go:52","message":"Client for gophkeeper server","url":"http://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:06:17.59617947+05:00","caller":"notes/client.go:51","message":"Client for gophkeeper server","url":"http://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:06:17.596243779+05:00","caller":"media/client.go:52","message":"Client for gophkeeper server","url":"http://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:06:20.667335805+05:00","logger":"user client","caller":"session/client.go:67","message":"new request for user login"}
+{"level":"debug","time":"2024-03-10T14:06:20.668816772+05:00","logger":"user client","caller":"session/client.go:125","message":"user login","status code":400}
+{"level":"debug","time":"2024-03-10T14:06:36.62226619+05:00","caller":"session/client.go:61","message":"Client for gophkeeper server","url":"http://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:06:36.622390803+05:00","caller":"password/client.go:52","message":"Client for gophkeeper server","url":"http://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:06:36.622452304+05:00","caller":"cards/client.go:52","message":"Client for gophkeeper server","url":"http://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:06:36.622491102+05:00","caller":"notes/client.go:51","message":"Client for gophkeeper server","url":"http://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:06:36.622535013+05:00","caller":"media/client.go:52","message":"Client for gophkeeper server","url":"http://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:06:41.475189586+05:00","logger":"user client","caller":"session/client.go:67","message":"new request for user login"}
+{"level":"debug","time":"2024-03-10T14:06:41.475779417+05:00","logger":"user client","caller":"session/client.go:125","message":"user login","status code":400}
+{"level":"debug","time":"2024-03-10T14:11:46.782350214+05:00","caller":"session/client.go:61","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:11:46.782441292+05:00","caller":"password/client.go:52","message":"Client for gophkeeper server","url":"http://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:11:46.782480783+05:00","caller":"cards/client.go:52","message":"Client for gophkeeper server","url":"http://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:11:46.782509699+05:00","caller":"notes/client.go:51","message":"Client for gophkeeper server","url":"http://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:11:46.782536245+05:00","caller":"media/client.go:52","message":"Client for gophkeeper server","url":"http://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:11:52.416993631+05:00","logger":"user client","caller":"session/client.go:67","message":"new request for user login"}
+{"level":"debug","time":"2024-03-10T14:15:39.843761451+05:00","caller":"session/client.go:61","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:15:39.843905152+05:00","caller":"password/client.go:52","message":"Client for gophkeeper server","url":"http://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:15:39.843963475+05:00","caller":"cards/client.go:52","message":"Client for gophkeeper server","url":"http://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:15:39.843994736+05:00","caller":"notes/client.go:51","message":"Client for gophkeeper server","url":"http://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:15:39.844024026+05:00","caller":"media/client.go:52","message":"Client for gophkeeper server","url":"http://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:15:42.783743987+05:00","logger":"user client","caller":"session/client.go:67","message":"new request for user login"}
+{"level":"debug","time":"2024-03-10T14:15:42.855196019+05:00","logger":"user client","caller":"session/client.go:125","message":"user login","status code":200}
+{"level":"debug","time":"2024-03-10T14:15:42.855406083+05:00","logger":"passwords client","caller":"password/client.go:181","message":"new request for get passwords"}
+{"level":"debug","time":"2024-03-10T14:15:42.855467208+05:00","logger":"passwords client","caller":"password/client.go:198","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNDg1NDIsImlhdCI6MTcxMDA2MjE0MiwiSUQiOjF9.WnJjfGLK7eKl8qhEAw8BarcuC33Kz3Lg5fZTGVWKl48"}
+{"level":"debug","time":"2024-03-10T14:15:42.855699804+05:00","logger":"passwords client","caller":"password/client.go:209","message":"get passwords","status code":400}
+{"level":"debug","time":"2024-03-10T14:15:42.8557429+05:00","logger":"notes client","caller":"notes/client.go:174","message":"new request for get notes"}
+{"level":"debug","time":"2024-03-10T14:15:42.855775961+05:00","logger":"notes client","caller":"notes/client.go:191","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNDg1NDIsImlhdCI6MTcxMDA2MjE0MiwiSUQiOjF9.WnJjfGLK7eKl8qhEAw8BarcuC33Kz3Lg5fZTGVWKl48"}
+{"level":"debug","time":"2024-03-10T14:15:42.855980617+05:00","logger":"notes client","caller":"notes/client.go:202","message":"get notes","status code":400}
+{"level":"debug","time":"2024-03-10T14:15:42.856037645+05:00","logger":"cards client","caller":"cards/client.go:183","message":"new request for get cards"}
+{"level":"debug","time":"2024-03-10T14:15:42.856081073+05:00","logger":"cards client","caller":"cards/client.go:200","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNDg1NDIsImlhdCI6MTcxMDA2MjE0MiwiSUQiOjF9.WnJjfGLK7eKl8qhEAw8BarcuC33Kz3Lg5fZTGVWKl48"}
+{"level":"debug","time":"2024-03-10T14:15:42.856246787+05:00","logger":"cards client","caller":"cards/client.go:211","message":"get cards","status code":400}
+{"level":"debug","time":"2024-03-10T14:15:42.856303022+05:00","logger":"media client","caller":"media/client.go:179","message":"new request for get notes"}
+{"level":"debug","time":"2024-03-10T14:15:42.856332465+05:00","logger":"media client","caller":"media/client.go:196","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNDg1NDIsImlhdCI6MTcxMDA2MjE0MiwiSUQiOjF9.WnJjfGLK7eKl8qhEAw8BarcuC33Kz3Lg5fZTGVWKl48"}
+{"level":"debug","time":"2024-03-10T14:15:42.856490038+05:00","logger":"media client","caller":"media/client.go:207","message":"get notes","status code":400}
+{"level":"debug","time":"2024-03-10T14:19:51.121093368+05:00","caller":"session/client.go:61","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:19:51.121167465+05:00","caller":"password/client.go:52","message":"Client for gophkeeper server","url":"http://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:19:51.121192961+05:00","caller":"cards/client.go:52","message":"Client for gophkeeper server","url":"http://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:19:51.121215818+05:00","caller":"notes/client.go:51","message":"Client for gophkeeper server","url":"http://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:19:51.121238317+05:00","caller":"media/client.go:52","message":"Client for gophkeeper server","url":"http://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:19:56.3503099+05:00","logger":"user client","caller":"session/client.go:67","message":"new request for user login"}
+{"level":"debug","time":"2024-03-10T14:21:41.80631106+05:00","caller":"session/client.go:61","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:21:41.806415014+05:00","caller":"password/client.go:52","message":"Client for gophkeeper server","url":"http://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:21:41.806446664+05:00","caller":"cards/client.go:52","message":"Client for gophkeeper server","url":"http://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:21:41.806487041+05:00","caller":"notes/client.go:51","message":"Client for gophkeeper server","url":"http://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:21:41.806514594+05:00","caller":"media/client.go:52","message":"Client for gophkeeper server","url":"http://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:21:44.70931329+05:00","logger":"user client","caller":"session/client.go:67","message":"new request for user login"}
+{"level":"debug","time":"2024-03-10T14:21:44.778019003+05:00","logger":"user client","caller":"session/client.go:125","message":"user login","status code":200}
+{"level":"debug","time":"2024-03-10T14:21:44.778240374+05:00","logger":"passwords client","caller":"password/client.go:181","message":"new request for get passwords"}
+{"level":"debug","time":"2024-03-10T14:21:44.778305439+05:00","logger":"passwords client","caller":"password/client.go:198","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNDg5MDQsImlhdCI6MTcxMDA2MjUwNCwiSUQiOjF9.ILbjF2t6N_3kN_HkJ2YHFMyeikvt3mEd88LSITPnSRo"}
+{"level":"debug","time":"2024-03-10T14:21:44.778643381+05:00","logger":"passwords client","caller":"password/client.go:209","message":"get passwords","status code":400}
+{"level":"debug","time":"2024-03-10T14:21:44.77873154+05:00","logger":"notes client","caller":"notes/client.go:174","message":"new request for get notes"}
+{"level":"debug","time":"2024-03-10T14:21:44.778788134+05:00","logger":"notes client","caller":"notes/client.go:191","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNDg5MDQsImlhdCI6MTcxMDA2MjUwNCwiSUQiOjF9.ILbjF2t6N_3kN_HkJ2YHFMyeikvt3mEd88LSITPnSRo"}
+{"level":"debug","time":"2024-03-10T14:21:44.77896405+05:00","logger":"notes client","caller":"notes/client.go:202","message":"get notes","status code":400}
+{"level":"debug","time":"2024-03-10T14:21:44.779014136+05:00","logger":"cards client","caller":"cards/client.go:183","message":"new request for get cards"}
+{"level":"debug","time":"2024-03-10T14:21:44.779070846+05:00","logger":"cards client","caller":"cards/client.go:200","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNDg5MDQsImlhdCI6MTcxMDA2MjUwNCwiSUQiOjF9.ILbjF2t6N_3kN_HkJ2YHFMyeikvt3mEd88LSITPnSRo"}
+{"level":"debug","time":"2024-03-10T14:21:44.779361933+05:00","logger":"cards client","caller":"cards/client.go:211","message":"get cards","status code":400}
+{"level":"debug","time":"2024-03-10T14:21:44.779413157+05:00","logger":"media client","caller":"media/client.go:179","message":"new request for get notes"}
+{"level":"debug","time":"2024-03-10T14:21:44.779454976+05:00","logger":"media client","caller":"media/client.go:196","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNDg5MDQsImlhdCI6MTcxMDA2MjUwNCwiSUQiOjF9.ILbjF2t6N_3kN_HkJ2YHFMyeikvt3mEd88LSITPnSRo"}
+{"level":"debug","time":"2024-03-10T14:21:44.779620221+05:00","logger":"media client","caller":"media/client.go:207","message":"get notes","status code":400}
+{"level":"debug","time":"2024-03-10T14:22:05.109493386+05:00","caller":"session/client.go:61","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:22:05.109648077+05:00","caller":"password/client.go:52","message":"Client for gophkeeper server","url":"http://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:22:05.109690709+05:00","caller":"cards/client.go:52","message":"Client for gophkeeper server","url":"http://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:22:05.109713623+05:00","caller":"notes/client.go:51","message":"Client for gophkeeper server","url":"http://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:22:05.109735826+05:00","caller":"media/client.go:52","message":"Client for gophkeeper server","url":"http://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:22:08.429589573+05:00","logger":"user client","caller":"session/client.go:67","message":"new request for user login"}
+{"level":"debug","time":"2024-03-10T14:22:08.505652082+05:00","logger":"user client","caller":"session/client.go:125","message":"user login","status code":200}
+{"level":"debug","time":"2024-03-10T14:22:08.505877357+05:00","logger":"passwords client","caller":"password/client.go:181","message":"new request for get passwords"}
+{"level":"debug","time":"2024-03-10T14:22:08.506097541+05:00","logger":"passwords client","caller":"password/client.go:198","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNDg5MjgsImlhdCI6MTcxMDA2MjUyOCwiSUQiOjF9.v2gaV9UdN27PeIRfgzVWWebCVzAF7s3_gYwD2YS6PuU"}
+{"level":"debug","time":"2024-03-10T14:22:08.506389029+05:00","logger":"passwords client","caller":"password/client.go:209","message":"get passwords","status code":400}
+{"level":"debug","time":"2024-03-10T14:22:08.506445347+05:00","logger":"notes client","caller":"notes/client.go:174","message":"new request for get notes"}
+{"level":"debug","time":"2024-03-10T14:22:08.506541213+05:00","logger":"notes client","caller":"notes/client.go:191","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNDg5MjgsImlhdCI6MTcxMDA2MjUyOCwiSUQiOjF9.v2gaV9UdN27PeIRfgzVWWebCVzAF7s3_gYwD2YS6PuU"}
+{"level":"debug","time":"2024-03-10T14:22:08.506754946+05:00","logger":"notes client","caller":"notes/client.go:202","message":"get notes","status code":400}
+{"level":"debug","time":"2024-03-10T14:22:08.506796264+05:00","logger":"cards client","caller":"cards/client.go:183","message":"new request for get cards"}
+{"level":"debug","time":"2024-03-10T14:22:08.506836513+05:00","logger":"cards client","caller":"cards/client.go:200","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNDg5MjgsImlhdCI6MTcxMDA2MjUyOCwiSUQiOjF9.v2gaV9UdN27PeIRfgzVWWebCVzAF7s3_gYwD2YS6PuU"}
+{"level":"debug","time":"2024-03-10T14:22:08.507009232+05:00","logger":"cards client","caller":"cards/client.go:211","message":"get cards","status code":400}
+{"level":"debug","time":"2024-03-10T14:22:08.507056688+05:00","logger":"media client","caller":"media/client.go:179","message":"new request for get notes"}
+{"level":"debug","time":"2024-03-10T14:22:08.507089502+05:00","logger":"media client","caller":"media/client.go:196","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNDg5MjgsImlhdCI6MTcxMDA2MjUyOCwiSUQiOjF9.v2gaV9UdN27PeIRfgzVWWebCVzAF7s3_gYwD2YS6PuU"}
+{"level":"debug","time":"2024-03-10T14:22:08.507251341+05:00","logger":"media client","caller":"media/client.go:207","message":"get notes","status code":400}
+{"level":"debug","time":"2024-03-10T14:22:29.055377597+05:00","caller":"session/client.go:61","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:22:29.055473568+05:00","caller":"password/client.go:52","message":"Client for gophkeeper server","url":"http://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:22:29.055512548+05:00","caller":"cards/client.go:52","message":"Client for gophkeeper server","url":"http://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:22:29.055554025+05:00","caller":"notes/client.go:51","message":"Client for gophkeeper server","url":"http://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:22:29.055594376+05:00","caller":"media/client.go:52","message":"Client for gophkeeper server","url":"http://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:22:32.069384467+05:00","logger":"user client","caller":"session/client.go:67","message":"new request for user login"}
+{"level":"debug","time":"2024-03-10T14:22:32.148497265+05:00","logger":"user client","caller":"session/client.go:125","message":"user login","status code":200}
+{"level":"debug","time":"2024-03-10T14:22:32.14876511+05:00","logger":"passwords client","caller":"password/client.go:181","message":"new request for get passwords"}
+{"level":"debug","time":"2024-03-10T14:22:32.148859477+05:00","logger":"passwords client","caller":"password/client.go:198","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNDg5NTIsImlhdCI6MTcxMDA2MjU1MiwiSUQiOjF9.xe03GHVWHtlrTYsyrfC5eYjnaH0_YesiIlDaEms7U4g"}
+{"level":"debug","time":"2024-03-10T14:22:32.14915248+05:00","logger":"passwords client","caller":"password/client.go:209","message":"get passwords","status code":400}
+{"level":"debug","time":"2024-03-10T14:22:32.149216246+05:00","logger":"notes client","caller":"notes/client.go:174","message":"new request for get notes"}
+{"level":"debug","time":"2024-03-10T14:22:32.149258711+05:00","logger":"notes client","caller":"notes/client.go:191","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNDg5NTIsImlhdCI6MTcxMDA2MjU1MiwiSUQiOjF9.xe03GHVWHtlrTYsyrfC5eYjnaH0_YesiIlDaEms7U4g"}
+{"level":"debug","time":"2024-03-10T14:22:32.149457275+05:00","logger":"notes client","caller":"notes/client.go:202","message":"get notes","status code":400}
+{"level":"debug","time":"2024-03-10T14:22:32.149543826+05:00","logger":"cards client","caller":"cards/client.go:183","message":"new request for get cards"}
+{"level":"debug","time":"2024-03-10T14:22:32.149593144+05:00","logger":"cards client","caller":"cards/client.go:200","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNDg5NTIsImlhdCI6MTcxMDA2MjU1MiwiSUQiOjF9.xe03GHVWHtlrTYsyrfC5eYjnaH0_YesiIlDaEms7U4g"}
+{"level":"debug","time":"2024-03-10T14:22:32.149785955+05:00","logger":"cards client","caller":"cards/client.go:211","message":"get cards","status code":400}
+{"level":"debug","time":"2024-03-10T14:22:32.149836559+05:00","logger":"media client","caller":"media/client.go:179","message":"new request for get notes"}
+{"level":"debug","time":"2024-03-10T14:22:32.149870048+05:00","logger":"media client","caller":"media/client.go:196","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNDg5NTIsImlhdCI6MTcxMDA2MjU1MiwiSUQiOjF9.xe03GHVWHtlrTYsyrfC5eYjnaH0_YesiIlDaEms7U4g"}
+{"level":"debug","time":"2024-03-10T14:22:32.150036884+05:00","logger":"media client","caller":"media/client.go:207","message":"get notes","status code":400}
+{"level":"debug","time":"2024-03-10T14:24:42.045407399+05:00","caller":"session/client.go:61","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:24:42.045519486+05:00","caller":"password/client.go:52","message":"Client for gophkeeper server","url":"http://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:24:42.045570685+05:00","caller":"cards/client.go:52","message":"Client for gophkeeper server","url":"http://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:24:42.045610809+05:00","caller":"notes/client.go:51","message":"Client for gophkeeper server","url":"http://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:24:42.045642455+05:00","caller":"media/client.go:52","message":"Client for gophkeeper server","url":"http://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:24:46.630221174+05:00","logger":"user client","caller":"session/client.go:67","message":"new request for user login"}
+{"level":"debug","time":"2024-03-10T14:24:46.716657071+05:00","logger":"user client","caller":"session/client.go:125","message":"user login","status code":200}
+{"level":"debug","time":"2024-03-10T14:24:46.716915601+05:00","logger":"passwords client","caller":"password/client.go:181","message":"new request for get passwords"}
+{"level":"debug","time":"2024-03-10T14:24:46.717023352+05:00","logger":"passwords client","caller":"password/client.go:198","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNDkwODYsImlhdCI6MTcxMDA2MjY4NiwiSUQiOjF9.6maT1tmNX69XxFHT9GmYGJZ3G3bl1fa199uX40DVKN0"}
+{"level":"debug","time":"2024-03-10T14:24:46.717295358+05:00","logger":"passwords client","caller":"password/client.go:209","message":"get passwords","status code":400}
+{"level":"debug","time":"2024-03-10T14:24:46.717380804+05:00","logger":"notes client","caller":"notes/client.go:174","message":"new request for get notes"}
+{"level":"debug","time":"2024-03-10T14:24:46.71745631+05:00","logger":"notes client","caller":"notes/client.go:191","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNDkwODYsImlhdCI6MTcxMDA2MjY4NiwiSUQiOjF9.6maT1tmNX69XxFHT9GmYGJZ3G3bl1fa199uX40DVKN0"}
+{"level":"debug","time":"2024-03-10T14:24:46.717656387+05:00","logger":"notes client","caller":"notes/client.go:202","message":"get notes","status code":400}
+{"level":"debug","time":"2024-03-10T14:24:46.717709922+05:00","logger":"cards client","caller":"cards/client.go:183","message":"new request for get cards"}
+{"level":"debug","time":"2024-03-10T14:24:46.717752274+05:00","logger":"cards client","caller":"cards/client.go:200","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNDkwODYsImlhdCI6MTcxMDA2MjY4NiwiSUQiOjF9.6maT1tmNX69XxFHT9GmYGJZ3G3bl1fa199uX40DVKN0"}
+{"level":"debug","time":"2024-03-10T14:24:46.717984914+05:00","logger":"cards client","caller":"cards/client.go:211","message":"get cards","status code":400}
+{"level":"debug","time":"2024-03-10T14:24:46.718040961+05:00","logger":"media client","caller":"media/client.go:179","message":"new request for get notes"}
+{"level":"debug","time":"2024-03-10T14:24:46.718081056+05:00","logger":"media client","caller":"media/client.go:196","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNDkwODYsImlhdCI6MTcxMDA2MjY4NiwiSUQiOjF9.6maT1tmNX69XxFHT9GmYGJZ3G3bl1fa199uX40DVKN0"}
+{"level":"debug","time":"2024-03-10T14:24:46.718272405+05:00","logger":"media client","caller":"media/client.go:207","message":"get notes","status code":400}
+{"level":"debug","time":"2024-03-10T14:27:16.200417964+05:00","caller":"session/client.go:61","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:27:16.200523406+05:00","caller":"password/client.go:58","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:27:16.200561376+05:00","caller":"cards/client.go:58","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:27:16.200600262+05:00","caller":"notes/client.go:57","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:27:16.200627391+05:00","caller":"media/client.go:58","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:27:19.643747443+05:00","logger":"user client","caller":"session/client.go:67","message":"new request for user login"}
+{"level":"debug","time":"2024-03-10T14:27:19.714767192+05:00","logger":"user client","caller":"session/client.go:125","message":"user login","status code":200}
+{"level":"debug","time":"2024-03-10T14:27:19.714986524+05:00","logger":"passwords client","caller":"password/client.go:187","message":"new request for get passwords"}
+{"level":"debug","time":"2024-03-10T14:27:19.715048804+05:00","logger":"passwords client","caller":"password/client.go:204","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNDkyMzksImlhdCI6MTcxMDA2MjgzOSwiSUQiOjF9.s12bpJoBI-oBR4CyR_m3LTFyfzqW1YnMZYZSEEh9krw"}
+{"level":"debug","time":"2024-03-10T14:27:19.715692004+05:00","logger":"passwords client","caller":"password/client.go:215","message":"get passwords","status code":200}
+{"level":"debug","time":"2024-03-10T14:27:19.715958361+05:00","logger":"notes client","caller":"notes/client.go:180","message":"new request for get notes"}
+{"level":"debug","time":"2024-03-10T14:27:19.716056521+05:00","logger":"notes client","caller":"notes/client.go:197","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNDkyMzksImlhdCI6MTcxMDA2MjgzOSwiSUQiOjF9.s12bpJoBI-oBR4CyR_m3LTFyfzqW1YnMZYZSEEh9krw"}
+{"level":"debug","time":"2024-03-10T14:27:19.716613999+05:00","logger":"notes client","caller":"notes/client.go:208","message":"get notes","status code":200}
+{"level":"debug","time":"2024-03-10T14:27:19.716756334+05:00","logger":"cards client","caller":"cards/client.go:189","message":"new request for get cards"}
+{"level":"debug","time":"2024-03-10T14:27:19.716803938+05:00","logger":"cards client","caller":"cards/client.go:206","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNDkyMzksImlhdCI6MTcxMDA2MjgzOSwiSUQiOjF9.s12bpJoBI-oBR4CyR_m3LTFyfzqW1YnMZYZSEEh9krw"}
+{"level":"debug","time":"2024-03-10T14:27:19.717239782+05:00","logger":"cards client","caller":"cards/client.go:217","message":"get cards","status code":200}
+{"level":"debug","time":"2024-03-10T14:27:19.717340326+05:00","logger":"media client","caller":"media/client.go:185","message":"new request for get notes"}
+{"level":"debug","time":"2024-03-10T14:27:19.717380179+05:00","logger":"media client","caller":"media/client.go:202","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNDkyMzksImlhdCI6MTcxMDA2MjgzOSwiSUQiOjF9.s12bpJoBI-oBR4CyR_m3LTFyfzqW1YnMZYZSEEh9krw"}
+{"level":"debug","time":"2024-03-10T14:27:19.749329952+05:00","logger":"media client","caller":"media/client.go:213","message":"get notes","status code":200}
+{"level":"debug","time":"2024-03-10T14:28:22.091294158+05:00","caller":"session/client.go:61","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:28:22.091390849+05:00","caller":"password/client.go:58","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:28:22.091428209+05:00","caller":"cards/client.go:58","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:28:22.091468512+05:00","caller":"notes/client.go:57","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:28:22.091499177+05:00","caller":"media/client.go:58","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:28:24.93132273+05:00","logger":"user client","caller":"session/client.go:67","message":"new request for user login"}
+{"level":"debug","time":"2024-03-10T14:28:24.998228917+05:00","logger":"user client","caller":"session/client.go:125","message":"user login","status code":200}
+{"level":"debug","time":"2024-03-10T14:28:24.998457994+05:00","logger":"passwords client","caller":"password/client.go:187","message":"new request for get passwords"}
+{"level":"debug","time":"2024-03-10T14:28:24.998508588+05:00","logger":"passwords client","caller":"password/client.go:204","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNDkzMDQsImlhdCI6MTcxMDA2MjkwNCwiSUQiOjF9.0JUPpQUsQDviemyhAQ9ChTsBdXLxGmCabyx0QqgAUJg"}
+{"level":"debug","time":"2024-03-10T14:28:24.998925506+05:00","logger":"passwords client","caller":"password/client.go:215","message":"get passwords","status code":200}
+{"level":"debug","time":"2024-03-10T14:28:24.999053591+05:00","logger":"notes client","caller":"notes/client.go:180","message":"new request for get notes"}
+{"level":"debug","time":"2024-03-10T14:28:24.999096068+05:00","logger":"notes client","caller":"notes/client.go:197","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNDkzMDQsImlhdCI6MTcxMDA2MjkwNCwiSUQiOjF9.0JUPpQUsQDviemyhAQ9ChTsBdXLxGmCabyx0QqgAUJg"}
+{"level":"debug","time":"2024-03-10T14:28:24.999395385+05:00","logger":"notes client","caller":"notes/client.go:208","message":"get notes","status code":200}
+{"level":"debug","time":"2024-03-10T14:28:24.99953738+05:00","logger":"cards client","caller":"cards/client.go:189","message":"new request for get cards"}
+{"level":"debug","time":"2024-03-10T14:28:24.999582605+05:00","logger":"cards client","caller":"cards/client.go:206","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNDkzMDQsImlhdCI6MTcxMDA2MjkwNCwiSUQiOjF9.0JUPpQUsQDviemyhAQ9ChTsBdXLxGmCabyx0QqgAUJg"}
+{"level":"debug","time":"2024-03-10T14:28:24.999857643+05:00","logger":"cards client","caller":"cards/client.go:217","message":"get cards","status code":200}
+{"level":"debug","time":"2024-03-10T14:28:24.999955501+05:00","logger":"media client","caller":"media/client.go:185","message":"new request for get notes"}
+{"level":"debug","time":"2024-03-10T14:28:24.9999923+05:00","logger":"media client","caller":"media/client.go:202","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNDkzMDQsImlhdCI6MTcxMDA2MjkwNCwiSUQiOjF9.0JUPpQUsQDviemyhAQ9ChTsBdXLxGmCabyx0QqgAUJg"}
+{"level":"debug","time":"2024-03-10T14:28:25.02984351+05:00","logger":"media client","caller":"media/client.go:213","message":"get notes","status code":200}
+{"level":"debug","time":"2024-03-10T14:28:39.661634539+05:00","caller":"session/client.go:61","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:28:39.661781851+05:00","caller":"password/client.go:58","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:28:39.661817369+05:00","caller":"cards/client.go:58","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:28:39.661858237+05:00","caller":"notes/client.go:57","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:28:39.661886626+05:00","caller":"media/client.go:58","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:28:43.412372821+05:00","logger":"user client","caller":"session/client.go:67","message":"new request for user login"}
+{"level":"debug","time":"2024-03-10T14:28:43.488840862+05:00","logger":"user client","caller":"session/client.go:125","message":"user login","status code":200}
+{"level":"debug","time":"2024-03-10T14:28:43.489022851+05:00","logger":"passwords client","caller":"password/client.go:187","message":"new request for get passwords"}
+{"level":"debug","time":"2024-03-10T14:28:43.48907927+05:00","logger":"passwords client","caller":"password/client.go:204","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNDkzMjMsImlhdCI6MTcxMDA2MjkyMywiSUQiOjF9.fsac9v04i9nOTTSsymJFjBnpS_iSIxpNbfI5m9Pb2BU"}
+{"level":"debug","time":"2024-03-10T14:28:43.489519193+05:00","logger":"passwords client","caller":"password/client.go:215","message":"get passwords","status code":200}
+{"level":"debug","time":"2024-03-10T14:28:43.489655163+05:00","logger":"notes client","caller":"notes/client.go:180","message":"new request for get notes"}
+{"level":"debug","time":"2024-03-10T14:28:43.489702884+05:00","logger":"notes client","caller":"notes/client.go:197","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNDkzMjMsImlhdCI6MTcxMDA2MjkyMywiSUQiOjF9.fsac9v04i9nOTTSsymJFjBnpS_iSIxpNbfI5m9Pb2BU"}
+{"level":"debug","time":"2024-03-10T14:28:43.489995998+05:00","logger":"notes client","caller":"notes/client.go:208","message":"get notes","status code":200}
+{"level":"debug","time":"2024-03-10T14:28:43.490130645+05:00","logger":"cards client","caller":"cards/client.go:189","message":"new request for get cards"}
+{"level":"debug","time":"2024-03-10T14:28:43.490170783+05:00","logger":"cards client","caller":"cards/client.go:206","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNDkzMjMsImlhdCI6MTcxMDA2MjkyMywiSUQiOjF9.fsac9v04i9nOTTSsymJFjBnpS_iSIxpNbfI5m9Pb2BU"}
+{"level":"debug","time":"2024-03-10T14:28:43.490420251+05:00","logger":"cards client","caller":"cards/client.go:217","message":"get cards","status code":200}
+{"level":"debug","time":"2024-03-10T14:28:43.490538011+05:00","logger":"media client","caller":"media/client.go:185","message":"new request for get notes"}
+{"level":"debug","time":"2024-03-10T14:28:43.490571999+05:00","logger":"media client","caller":"media/client.go:202","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNDkzMjMsImlhdCI6MTcxMDA2MjkyMywiSUQiOjF9.fsac9v04i9nOTTSsymJFjBnpS_iSIxpNbfI5m9Pb2BU"}
+{"level":"debug","time":"2024-03-10T14:28:43.51605182+05:00","logger":"media client","caller":"media/client.go:213","message":"get notes","status code":200}
+{"level":"debug","time":"2024-03-10T14:28:54.771500141+05:00","caller":"session/client.go:61","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:28:54.77159145+05:00","caller":"password/client.go:58","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:28:54.771636901+05:00","caller":"cards/client.go:58","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:28:54.771664407+05:00","caller":"notes/client.go:57","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:28:54.771713836+05:00","caller":"media/client.go:58","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:28:57.68341359+05:00","logger":"user client","caller":"session/client.go:67","message":"new request for user login"}
+{"level":"debug","time":"2024-03-10T14:28:57.756372712+05:00","logger":"user client","caller":"session/client.go:125","message":"user login","status code":200}
+{"level":"debug","time":"2024-03-10T14:28:57.756579197+05:00","logger":"passwords client","caller":"password/client.go:187","message":"new request for get passwords"}
+{"level":"debug","time":"2024-03-10T14:28:57.75663871+05:00","logger":"passwords client","caller":"password/client.go:204","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNDkzMzcsImlhdCI6MTcxMDA2MjkzNywiSUQiOjF9.B5-KVR-hiPPm6lzuZNJXR4cgPp1s781iAV1C2jYslds"}
+{"level":"debug","time":"2024-03-10T14:28:57.757053395+05:00","logger":"passwords client","caller":"password/client.go:215","message":"get passwords","status code":200}
+{"level":"debug","time":"2024-03-10T14:28:57.757207643+05:00","logger":"notes client","caller":"notes/client.go:180","message":"new request for get notes"}
+{"level":"debug","time":"2024-03-10T14:28:57.757257336+05:00","logger":"notes client","caller":"notes/client.go:197","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNDkzMzcsImlhdCI6MTcxMDA2MjkzNywiSUQiOjF9.B5-KVR-hiPPm6lzuZNJXR4cgPp1s781iAV1C2jYslds"}
+{"level":"debug","time":"2024-03-10T14:28:57.757552083+05:00","logger":"notes client","caller":"notes/client.go:208","message":"get notes","status code":200}
+{"level":"debug","time":"2024-03-10T14:28:57.757676192+05:00","logger":"cards client","caller":"cards/client.go:189","message":"new request for get cards"}
+{"level":"debug","time":"2024-03-10T14:28:57.757712551+05:00","logger":"cards client","caller":"cards/client.go:206","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNDkzMzcsImlhdCI6MTcxMDA2MjkzNywiSUQiOjF9.B5-KVR-hiPPm6lzuZNJXR4cgPp1s781iAV1C2jYslds"}
+{"level":"debug","time":"2024-03-10T14:28:57.757972367+05:00","logger":"cards client","caller":"cards/client.go:217","message":"get cards","status code":200}
+{"level":"debug","time":"2024-03-10T14:28:57.758087315+05:00","logger":"media client","caller":"media/client.go:185","message":"new request for get notes"}
+{"level":"debug","time":"2024-03-10T14:28:57.758135077+05:00","logger":"media client","caller":"media/client.go:202","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNDkzMzcsImlhdCI6MTcxMDA2MjkzNywiSUQiOjF9.B5-KVR-hiPPm6lzuZNJXR4cgPp1s781iAV1C2jYslds"}
+{"level":"debug","time":"2024-03-10T14:28:57.788128443+05:00","logger":"media client","caller":"media/client.go:213","message":"get notes","status code":200}
+{"level":"debug","time":"2024-03-10T14:29:35.114518698+05:00","caller":"session/client.go:61","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:29:35.11462514+05:00","caller":"password/client.go:58","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:29:35.114667132+05:00","caller":"cards/client.go:58","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:29:35.114723664+05:00","caller":"notes/client.go:57","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:29:35.11477355+05:00","caller":"media/client.go:58","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:29:43.590693958+05:00","logger":"user client","caller":"session/client.go:67","message":"new request for user login"}
+{"level":"debug","time":"2024-03-10T14:29:43.673195919+05:00","logger":"user client","caller":"session/client.go:125","message":"user login","status code":200}
+{"level":"debug","time":"2024-03-10T14:29:43.673464508+05:00","logger":"passwords client","caller":"password/client.go:187","message":"new request for get passwords"}
+{"level":"debug","time":"2024-03-10T14:29:43.673565107+05:00","logger":"passwords client","caller":"password/client.go:204","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNDkzODMsImlhdCI6MTcxMDA2Mjk4MywiSUQiOjF9.uyF4CaK5DF3cNOvS4hoHu69EmxcqBh8KeohB7MfKBSM"}
+{"level":"debug","time":"2024-03-10T14:29:43.673963418+05:00","logger":"passwords client","caller":"password/client.go:215","message":"get passwords","status code":200}
+{"level":"debug","time":"2024-03-10T14:29:43.674097425+05:00","logger":"notes client","caller":"notes/client.go:180","message":"new request for get notes"}
+{"level":"debug","time":"2024-03-10T14:29:43.67414691+05:00","logger":"notes client","caller":"notes/client.go:197","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNDkzODMsImlhdCI6MTcxMDA2Mjk4MywiSUQiOjF9.uyF4CaK5DF3cNOvS4hoHu69EmxcqBh8KeohB7MfKBSM"}
+{"level":"debug","time":"2024-03-10T14:29:43.674453302+05:00","logger":"notes client","caller":"notes/client.go:208","message":"get notes","status code":200}
+{"level":"debug","time":"2024-03-10T14:29:43.674586152+05:00","logger":"cards client","caller":"cards/client.go:189","message":"new request for get cards"}
+{"level":"debug","time":"2024-03-10T14:29:43.674639474+05:00","logger":"cards client","caller":"cards/client.go:206","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNDkzODMsImlhdCI6MTcxMDA2Mjk4MywiSUQiOjF9.uyF4CaK5DF3cNOvS4hoHu69EmxcqBh8KeohB7MfKBSM"}
+{"level":"debug","time":"2024-03-10T14:29:43.674910099+05:00","logger":"cards client","caller":"cards/client.go:217","message":"get cards","status code":200}
+{"level":"debug","time":"2024-03-10T14:29:43.675011033+05:00","logger":"media client","caller":"media/client.go:185","message":"new request for get notes"}
+{"level":"debug","time":"2024-03-10T14:29:43.675051875+05:00","logger":"media client","caller":"media/client.go:202","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNDkzODMsImlhdCI6MTcxMDA2Mjk4MywiSUQiOjF9.uyF4CaK5DF3cNOvS4hoHu69EmxcqBh8KeohB7MfKBSM"}
+{"level":"debug","time":"2024-03-10T14:29:43.704179024+05:00","logger":"media client","caller":"media/client.go:213","message":"get notes","status code":200}
+{"level":"debug","time":"2024-03-10T14:30:57.779151614+05:00","caller":"session/client.go:61","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:30:57.779258736+05:00","caller":"password/client.go:58","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:30:57.779291031+05:00","caller":"cards/client.go:58","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:30:57.779323606+05:00","caller":"notes/client.go:57","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:30:57.77935473+05:00","caller":"media/client.go:58","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:31:01.472280334+05:00","logger":"user client","caller":"session/client.go:67","message":"new request for user login"}
+{"level":"debug","time":"2024-03-10T14:31:01.539658483+05:00","logger":"user client","caller":"session/client.go:125","message":"user login","status code":200}
+{"level":"debug","time":"2024-03-10T14:31:01.539886708+05:00","logger":"passwords client","caller":"password/client.go:187","message":"new request for get passwords"}
+{"level":"debug","time":"2024-03-10T14:31:01.539953041+05:00","logger":"passwords client","caller":"password/client.go:204","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNDk0NjEsImlhdCI6MTcxMDA2MzA2MSwiSUQiOjF9.LeWFRwwbUX2Gr4x4qL2eAXnEFMd_AAZ7V7Y_IhqCjK4"}
+{"level":"debug","time":"2024-03-10T14:31:01.540418042+05:00","logger":"passwords client","caller":"password/client.go:215","message":"get passwords","status code":200}
+{"level":"debug","time":"2024-03-10T14:31:01.540563956+05:00","logger":"notes client","caller":"notes/client.go:180","message":"new request for get notes"}
+{"level":"debug","time":"2024-03-10T14:31:01.540605554+05:00","logger":"notes client","caller":"notes/client.go:197","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNDk0NjEsImlhdCI6MTcxMDA2MzA2MSwiSUQiOjF9.LeWFRwwbUX2Gr4x4qL2eAXnEFMd_AAZ7V7Y_IhqCjK4"}
+{"level":"debug","time":"2024-03-10T14:31:01.540878041+05:00","logger":"notes client","caller":"notes/client.go:208","message":"get notes","status code":200}
+{"level":"debug","time":"2024-03-10T14:31:01.541018049+05:00","logger":"cards client","caller":"cards/client.go:189","message":"new request for get cards"}
+{"level":"debug","time":"2024-03-10T14:31:01.541066455+05:00","logger":"cards client","caller":"cards/client.go:206","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNDk0NjEsImlhdCI6MTcxMDA2MzA2MSwiSUQiOjF9.LeWFRwwbUX2Gr4x4qL2eAXnEFMd_AAZ7V7Y_IhqCjK4"}
+{"level":"debug","time":"2024-03-10T14:31:01.541319744+05:00","logger":"cards client","caller":"cards/client.go:217","message":"get cards","status code":200}
+{"level":"debug","time":"2024-03-10T14:31:01.54144578+05:00","logger":"media client","caller":"media/client.go:185","message":"new request for get notes"}
+{"level":"debug","time":"2024-03-10T14:31:01.541481708+05:00","logger":"media client","caller":"media/client.go:202","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNDk0NjEsImlhdCI6MTcxMDA2MzA2MSwiSUQiOjF9.LeWFRwwbUX2Gr4x4qL2eAXnEFMd_AAZ7V7Y_IhqCjK4"}
+{"level":"debug","time":"2024-03-10T14:31:01.566018105+05:00","logger":"media client","caller":"media/client.go:213","message":"get notes","status code":200}
+{"level":"debug","time":"2024-03-10T14:32:11.450194251+05:00","caller":"session/client.go:61","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:32:11.450284325+05:00","caller":"password/client.go:58","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:32:11.450321037+05:00","caller":"cards/client.go:58","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:32:11.450362801+05:00","caller":"notes/client.go:57","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:32:11.450404323+05:00","caller":"media/client.go:58","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:32:15.882782293+05:00","logger":"user client","caller":"session/client.go:67","message":"new request for user login"}
+{"level":"debug","time":"2024-03-10T14:32:15.954697668+05:00","logger":"user client","caller":"session/client.go:125","message":"user login","status code":200}
+{"level":"debug","time":"2024-03-10T14:32:15.954926098+05:00","logger":"passwords client","caller":"password/client.go:187","message":"new request for get passwords"}
+{"level":"debug","time":"2024-03-10T14:32:15.954970664+05:00","logger":"passwords client","caller":"password/client.go:204","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNDk1MzUsImlhdCI6MTcxMDA2MzEzNSwiSUQiOjF9.czGRJQuVSfJVajPcyqT6lFOHRDu8tkqhWrNokrdHoLo"}
+{"level":"debug","time":"2024-03-10T14:32:15.955590198+05:00","logger":"passwords client","caller":"password/client.go:215","message":"get passwords","status code":200}
+{"level":"debug","time":"2024-03-10T14:32:15.95573744+05:00","logger":"notes client","caller":"notes/client.go:180","message":"new request for get notes"}
+{"level":"debug","time":"2024-03-10T14:32:15.955807865+05:00","logger":"notes client","caller":"notes/client.go:197","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNDk1MzUsImlhdCI6MTcxMDA2MzEzNSwiSUQiOjF9.czGRJQuVSfJVajPcyqT6lFOHRDu8tkqhWrNokrdHoLo"}
+{"level":"debug","time":"2024-03-10T14:32:15.956265234+05:00","logger":"notes client","caller":"notes/client.go:208","message":"get notes","status code":200}
+{"level":"debug","time":"2024-03-10T14:32:15.956394397+05:00","logger":"cards client","caller":"cards/client.go:189","message":"new request for get cards"}
+{"level":"debug","time":"2024-03-10T14:32:15.956431538+05:00","logger":"cards client","caller":"cards/client.go:206","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNDk1MzUsImlhdCI6MTcxMDA2MzEzNSwiSUQiOjF9.czGRJQuVSfJVajPcyqT6lFOHRDu8tkqhWrNokrdHoLo"}
+{"level":"debug","time":"2024-03-10T14:32:15.956861076+05:00","logger":"cards client","caller":"cards/client.go:217","message":"get cards","status code":200}
+{"level":"debug","time":"2024-03-10T14:32:15.956957128+05:00","logger":"media client","caller":"media/client.go:185","message":"new request for get notes"}
+{"level":"debug","time":"2024-03-10T14:32:15.956990795+05:00","logger":"media client","caller":"media/client.go:202","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNDk1MzUsImlhdCI6MTcxMDA2MzEzNSwiSUQiOjF9.czGRJQuVSfJVajPcyqT6lFOHRDu8tkqhWrNokrdHoLo"}
+{"level":"debug","time":"2024-03-10T14:32:15.980232512+05:00","logger":"media client","caller":"media/client.go:213","message":"get notes","status code":200}
+{"level":"debug","time":"2024-03-10T14:47:20.695710863+05:00","caller":"session/client.go:61","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:47:20.695849449+05:00","caller":"password/client.go:58","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:47:20.695917174+05:00","caller":"cards/client.go:58","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:47:20.695987814+05:00","caller":"notes/client.go:57","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:47:20.696032118+05:00","caller":"media/client.go:58","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:47:25.297154389+05:00","logger":"user client","caller":"session/client.go:67","message":"new request for user login"}
+{"level":"debug","time":"2024-03-10T14:47:25.366748681+05:00","logger":"user client","caller":"session/client.go:125","message":"user login","status code":200}
+{"level":"debug","time":"2024-03-10T14:47:25.366964116+05:00","logger":"passwords client","caller":"password/client.go:187","message":"new request for get passwords"}
+{"level":"debug","time":"2024-03-10T14:47:25.367010779+05:00","logger":"passwords client","caller":"password/client.go:204","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNTA0NDUsImlhdCI6MTcxMDA2NDA0NSwiSUQiOjF9.on0ZTSr-3GlFHPMY1Wa_BdvyLOjcVSOr47nL43HcGbA"}
+{"level":"debug","time":"2024-03-10T14:47:25.367529845+05:00","logger":"passwords client","caller":"password/client.go:215","message":"get passwords","status code":200}
+{"level":"debug","time":"2024-03-10T14:47:25.367715687+05:00","logger":"notes client","caller":"notes/client.go:180","message":"new request for get notes"}
+{"level":"debug","time":"2024-03-10T14:47:25.367759888+05:00","logger":"notes client","caller":"notes/client.go:197","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNTA0NDUsImlhdCI6MTcxMDA2NDA0NSwiSUQiOjF9.on0ZTSr-3GlFHPMY1Wa_BdvyLOjcVSOr47nL43HcGbA"}
+{"level":"debug","time":"2024-03-10T14:47:25.368170579+05:00","logger":"notes client","caller":"notes/client.go:208","message":"get notes","status code":200}
+{"level":"debug","time":"2024-03-10T14:47:25.36832144+05:00","logger":"cards client","caller":"cards/client.go:189","message":"new request for get cards"}
+{"level":"debug","time":"2024-03-10T14:47:25.368360553+05:00","logger":"cards client","caller":"cards/client.go:206","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNTA0NDUsImlhdCI6MTcxMDA2NDA0NSwiSUQiOjF9.on0ZTSr-3GlFHPMY1Wa_BdvyLOjcVSOr47nL43HcGbA"}
+{"level":"debug","time":"2024-03-10T14:47:25.368845235+05:00","logger":"cards client","caller":"cards/client.go:217","message":"get cards","status code":200}
+{"level":"debug","time":"2024-03-10T14:47:25.368941429+05:00","logger":"media client","caller":"media/client.go:185","message":"new request for get notes"}
+{"level":"debug","time":"2024-03-10T14:47:25.368975642+05:00","logger":"media client","caller":"media/client.go:202","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNTA0NDUsImlhdCI6MTcxMDA2NDA0NSwiSUQiOjF9.on0ZTSr-3GlFHPMY1Wa_BdvyLOjcVSOr47nL43HcGbA"}
+{"level":"debug","time":"2024-03-10T14:47:25.401949012+05:00","logger":"media client","caller":"media/client.go:213","message":"get notes","status code":200}
+{"level":"debug","time":"2024-03-10T14:49:56.897704972+05:00","caller":"session/client.go:61","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:49:56.89782323+05:00","caller":"password/client.go:58","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:49:56.897889796+05:00","caller":"cards/client.go:58","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:49:56.897923132+05:00","caller":"notes/client.go:57","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:49:56.897992461+05:00","caller":"media/client.go:58","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:50:03.424641966+05:00","logger":"user client","caller":"session/client.go:67","message":"new request for user login"}
+{"level":"debug","time":"2024-03-10T14:50:03.494985693+05:00","logger":"user client","caller":"session/client.go:125","message":"user login","status code":200}
+{"level":"debug","time":"2024-03-10T14:50:03.495188192+05:00","logger":"passwords client","caller":"password/client.go:187","message":"new request for get passwords"}
+{"level":"debug","time":"2024-03-10T14:50:03.495287298+05:00","logger":"passwords client","caller":"password/client.go:204","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNTA2MDMsImlhdCI6MTcxMDA2NDIwMywiSUQiOjF9.cQyUu1c7u4CHPfiNiqBOQ08EQoimNioFOz5EB18DD4o"}
+{"level":"debug","time":"2024-03-10T14:50:03.495912623+05:00","logger":"passwords client","caller":"password/client.go:215","message":"get passwords","status code":200}
+{"level":"debug","time":"2024-03-10T14:50:03.49607+05:00","logger":"notes client","caller":"notes/client.go:180","message":"new request for get notes"}
+{"level":"debug","time":"2024-03-10T14:50:03.496128563+05:00","logger":"notes client","caller":"notes/client.go:197","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNTA2MDMsImlhdCI6MTcxMDA2NDIwMywiSUQiOjF9.cQyUu1c7u4CHPfiNiqBOQ08EQoimNioFOz5EB18DD4o"}
+{"level":"debug","time":"2024-03-10T14:50:03.496631428+05:00","logger":"notes client","caller":"notes/client.go:208","message":"get notes","status code":200}
+{"level":"debug","time":"2024-03-10T14:50:03.49677002+05:00","logger":"cards client","caller":"cards/client.go:189","message":"new request for get cards"}
+{"level":"debug","time":"2024-03-10T14:50:03.496831199+05:00","logger":"cards client","caller":"cards/client.go:206","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNTA2MDMsImlhdCI6MTcxMDA2NDIwMywiSUQiOjF9.cQyUu1c7u4CHPfiNiqBOQ08EQoimNioFOz5EB18DD4o"}
+{"level":"debug","time":"2024-03-10T14:50:03.497289158+05:00","logger":"cards client","caller":"cards/client.go:217","message":"get cards","status code":200}
+{"level":"debug","time":"2024-03-10T14:50:03.497406497+05:00","logger":"media client","caller":"media/client.go:185","message":"new request for get notes"}
+{"level":"debug","time":"2024-03-10T14:50:03.497455873+05:00","logger":"media client","caller":"media/client.go:202","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNTA2MDMsImlhdCI6MTcxMDA2NDIwMywiSUQiOjF9.cQyUu1c7u4CHPfiNiqBOQ08EQoimNioFOz5EB18DD4o"}
+{"level":"debug","time":"2024-03-10T14:50:03.530870851+05:00","logger":"media client","caller":"media/client.go:213","message":"get notes","status code":200}
+{"level":"debug","time":"2024-03-10T14:53:21.389881132+05:00","caller":"session/client.go:61","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:53:21.390009273+05:00","caller":"password/client.go:58","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:53:21.390071356+05:00","caller":"cards/client.go:58","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:53:21.390115112+05:00","caller":"notes/client.go:57","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:53:21.390149178+05:00","caller":"media/client.go:58","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:53:24.372155348+05:00","logger":"user client","caller":"session/client.go:67","message":"new request for user login"}
+{"level":"debug","time":"2024-03-10T14:54:06.838834801+05:00","caller":"session/client.go:61","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:54:06.838938659+05:00","caller":"password/client.go:58","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:54:06.838978622+05:00","caller":"cards/client.go:58","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:54:06.839003293+05:00","caller":"notes/client.go:57","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:54:06.839026684+05:00","caller":"media/client.go:58","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:54:10.106856061+05:00","logger":"user client","caller":"session/client.go:67","message":"new request for user login"}
+{"level":"debug","time":"2024-03-10T14:54:10.206799327+05:00","logger":"user client","caller":"session/client.go:125","message":"user login","status code":200}
+{"level":"debug","time":"2024-03-10T14:54:10.207017197+05:00","logger":"passwords client","caller":"password/client.go:187","message":"new request for get passwords"}
+{"level":"debug","time":"2024-03-10T14:54:10.207115075+05:00","logger":"passwords client","caller":"password/client.go:204","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNTA4NTAsImlhdCI6MTcxMDA2NDQ1MCwiSUQiOjF9.cds4fzaUvvag3_ima-Wp89zuKLJMWnnqdbjY-1Ir92I"}
+{"level":"debug","time":"2024-03-10T14:54:10.207652221+05:00","logger":"passwords client","caller":"password/client.go:215","message":"get passwords","status code":200}
+{"level":"debug","time":"2024-03-10T14:54:10.207812155+05:00","logger":"notes client","caller":"notes/client.go:180","message":"new request for get notes"}
+{"level":"debug","time":"2024-03-10T14:54:10.207855419+05:00","logger":"notes client","caller":"notes/client.go:197","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNTA4NTAsImlhdCI6MTcxMDA2NDQ1MCwiSUQiOjF9.cds4fzaUvvag3_ima-Wp89zuKLJMWnnqdbjY-1Ir92I"}
+{"level":"debug","time":"2024-03-10T14:54:10.208276859+05:00","logger":"notes client","caller":"notes/client.go:208","message":"get notes","status code":200}
+{"level":"debug","time":"2024-03-10T14:54:10.208457377+05:00","logger":"cards client","caller":"cards/client.go:189","message":"new request for get cards"}
+{"level":"debug","time":"2024-03-10T14:54:10.208502604+05:00","logger":"cards client","caller":"cards/client.go:206","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNTA4NTAsImlhdCI6MTcxMDA2NDQ1MCwiSUQiOjF9.cds4fzaUvvag3_ima-Wp89zuKLJMWnnqdbjY-1Ir92I"}
+{"level":"debug","time":"2024-03-10T14:54:10.208924896+05:00","logger":"cards client","caller":"cards/client.go:217","message":"get cards","status code":200}
+{"level":"debug","time":"2024-03-10T14:54:10.209038393+05:00","logger":"media client","caller":"media/client.go:185","message":"new request for get notes"}
+{"level":"debug","time":"2024-03-10T14:54:10.209088055+05:00","logger":"media client","caller":"media/client.go:202","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNTA4NTAsImlhdCI6MTcxMDA2NDQ1MCwiSUQiOjF9.cds4fzaUvvag3_ima-Wp89zuKLJMWnnqdbjY-1Ir92I"}
+{"level":"debug","time":"2024-03-10T14:54:10.235207652+05:00","logger":"media client","caller":"media/client.go:213","message":"get notes","status code":200}
+{"level":"debug","time":"2024-03-10T14:54:41.824280188+05:00","caller":"session/client.go:61","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:54:41.824412215+05:00","caller":"password/client.go:58","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:54:41.824464505+05:00","caller":"cards/client.go:58","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:54:41.82449583+05:00","caller":"notes/client.go:57","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:54:41.824522738+05:00","caller":"media/client.go:58","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:54:45.007432266+05:00","logger":"user client","caller":"session/client.go:67","message":"new request for user login"}
+{"level":"debug","time":"2024-03-10T14:54:45.084372246+05:00","logger":"user client","caller":"session/client.go:125","message":"user login","status code":200}
+{"level":"debug","time":"2024-03-10T14:54:45.084580591+05:00","logger":"passwords client","caller":"password/client.go:187","message":"new request for get passwords"}
+{"level":"debug","time":"2024-03-10T14:54:45.084643854+05:00","logger":"passwords client","caller":"password/client.go:204","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNTA4ODUsImlhdCI6MTcxMDA2NDQ4NSwiSUQiOjF9.MMRsPmzBV7DPIdp0b5nyGhqtBCXvZxa1jg4W8hX_LfU"}
+{"level":"debug","time":"2024-03-10T14:54:45.085263009+05:00","logger":"passwords client","caller":"password/client.go:215","message":"get passwords","status code":200}
+{"level":"debug","time":"2024-03-10T14:54:45.085436698+05:00","logger":"notes client","caller":"notes/client.go:180","message":"new request for get notes"}
+{"level":"debug","time":"2024-03-10T14:54:45.085509797+05:00","logger":"notes client","caller":"notes/client.go:197","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNTA4ODUsImlhdCI6MTcxMDA2NDQ4NSwiSUQiOjF9.MMRsPmzBV7DPIdp0b5nyGhqtBCXvZxa1jg4W8hX_LfU"}
+{"level":"debug","time":"2024-03-10T14:54:45.085900065+05:00","logger":"notes client","caller":"notes/client.go:208","message":"get notes","status code":200}
+{"level":"debug","time":"2024-03-10T14:54:45.086049986+05:00","logger":"cards client","caller":"cards/client.go:189","message":"new request for get cards"}
+{"level":"debug","time":"2024-03-10T14:54:45.086119167+05:00","logger":"cards client","caller":"cards/client.go:206","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNTA4ODUsImlhdCI6MTcxMDA2NDQ4NSwiSUQiOjF9.MMRsPmzBV7DPIdp0b5nyGhqtBCXvZxa1jg4W8hX_LfU"}
+{"level":"debug","time":"2024-03-10T14:54:45.086493671+05:00","logger":"cards client","caller":"cards/client.go:217","message":"get cards","status code":200}
+{"level":"debug","time":"2024-03-10T14:54:45.08662616+05:00","logger":"media client","caller":"media/client.go:185","message":"new request for get notes"}
+{"level":"debug","time":"2024-03-10T14:54:45.08668157+05:00","logger":"media client","caller":"media/client.go:202","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNTA4ODUsImlhdCI6MTcxMDA2NDQ4NSwiSUQiOjF9.MMRsPmzBV7DPIdp0b5nyGhqtBCXvZxa1jg4W8hX_LfU"}
+{"level":"debug","time":"2024-03-10T14:54:45.113531106+05:00","logger":"media client","caller":"media/client.go:213","message":"get notes","status code":200}
+{"level":"debug","time":"2024-03-10T14:55:24.471333051+05:00","logger":"passwords client","caller":"password/client.go:64","message":"new request for create password"}
+{"level":"debug","time":"2024-03-10T14:55:24.488472001+05:00","logger":"passwords client","caller":"password/client.go:111","message":"create password","status code":201}
+{"level":"debug","time":"2024-03-10T14:55:24.488609383+05:00","logger":"passwords client","caller":"password/client.go:187","message":"new request for get passwords"}
+{"level":"debug","time":"2024-03-10T14:55:24.488661884+05:00","logger":"passwords client","caller":"password/client.go:204","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNTA4ODUsImlhdCI6MTcxMDA2NDQ4NSwiSUQiOjF9.MMRsPmzBV7DPIdp0b5nyGhqtBCXvZxa1jg4W8hX_LfU"}
+{"level":"debug","time":"2024-03-10T14:55:24.48901155+05:00","logger":"passwords client","caller":"password/client.go:215","message":"get passwords","status code":200}
+{"level":"debug","time":"2024-03-10T14:55:31.982233458+05:00","caller":"session/client.go:61","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:55:31.982342319+05:00","caller":"password/client.go:58","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:55:31.982382468+05:00","caller":"cards/client.go:58","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:55:31.98242312+05:00","caller":"notes/client.go:57","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:55:31.98245288+05:00","caller":"media/client.go:58","message":"Client for gophkeeper server","url":"https://127.0.0.1:8080"}
+{"level":"debug","time":"2024-03-10T14:55:35.183488887+05:00","logger":"user client","caller":"session/client.go:67","message":"new request for user login"}
+{"level":"debug","time":"2024-03-10T14:55:35.266594763+05:00","logger":"user client","caller":"session/client.go:125","message":"user login","status code":200}
+{"level":"debug","time":"2024-03-10T14:55:35.266801045+05:00","logger":"passwords client","caller":"password/client.go:187","message":"new request for get passwords"}
+{"level":"debug","time":"2024-03-10T14:55:35.266864967+05:00","logger":"passwords client","caller":"password/client.go:204","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNTA5MzUsImlhdCI6MTcxMDA2NDUzNSwiSUQiOjF9.STNvWoYvYQVrhisuCWX7RPQrD1DADZSxECUn2x5r9kA"}
+{"level":"debug","time":"2024-03-10T14:55:35.267298329+05:00","logger":"passwords client","caller":"password/client.go:215","message":"get passwords","status code":200}
+{"level":"debug","time":"2024-03-10T14:55:35.267452923+05:00","logger":"notes client","caller":"notes/client.go:180","message":"new request for get notes"}
+{"level":"debug","time":"2024-03-10T14:55:35.267499008+05:00","logger":"notes client","caller":"notes/client.go:197","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNTA5MzUsImlhdCI6MTcxMDA2NDUzNSwiSUQiOjF9.STNvWoYvYQVrhisuCWX7RPQrD1DADZSxECUn2x5r9kA"}
+{"level":"debug","time":"2024-03-10T14:55:35.267836926+05:00","logger":"notes client","caller":"notes/client.go:208","message":"get notes","status code":200}
+{"level":"debug","time":"2024-03-10T14:55:35.267970458+05:00","logger":"cards client","caller":"cards/client.go:189","message":"new request for get cards"}
+{"level":"debug","time":"2024-03-10T14:55:35.268023488+05:00","logger":"cards client","caller":"cards/client.go:206","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNTA5MzUsImlhdCI6MTcxMDA2NDUzNSwiSUQiOjF9.STNvWoYvYQVrhisuCWX7RPQrD1DADZSxECUn2x5r9kA"}
+{"level":"debug","time":"2024-03-10T14:55:35.268313581+05:00","logger":"cards client","caller":"cards/client.go:217","message":"get cards","status code":200}
+{"level":"debug","time":"2024-03-10T14:55:35.268443463+05:00","logger":"media client","caller":"media/client.go:185","message":"new request for get notes"}
+{"level":"debug","time":"2024-03-10T14:55:35.268496849+05:00","logger":"media client","caller":"media/client.go:202","message":"authorization set","value":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTAxNTA5MzUsImlhdCI6MTcxMDA2NDUzNSwiSUQiOjF9.STNvWoYvYQVrhisuCWX7RPQrD1DADZSxECUn2x5r9kA"}
+{"level":"debug","time":"2024-03-10T14:55:35.293497908+05:00","logger":"media client","caller":"media/client.go:213","message":"get notes","status code":200}

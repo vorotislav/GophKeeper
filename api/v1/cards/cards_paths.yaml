@@ -20,43 +20,10 @@ get:
   security:
     - BearerAuth: [ ]
   summary: Find multiple cards in the store using its IDs
-  parameters:
-    - name: ids
-      in: query
-      description: List of IDs of cards to return
-      schema:
-        type: array
-        items:
-          type: integer
-          minimum: 1
-      example: [ 1, 2, 3 ]
   responses:
     '200':
       $ref: 'info.yaml#/components/responses/GetCards200'
     default:
-      $ref: '../schemas.yaml#/components/responses/Errors'
-
-delete:
-  operationId: deleteCard
-  tags:
-    - cards
-  security:
-    - BearerAuth: [ ]
-  summary: Delete card
-  requestBody:
-    description: Describes deleting cards
-    content:
-      application/json:
-        schema:
-          type: array
-          items:
-            type: integer
-            minimum: 1
-        example: [ 1, 2, 3 ]
-  responses:
-    '204':
-      description: Cards was deleted successfully
-    'default':
       $ref: '../schemas.yaml#/components/responses/Errors'
 
 put:

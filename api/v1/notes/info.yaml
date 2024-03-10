@@ -45,7 +45,7 @@ components:
     AddNote:
       type: object
       properties:
-        name:
+        title:
           description: Note description
           type: string
           minLength: 3
@@ -67,7 +67,7 @@ components:
         id:
           type: integer
           minimum: 1
-        name:
+        title:
           description: Note description
           type: string
           minLength: 3
@@ -77,6 +77,16 @@ components:
           type: string
         expired_at:
           description: Time of note expired
+          type: string
+          format: date-time
+          example: '2023-01-01T00:00:00Z'
+        created_at:
+          description: Time of note created
+          type: string
+          format: date-time
+          example: '2023-01-01T00:00:00Z'
+        updated_at:
+          description: Time of note updated
           type: string
           format: date-time
           example: '2023-01-01T00:00:00Z'

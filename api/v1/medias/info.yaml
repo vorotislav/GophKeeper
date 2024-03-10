@@ -16,18 +16,6 @@ components:
             $ref: '#/components/schemas/Media'
 
   responses:
-    AddMedia201:
-      description: operation successful
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              data:
-                type: object
-                properties:
-                  media:
-                    $ref: '#/components/schemas/Media'
     GetMedias200:
       description: operation successful
       content:
@@ -45,7 +33,7 @@ components:
     AddMedia:
       type: object
       properties:
-        name:
+        title:
           description: Media description
           type: string
           minLength: 3
@@ -75,27 +63,38 @@ components:
         id:
           type: integer
           minimum: 1
-        name:
+        title:
           description: Media description
           type: string
           minLength: 3
           maxLength: 200
-          media:
-            description: Media
-            type: string
-            format: binary
-          media_type:
-            description: media type
-            type: string
-          note:
-            description: Media notes
-            type: string
-          expired_at:
-            description: Time of media expired
-            type: string
-            format: date-time
-            example: '2023-01-01T00:00:00Z'
+        media:
+          description: Media
+          type: string
+          format: binary
+        media_type:
+          description: media type
+          type: string
+        note:
+          description: Media notes
+          type: string
+        expired_at:
+          description: Time of media expired
+          type: string
+          format: date-time
+          example: '2023-01-01T00:00:00Z'
+        created_at:
+          description: Time of media created
+          type: string
+          format: date-time
+          example: '2023-01-01T00:00:00Z'
+        updated_at:
+          description: Time of media updated
+          type: string
+          format: date-time
+          example: '2023-01-01T00:00:00Z'
       required:
+        - id
         - name
         - media
         - media_type

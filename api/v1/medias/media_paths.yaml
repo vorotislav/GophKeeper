@@ -9,7 +9,7 @@ post:
     $ref: 'info.yaml#/components/requestBodies/PostMedia'
   responses:
     '201':
-      $ref: 'info.yaml#/components/responses/AddMedia201'
+      description: The media was created successfully
     default:
       $ref: '../schemas.yaml#/components/responses/Errors'
 
@@ -20,43 +20,10 @@ get:
   security:
     - BearerAuth: [ ]
   summary: Find multiple medias in the store using its IDs
-  parameters:
-    - name: ids
-      in: query
-      description: List of IDs of media to return
-      schema:
-        type: array
-        items:
-          type: integer
-          minimum: 1
-      example: [ 1, 2, 3 ]
   responses:
     '200':
       $ref: 'info.yaml#/components/responses/GetMedias200'
     default:
-      $ref: '../schemas.yaml#/components/responses/Errors'
-
-delete:
-  operationId: deleteMedias
-  tags:
-    - medias
-  security:
-    - BearerAuth: [ ]
-  summary: Delete medias
-  requestBody:
-    description: Describes deleting medias
-    content:
-      application/json:
-        schema:
-          type: array
-          items:
-            type: integer
-            minimum: 1
-        example: [ 1, 2, 3 ]
-  responses:
-    '204':
-      description: Medias was deleted successfully
-    'default':
       $ref: '../schemas.yaml#/components/responses/Errors'
 
 put:
