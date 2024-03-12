@@ -49,20 +49,8 @@ System_Boundary(passmword_managing_server, "Сервер системы хран
 ```
 
 ## Описание компонентов
-```plantuml
-@startuml
-!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+![schema](https://www.plantuml.com/plantuml/png/PP0nJmGX48LxViLaQit5bi9SQwM9PttXs74NbsEGcLqBS_zTs9FaeXKXlEzxB-n5NT7b78rnNhd08bICvnZ9Q-0aW2FdwJWJPIf77mE24nX8PkNyB_ZHWrBMBLXjwrzXPj6na7p6g-jaMYdSFtOjM3YyFG4bfG8w4KGUGmAN1iXEv8lBO7gqKjUE2hqylnuixDQ7NQ4nIAE_iRcJEnDQGBm3x0QqY1VpoxRkKpNuYVmC7TaQGwethOVozY2TkTrRUvHdIbl9vNPSGop8uZs9l2yH-ZHZzfI6-lC_)
 
-LAYOUT_WITH_LEGEND()
-LAYOUT_TOP_DOWN()
-
-title
-  <b>GophKeeperComponents v2024.02.17</b>
-  <i>Описание компонентов GophKeeper</i>
-end title
-
-@enduml
-```
 
 ### Регистрация пользователя
 ```plantuml

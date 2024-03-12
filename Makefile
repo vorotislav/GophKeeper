@@ -10,7 +10,7 @@ LDFLAGS_SERVER=-X main.buildVersion=$(BUILD_VERSION) -X main.buildDate=$(BUILD_D
 EXECUTABLE=gophkeeper_cli
 WINDOWS=$(EXECUTABLE)_windows_amd64.exe
 LINUX=$(EXECUTABLE)_linux_amd64
-DARWIN=$(EXECUTABLE)_darwin_amd64
+DARWIN=$(EXECUTABLE)_darwin_arm64
 
 .PHONY: help dep fmt test
 
@@ -47,7 +47,7 @@ build/client/linux:
 	env GOOS=linux GOARCH=amd64 go build -v -o ./bin/client/lin/$(LINUX) -ldflags "${LDFLAGS_CLIENT}" ./cmd/client
 
 build/client/darwin:
-	env GOOS=darwin GOARCH=amd64 go build -v -o ./bin/client/darwin/$(DARWIN) -ldflags "${LDFLAGS_CLIENT}"  ./cmd/client
+	env GOOS=darwin GOARCH=arm64 go build -v -o ./bin/client/darwin/$(DARWIN) -ldflags "${LDFLAGS_CLIENT}"  ./cmd/client
 
 windows: $(WINDOWS) ## Build for Windows
 

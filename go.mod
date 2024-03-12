@@ -19,6 +19,7 @@ require (
 	github.com/mistakenelf/teacup v0.4.1
 	github.com/muesli/reflow v0.3.0
 	github.com/muesli/termenv v0.15.2
+	github.com/robfig/cron/v3 v3.0.1
 	github.com/stretchr/testify v1.8.4
 	github.com/xhit/go-str2duration/v2 v2.1.0
 	go.uber.org/zap v1.26.0

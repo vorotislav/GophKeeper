@@ -11,6 +11,7 @@ import (
 	"github.com/charmbracelet/bubbles/key"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/muesli/termenv"
+	"github.com/robfig/cron/v3"
 )
 
 type sessionClient interface {
@@ -71,6 +72,7 @@ const (
 type model struct {
 	state        state
 	programState programState
+	cron         *cron.Cron
 
 	sm start.StartModel
 	pm passwords.PasswordModel
@@ -188,6 +190,16 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			m.nm.LoadData()
 			m.cm.LoadData()
 			m.mm.LoadData()
+
+			_, _ = m.cron.AddFunc("0-59 * * * *", func() {
+				if !m.checkInput() {
+					m.pm.LoadData()
+					m.nm.LoadData()
+					m.cm.LoadData()
+					m.mm.LoadData()
+				}
+			})
+
 			return updateByState(m)
 		}
 		return m, cmd
@@ -281,10 +293,12 @@ func InitModel(
 	cc cardsClient,
 	nc notesClient,
 	mc mediaClient,
+	cron *cron.Cron,
 ) model {
 	return model{
 		state:        startView,
 		programState: programPassword,
+		cron:         cron,
 		sm:           start.InitialModel(cl),
 		pm:           passwords.InitialModel(pc),
 		cm:           cards.InitialModel(cc),

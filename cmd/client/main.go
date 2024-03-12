@@ -5,6 +5,7 @@ import (
 	"crypto/x509"
 	"errors"
 	"fmt"
+	"github.com/robfig/cron/v3"
 	"go.uber.org/zap"
 	stdlog "log"
 	"net/http"
@@ -77,8 +78,10 @@ func main() {
 	notesClient := notes.NewClient(log, sessionStore, sets.Server.Address, transport)
 	mediaClient := media.NewClient(log, sessionStore, sets.Server.Address, transport)
 
+	cr := cron.New()
+
 	t := tea.NewProgram(
-		tui.InitModel(sessionClient, passwordClient, cardsClient, notesClient, mediaClient),
+		tui.InitModel(sessionClient, passwordClient, cardsClient, notesClient, mediaClient, cr),
 		tea.WithAltScreen())
 
 	if _, err := t.Run(); err != nil {
