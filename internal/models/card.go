@@ -2,6 +2,7 @@ package models
 
 import "time"
 
+// Card описывает модель банковской карты.
 type Card struct {
 	ID        int
 	Name      string

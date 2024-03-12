@@ -1,3 +1,4 @@
+// Package notes пакет для описания сущности по управлению заметками пользователя.
 package notes
 
 import (
@@ -18,11 +19,17 @@ var (
 	errNoteProvider = errors.New("notes provider error")
 )
 
+// crypto описывает доступные методы для шифрования и дешифрования заметок пользователя.
+//
+//go:generate go run github.com/vektra/mockery/v2@v2.24.0 --name=crypto --exported --with-expecter=true
 type crypto interface {
 	EncryptString(value string) (string, error)
 	DecryptString(value string) (string, error)
 }
 
+// storage описывает доступные методы для работы с репозиторием и хранением заметок пользователей.
+//
+//go:generate go run github.com/vektra/mockery/v2@v2.24.0 --name=storage --exported --with-expecter=true
 type storage interface {
 	NoteCreate(ctx context.Context, n models.Note, userID int) error
 	NoteUpdate(ctx context.Context, n models.Note, userID int) error
@@ -30,12 +37,14 @@ type storage interface {
 	Notes(ctx context.Context, userID int) ([]models.Note, error)
 }
 
+// Provider структура для управления заметками, хранит в себе хранилище и объект для шифрования\дешифрования.
 type Provider struct {
 	log    *zap.Logger
 	store  storage
 	crypto crypto
 }
 
+// NewProvider конструктор для Provider.
 func NewProvider(log *zap.Logger, repo *repository.Repo, crypto crypto) *Provider {
 	return &Provider{
 		log:    log.Named("notes provider"),
@@ -44,8 +53,9 @@ func NewProvider(log *zap.Logger, repo *repository.Repo, crypto crypto) *Provide
 	}
 }
 
+// NoteCreate принимает объект модели заметки и сохраняет в репозиторий.
 func (p *Provider) NoteCreate(ctx context.Context, n models.Note) error {
-	paylod, err := token.FromContext(ctx)
+	payload, err := token.FromContext(ctx)
 	if err != nil {
 		return fmt.Errorf("%w: %w", errNoteProvider, err)
 	}
@@ -59,7 +69,7 @@ func (p *Provider) NoteCreate(ctx context.Context, n models.Note) error {
 	n.CreatedAt = time.Now()
 	n.UpdatedAt = time.Now()
 
-	err = p.store.NoteCreate(ctx, n, paylod.ID)
+	err = p.store.NoteCreate(ctx, n, payload.ID)
 	if err != nil {
 		return fmt.Errorf("%w: %w", errNoteProvider, err)
 	}
@@ -67,6 +77,7 @@ func (p *Provider) NoteCreate(ctx context.Context, n models.Note) error {
 	return nil
 }
 
+// NoteUpdate принимает объект модель заметки и обновляет в репозитории.
 func (p *Provider) NoteUpdate(ctx context.Context, n models.Note) error {
 	paylod, err := token.FromContext(ctx)
 	if err != nil {
@@ -89,6 +100,7 @@ func (p *Provider) NoteUpdate(ctx context.Context, n models.Note) error {
 	return nil
 }
 
+// NoteDelete удаляет заметку из репозитория по ИД.
 func (p *Provider) NoteDelete(ctx context.Context, id int) error {
 	paylod, err := token.FromContext(ctx)
 	if err != nil {
@@ -103,6 +115,7 @@ func (p *Provider) NoteDelete(ctx context.Context, id int) error {
 	return nil
 }
 
+// Notes возвращает список заметок пользователя.
 func (p *Provider) Notes(ctx context.Context) ([]models.Note, error) {
 	paylod, err := token.FromContext(ctx)
 	if err != nil {

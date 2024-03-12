@@ -4,6 +4,7 @@ CREATE TABLE media(
     title TEXT NOT NULL, -- название данных
     body BYTEA NOT NULL, -- данные записи
     media_type TEXT NOT NULL,
+    note TEXT, -- заметка к записи
     expiration_at TIMESTAMP WITH TIME ZONE, -- дата истечения срока действия записи
     created_at TIMESTAMP WITH TIME ZONE, -- отметка времени создания записи
     updated_at TIMESTAMP WITH TIME ZONE -- отметка времени обновления записи

@@ -25,7 +25,7 @@ const (
 )
 
 type systems interface {
-	MachineInfo() models.Machine
+	MachineInfo() (models.Machine, error)
 }
 
 type sessionStore interface {
@@ -69,7 +69,12 @@ func (c *Client) Login(user models.User) (models.Session, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), httpClientTimeout)
 	defer cancel()
 
-	o := getOut(user, c.systems.MachineInfo())
+	machine, err := c.systems.MachineInfo()
+	if err != nil {
+		c.log.Error("get machine info", zap.Error(err))
+	}
+
+	o := getOut(user, machine)
 
 	raw, err := json.Marshal(o)
 	if err != nil {
@@ -160,7 +165,12 @@ func (c *Client) Register(user models.User) (models.Session, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), httpClientTimeout)
 	defer cancel()
 
-	o := getOut(user, c.systems.MachineInfo())
+	machine, err := c.systems.MachineInfo()
+	if err != nil {
+		c.log.Error("get machine info", zap.Error(err))
+	}
+
+	o := getOut(user, machine)
 
 	raw, err := json.Marshal(o)
 	if err != nil {
@@ -244,9 +254,7 @@ func getOut(u models.User, m models.Machine) out {
 			Password: u.Password,
 		},
 		Machine: machine{
-			IPAddress:  m.IPAddress,
-			MACAddress: m.MACAddress,
-			PublicKey:  m.PublicKey,
+			IPAddress: m.IPAddress,
 		},
 	}
 }
@@ -262,9 +270,7 @@ type user struct {
 }
 
 type machine struct {
-	IPAddress  string `json:"ip_address"`
-	MACAddress string `json:"mac_address"`
-	PublicKey  string `json:"public_key"`
+	IPAddress string `json:"ip_address"`
 }
 
 type in struct {

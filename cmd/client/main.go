@@ -26,12 +26,17 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 )
 
+var (
+	buildVersion = "N/A" //nolint:gochecknoglobals
+	buildDate    = "N/A" //nolint:gochecknoglobals
+	buildCommit  = "N/A" //nolint:gochecknoglobals
+)
+
 const (
-	defaultKeysPath        = ".cert/"
-	defaultPrivateKey      = "private.pem"
-	defaultPublicKey       = "public.pem"
-	defaultConfigFile      = "config.yaml"
-	serviceShutdownTimeout = 1 * time.Second
+	defaultKeysPath   = ".cert/"
+	defaultPrivateKey = "private.pem"
+	defaultPublicKey  = "public.pem"
+	defaultConfigFile = "config.yaml"
 )
 
 func main() {
@@ -61,7 +66,10 @@ func main() {
 		log.Fatal("check keys", zap.Error(err))
 	}
 
-	transport := getTransport()
+	transport, err := getTransport()
+	if err != nil {
+		log.Fatal("cannot create transport for http", zap.Error(err))
+	}
 
 	sessionClient := session.NewClient(log, sys, sessionStore, sets.Server.Address, transport)
 	passwordClient := password.NewClient(log, sessionStore, sets.Server.Address, transport)
@@ -89,16 +97,17 @@ func checkKeys(log *zap.Logger) error {
 	return nil
 }
 
-func getTransport() *http.Transport {
+func getTransport() (*http.Transport, error) {
 	cert, err := tls.LoadX509KeyPair(defaultKeysPath+defaultPublicKey, defaultKeysPath+defaultPrivateKey)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	caCert, err := os.ReadFile(defaultKeysPath + defaultPublicKey)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
+
 	caCertPool := x509.NewCertPool()
 	caCertPool.AppendCertsFromPEM(caCert)
 
@@ -113,5 +122,5 @@ func getTransport() *http.Transport {
 		TLSClientConfig: tlsConfig,
 		MaxIdleConns:    10,
 		IdleConnTimeout: 30 * time.Second,
-	}
+	}, nil
 }

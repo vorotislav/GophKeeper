@@ -8,11 +8,14 @@ import (
 	"strings"
 )
 
-type Authorizer interface {
+// authorizer описывает метод для парсинга и проверка входящего токена.
+//
+//go:generate go run github.com/vektra/mockery/v2@v2.24.0 --name=authorizer --exported --with-expecter=true
+type authorizer interface {
 	ParseToken(string) (token.Payload, error)
 }
 
-func CheckAuth(log *zap.Logger, auth Authorizer) func(h http.Handler) http.Handler {
+func CheckAuth(log *zap.Logger, auth authorizer) func(h http.Handler) http.Handler {
 	const (
 		headerAuthorization = "Authorization"
 		authorizationSchema = "Bearer"

@@ -1,3 +1,4 @@
+// Package cards реализует HTTP обработчик для /cards
 package cards
 
 import (
@@ -18,6 +19,9 @@ const (
 	inputTimeFormLong = "2006-01-02 15:04:05"
 )
 
+// CardProvider описывает методы для работы с картами пользователей.
+//
+//go:generate go run github.com/vektra/mockery/v2@v2.24.0 --name=CardProvider --with-expecter=true
 type CardProvider interface {
 	CardCreate(ctx context.Context, c models.Card) error
 	CardUpdate(ctx context.Context, c models.Card) error
@@ -25,11 +29,13 @@ type CardProvider interface {
 	Cards(ctx context.Context) ([]models.Card, error)
 }
 
+// Handler реализует HTTP обработчик для /cards.
 type Handler struct {
 	log          *zap.Logger
 	cardProvider CardProvider
 }
 
+// NewHandler конструктор для Handler.
 func NewHandler(log *zap.Logger, cp CardProvider) *Handler {
 	return &Handler{
 		log:          log.Named("cards handler"),
@@ -37,6 +43,7 @@ func NewHandler(log *zap.Logger, cp CardProvider) *Handler {
 	}
 }
 
+// CardCreate обрабатывает POST запрос на создание карты.
 func (h *Handler) CardCreate(w http.ResponseWriter, r *http.Request) {
 	var (
 		in  input
@@ -78,6 +85,7 @@ func (h *Handler) CardCreate(w http.ResponseWriter, r *http.Request) {
 	h.log.Info("success card create")
 }
 
+// CardUpdate обрабатывает PUT запрос на обновление карты.
 func (h *Handler) CardUpdate(w http.ResponseWriter, r *http.Request) {
 	var (
 		in  input
@@ -126,6 +134,7 @@ func (h *Handler) CardUpdate(w http.ResponseWriter, r *http.Request) {
 	setHeaders(w, http.StatusAccepted)
 }
 
+// CardDelete обрабатывает DELETE запрос на удаление карты.
 func (h *Handler) CardDelete(w http.ResponseWriter, r *http.Request) {
 	strCardID := chi.URLParam(r, "cardID")
 	cardID, err := strconv.Atoi(strCardID)
@@ -157,6 +166,7 @@ func (h *Handler) CardDelete(w http.ResponseWriter, r *http.Request) {
 	setHeaders(w, http.StatusNoContent)
 }
 
+// Cards обрабатывает GET запрос на получение карт.
 func (h *Handler) Cards(w http.ResponseWriter, r *http.Request) {
 	cards, err := h.cardProvider.Cards(r.Context())
 	if err != nil {
@@ -176,11 +186,9 @@ func (h *Handler) Cards(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if len(cards) == 0 {
-		if errors.Is(err, models.ErrNotFound) {
-			responder.JSON(w, httpErr.NewNotFoundError("failed get cards"))
+		responder.JSON(w, httpErr.NewNotFoundError("failed get cards"))
 
-			return
-		}
+		return
 	}
 
 	items := make([]item, 0, len(cards))
@@ -216,7 +224,7 @@ func (h *Handler) Cards(w http.ResponseWriter, r *http.Request) {
 }
 
 type input struct {
-	ID       int    `json:"ID"`
+	ID       int    `json:"id"`
 	Name     string `json:"name"`
 	Card     string `json:"card"`
 	ExpMonth int    `json:"expired_month_at"`
@@ -225,7 +233,7 @@ type input struct {
 }
 
 type item struct {
-	ID        int    `json:"ID"`
+	ID        int    `json:"id"`
 	Name      string `json:"name"`
 	Card      string `json:"card"`
 	ExpMonth  int    `json:"expired_month_at"`

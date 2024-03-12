@@ -2,6 +2,7 @@ package models
 
 import "time"
 
+// Note описывает модель, которая содержит в себе текстовую заметку и мета-информацию.
 type Note struct {
 	ID        int
 	Title     string

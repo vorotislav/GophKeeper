@@ -1,3 +1,4 @@
+// Package cards пакет для описания сущности по управлению банковскими картами пользователя.
 package cards
 
 import (
@@ -18,11 +19,17 @@ var (
 	errCardProvider = errors.New("passwords provider error")
 )
 
+// crypto описывает доступные методы для шифрования и дешифрования данных карт пользователя.
+//
+//go:generate go run github.com/vektra/mockery/v2@v2.24.0 --name=crypto --exported --with-expecter=true
 type crypto interface {
 	EncryptString(value string) (string, error)
 	DecryptString(value string) (string, error)
 }
 
+// storage описывает доступные методы для работы с репозиторием и хранением данных карт пользователей.
+//
+//go:generate go run github.com/vektra/mockery/v2@v2.24.0 --name=storage --exported --with-expecter=true
 type storage interface {
 	CardCreate(ctx context.Context, c models.Card, userID int) error
 	CardUpdate(ctx context.Context, c models.Card, userID int) error
@@ -30,12 +37,14 @@ type storage interface {
 	Cards(ctx context.Context, userID int) ([]models.Card, error)
 }
 
+// Provider структура для управления картами, хранит в себе хранилище и объект для шифрования\дешифрования.
 type Provider struct {
 	log    *zap.Logger
 	store  storage
 	crypto crypto
 }
 
+// NewProvider конструктор для Provider.
 func NewProvider(log *zap.Logger, repo *repository.Repo, crypto crypto) *Provider {
 	return &Provider{
 		log:    log.Named("cards provider"),
@@ -44,6 +53,7 @@ func NewProvider(log *zap.Logger, repo *repository.Repo, crypto crypto) *Provide
 	}
 }
 
+// CardCreate принимает объект модели карты и сохраняет в репозиторий.
 func (p *Provider) CardCreate(ctx context.Context, c models.Card) error {
 	paylod, err := token.FromContext(ctx)
 	if err != nil {
@@ -73,6 +83,7 @@ func (p *Provider) CardCreate(ctx context.Context, c models.Card) error {
 	return nil
 }
 
+// CardUpdate принимает объект модель карты и обновляет в репозитории.
 func (p *Provider) CardUpdate(ctx context.Context, c models.Card) error {
 	paylod, err := token.FromContext(ctx)
 	if err != nil {
@@ -101,6 +112,7 @@ func (p *Provider) CardUpdate(ctx context.Context, c models.Card) error {
 	return nil
 }
 
+// CardDelete удаляет карту из репозитория по ИД.
 func (p *Provider) CardDelete(ctx context.Context, id int) error {
 	paylod, err := token.FromContext(ctx)
 	if err != nil {
@@ -115,6 +127,7 @@ func (p *Provider) CardDelete(ctx context.Context, id int) error {
 	return nil
 }
 
+// Cards возвращает список карт пользователя.
 func (p *Provider) Cards(ctx context.Context) ([]models.Card, error) {
 	paylod, err := token.FromContext(ctx)
 	if err != nil {

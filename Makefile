@@ -1,5 +1,17 @@
 PROGRAM_NAME = gophkeeper
 
+BUILD_VERSION=$(shell git describe --tags)
+BUILD_DATE=$(shell date +%FT%T%z)
+BUILD_COMMIT=$(shell git rev-parse --short HEAD)
+
+LDFLAGS_CLIENT=-X main.buildVersion=$(BUILD_VERSION) -X main.buildDate=$(BUILD_DATE) -X main.buildCommit=$(BUILD_COMMIT)
+LDFLAGS_SERVER=-X main.buildVersion=$(BUILD_VERSION) -X main.buildDate=$(BUILD_DATE) -X main.buildCommit=$(BUILD_COMMIT)
+
+EXECUTABLE=gophkeeper_cli
+WINDOWS=$(EXECUTABLE)_windows_amd64.exe
+LINUX=$(EXECUTABLE)_linux_amd64
+DARWIN=$(EXECUTABLE)_darwin_amd64
+
 .PHONY: help dep fmt test
 
 dep: ## Get the dependencies
@@ -24,10 +36,24 @@ cover: dep ## Run app tests with coverage report
 build: build/server	build/client
 
 build/server:
-	go build -o ./bin/server ./cmd/server
+	go build -ldflags "${LDFLAGS_SERVER}" -o ./bin/server ./cmd/server
 
-build/client:
-	go build -o ./bin/client ./cmd/client
+build/client: build/client/darwin build/client/linux build/client/windows
+
+build/client/windows:
+	env GOOS=windows GOARCH=amd64 go build -v -o ./bin/client/win/$(WINDOWS) -ldflags "${LDFLAGS_CLIENT}" ./cmd/client
+
+build/client/linux:
+	env GOOS=linux GOARCH=amd64 go build -v -o ./bin/client/lin/$(LINUX) -ldflags "${LDFLAGS_CLIENT}" ./cmd/client
+
+build/client/darwin:
+	env GOOS=darwin GOARCH=amd64 go build -v -o ./bin/client/darwin/$(DARWIN) -ldflags "${LDFLAGS_CLIENT}"  ./cmd/client
+
+windows: $(WINDOWS) ## Build for Windows
+
+linux: $(LINUX) ## Build for Linux
+
+darwin: $(DARWIN) ## Build for Darwin (macOS)
 
 lint: lint/sources lint/openapi ## Run all linters
 

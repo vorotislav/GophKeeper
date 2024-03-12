@@ -1,3 +1,4 @@
+// Package signals обеспечивает работу с сигналами от ОС.
 package signals
 
 import (
@@ -7,11 +8,13 @@ import (
 	"syscall"
 )
 
+// OSSignals описывает структуру для работы с сигналами от ОС.
 type OSSignals struct {
 	ctx context.Context
 	ch  chan os.Signal
 }
 
+// NewOSSignals конструктор для OSSignals.
 func NewOSSignals(ctx context.Context) OSSignals {
 	return OSSignals{
 		ctx: ctx,
@@ -19,6 +22,7 @@ func NewOSSignals(ctx context.Context) OSSignals {
 	}
 }
 
+// Subscribe принимает функцию для обратного вызова в случае если получен сигнал от ОС.
 func (oss *OSSignals) Subscribe(onSignal func(signal os.Signal)) {
 	signals := []os.Signal{
 		os.Interrupt,
@@ -44,6 +48,7 @@ func (oss *OSSignals) Subscribe(onSignal func(signal os.Signal)) {
 	}(oss.ch)
 }
 
+// Stop прекращает работу и перестаёт слушать сигналы от ОС.
 func (oss *OSSignals) Stop() {
 	signal.Stop(oss.ch)
 	close(oss.ch)

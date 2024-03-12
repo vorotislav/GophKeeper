@@ -1,3 +1,4 @@
+// Package passwords пакет для описания сущности по управлению паролями пользователя.
 package passwords
 
 import (
@@ -18,11 +19,17 @@ var (
 	errPasswordProvider = errors.New("passwords provider error")
 )
 
+// crypto описывает доступные методы для шифрования и дешифрования паролей пользователя.
+//
+//go:generate go run github.com/vektra/mockery/v2@v2.24.0 --name=crypto --exported --with-expecter=true
 type crypto interface {
 	EncryptString(value string) (string, error)
 	DecryptString(value string) (string, error)
 }
 
+// storage описывает доступные методы для работы с репозиторием и хранением паролей пользователей.
+//
+//go:generate go run github.com/vektra/mockery/v2@v2.24.0 --name=storage --exported --with-expecter=true
 type storage interface {
 	PasswordCreate(ctx context.Context, pass models.Password, userID int) error
 	PasswordUpdate(ctx context.Context, pass models.Password, userID int) error
@@ -30,12 +37,14 @@ type storage interface {
 	Passwords(ctx context.Context, userID int) ([]models.Password, error)
 }
 
+// Provider структура для управления паролями, хранит в себе хранилище и объект для шифрования\дешифрования.
 type Provider struct {
 	log    *zap.Logger
 	store  storage
 	crypto crypto
 }
 
+// NewProvider конструктор для Provider.
 func NewProvider(log *zap.Logger, repo *repository.Repo, crypto crypto) *Provider {
 	return &Provider{
 		log:    log.Named("password provider"),
@@ -44,6 +53,7 @@ func NewProvider(log *zap.Logger, repo *repository.Repo, crypto crypto) *Provide
 	}
 }
 
+// PasswordCreate принимает объект модели паролей и сохраняет в репозиторий.
 func (p *Provider) PasswordCreate(ctx context.Context, pass models.Password) error {
 	paylod, err := token.FromContext(ctx)
 	if err != nil {
@@ -67,6 +77,7 @@ func (p *Provider) PasswordCreate(ctx context.Context, pass models.Password) err
 	return nil
 }
 
+// PasswordUpdate принимает объект модель пароли и обновляет в репозитории.
 func (p *Provider) PasswordUpdate(ctx context.Context, pass models.Password) error {
 	paylod, err := token.FromContext(ctx)
 	if err != nil {
@@ -89,6 +100,7 @@ func (p *Provider) PasswordUpdate(ctx context.Context, pass models.Password) err
 	return nil
 }
 
+// PasswordDelete удаляет пароль из репозитория по ИД.
 func (p *Provider) PasswordDelete(ctx context.Context, id int) error {
 	paylod, err := token.FromContext(ctx)
 	if err != nil {
@@ -103,6 +115,7 @@ func (p *Provider) PasswordDelete(ctx context.Context, id int) error {
 	return nil
 }
 
+// Passwords возвращает список паролей пользователя.
 func (p *Provider) Passwords(ctx context.Context) ([]models.Password, error) {
 	paylod, err := token.FromContext(ctx)
 	if err != nil {

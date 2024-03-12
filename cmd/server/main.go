@@ -34,6 +34,12 @@ const (
 	serviceShutdownTimeout = 1 * time.Second
 )
 
+var (
+	buildVersion = "N/A" //nolint:gochecknoglobals
+	buildDate    = "N/A" //nolint:gochecknoglobals
+	buildCommit  = "N/A" //nolint:gochecknoglobals
+)
+
 func main() {
 	configFile := parseFlag()
 	if configFile == "" {
@@ -51,6 +57,9 @@ func main() {
 	}
 
 	nlog := log.Named("main")
+	nlog.Debug("Server starting...")
+	nlog.Debug(fmt.Sprintf("Build version: %s\nBuild date: %s\nBuild commit: %s\n",
+		buildVersion, buildDate, buildCommit))
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
@@ -82,7 +91,7 @@ func main() {
 	notesProvider := notes.NewProvider(log, repo, ciph)
 	mediaProvider := media.NewProvider(log, repo, ciph)
 
-	_, _, err = readKeys(log)
+	err = checkKeys(log)
 	if err != nil {
 		nlog.Fatal("read keys", zap.Error(err))
 	}
@@ -135,23 +144,13 @@ func main() {
 	wg.Wait()
 }
 
-func readKeys(log *zap.Logger) (string, string, error) {
+func checkKeys(log *zap.Logger) error {
 	if _, err := os.Stat(defaultKeysPath + defaultPrivateKey); errors.Is(err, os.ErrNotExist) {
 		err := generator.Generate(log)
 		if err != nil {
-			return "", "", fmt.Errorf("read keys: %w", err)
+			return fmt.Errorf("read keys: %w", err)
 		}
 	}
 
-	privateKey, err := os.ReadFile(defaultKeysPath + defaultPrivateKey)
-	if err != nil {
-		return "", "", fmt.Errorf("read private key: %w", err)
-	}
-
-	publicKey, err := os.ReadFile(defaultKeysPath + defaultPublicKey)
-	if err != nil {
-		return "", "", fmt.Errorf("read public key: %w", err)
-	}
-
-	return string(privateKey), string(publicKey), nil
+	return nil
 }

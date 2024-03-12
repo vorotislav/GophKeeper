@@ -1,3 +1,4 @@
+// Package postgres предоставляет обертку над репозиторием для работы с заметками пользователя.
 package postgres
 
 import (
@@ -11,16 +12,19 @@ import (
 	"github.com/jackc/pgx/v5"
 )
 
+// Storage описывает методы для создания, обновления, удаления и получения заметок пользователей.
 type Storage struct {
 	repo *repository.Repo
 }
 
+// NewNotesStorage создаёт объект Storage.
 func NewNotesStorage(r *repository.Repo) *Storage {
 	return &Storage{
 		repo: r,
 	}
 }
 
+// NoteCreate создаёт запись замтеки в репозитории.
 func (s *Storage) NoteCreate(ctx context.Context, n models.Note, userID int) error {
 	q := `INSERT INTO notes(user_id, title, body, expiration_at, created_at, updated_at)
 VALUES ($1, $2, $3, $4, $5, $6)`
@@ -34,6 +38,7 @@ VALUES ($1, $2, $3, $4, $5, $6)`
 	return nil
 }
 
+// NoteUpdate обновляет запись заметки в репозитории.
 func (s *Storage) NoteUpdate(ctx context.Context, n models.Note, userID int) error {
 	q := `UPDATE notes SET(title, body, expiration_at, updated_at)
 = ($1, $2, $3, $4) WHERE id = $5 AND user_id = $6`
@@ -51,6 +56,7 @@ func (s *Storage) NoteUpdate(ctx context.Context, n models.Note, userID int) err
 	return nil
 }
 
+// NoteDelete удаляет запись заметки по ID.
 func (s *Storage) NoteDelete(ctx context.Context, id, userID int) error {
 	q := `DELETE FROM notes WHERE id = $1 AND user_id = $2`
 
@@ -66,6 +72,7 @@ func (s *Storage) NoteDelete(ctx context.Context, id, userID int) error {
 	return nil
 }
 
+// Notes возвращает все заметки пользователя по его ID.
 func (s *Storage) Notes(ctx context.Context, userID int) ([]models.Note, error) {
 	q := `SELECT id, title, body, expiration_at, created_at, updated_at FROM notes WHERE user_id = $1`
 

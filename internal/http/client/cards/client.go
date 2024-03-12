@@ -343,7 +343,7 @@ func (c *Client) do(ctx context.Context, req *http.Request) ([]byte, int, error)
 }
 
 type output struct {
-	ID       int    `json:"ID"`
+	ID       int    `json:"id"`
 	Name     string `json:"name"`
 	Card     string `json:"card"`
 	ExpMonth int    `json:"expired_month_at"`
@@ -352,7 +352,7 @@ type output struct {
 }
 
 type item struct {
-	ID        int    `json:"ID"`
+	ID        int    `json:"id"`
 	Name      string `json:"name"`
 	Card      string `json:"card"`
 	ExpMonth  int    `json:"expired_month_at"`

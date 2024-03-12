@@ -1,3 +1,4 @@
+// Package postgres предоставляет обертку над репозиторием для работы с картами пользователя.
 package postgres
 
 import (
@@ -11,14 +12,17 @@ import (
 	"github.com/jackc/pgx/v5"
 )
 
+// Storage описывает методы для создания, обновления, удаления и получения карт пользователей.
 type Storage struct {
 	repo *repository.Repo
 }
 
+// NewCardsStorage создаёт объект Storage.
 func NewCardsStorage(r *repository.Repo) *Storage {
 	return &Storage{repo: r}
 }
 
+// CardCreate создаёт запись карты в репозитории.
 func (s *Storage) CardCreate(ctx context.Context, c models.Card, userID int) error {
 	q := `INSERT INTO cards (user_id, name, number, cvc, exp_month, exp_year, created_at, updated_at)
 VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`
@@ -32,6 +36,7 @@ VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`
 	return nil
 }
 
+// CardUpdate обновляет запись карты в репозитории.
 func (s *Storage) CardUpdate(ctx context.Context, c models.Card, userID int) error {
 	q := `UPDATE cards SET(name, number, cvc, exp_month, exp_year, updated_at) 
 = ($1, $2, $3, $4, $5, $6) WHERE id = $7 AND user_id = $8`
@@ -49,6 +54,7 @@ func (s *Storage) CardUpdate(ctx context.Context, c models.Card, userID int) err
 	return nil
 }
 
+// CardDelete удаляет запись карты по ID.
 func (s *Storage) CardDelete(ctx context.Context, id, userID int) error {
 	q := `DELETE FROM cards WHERE id = $1 AND user_id = $2`
 
@@ -64,6 +70,7 @@ func (s *Storage) CardDelete(ctx context.Context, id, userID int) error {
 	return nil
 }
 
+// Cards возвращает все карты пользователя по его ID.
 func (s *Storage) Cards(ctx context.Context, userID int) ([]models.Card, error) {
 	q := `SELECT id, name, number, cvc, exp_month, exp_year, created_at, updated_at
 FROM cards WHERE user_id = $1`

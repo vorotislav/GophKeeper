@@ -1,3 +1,4 @@
+// Package logger предоставляет создание логгера.
 package logger
 
 import (
@@ -9,29 +10,35 @@ import (
 	"go.uber.org/zap/zapcore"
 )
 
-// Log levels.
+// Уровни логгирования.
 const (
+	// LogLevelDebug уровень отладки. Показываются все сообщения.
 	LogLevelDebug = "debug"
-	LogLevelInfo  = "info"
-	LogLevelWarn  = "warn"
+	// LogLevelInfo информационный уровень. Показываются все сообщения, кроме отладочных.
+	LogLevelInfo = "info"
+	// LogLevelWarn уровень предупреждений. Показываются только предупреждения и ошибки.
+	LogLevelWarn = "warn"
+	// LogLevelError уровень ошибок. Показываются только ошибки.
 	LogLevelError = "error"
 )
 
-// Log formats.
+// Формат вывода логов.
 const (
+	// LogFormatText вывод логов в текстовом виде.
 	LogFormatText = "text"
+	// LogFormatJSON вывод логов в JSON виде.
 	LogFormatJSON = "json"
 )
 
 var (
-	// ErrUnsupportedLogLevel returns then unspecified level was passed.
+	// ErrUnsupportedLogLevel возвращается когда указан неподдерживаемый уровень логгирования.
 	ErrUnsupportedLogLevel = errors.New("unsupported log level")
 
-	// ErrUnsupportedLogFormat returns then unspecified format was passed.
+	// ErrUnsupportedLogFormat возвращается когда указан неподдерживаемый формат вывода..
 	ErrUnsupportedLogFormat = errors.New("unsupported log format")
 )
 
-// New creates new "zap" logger with little customization.
+// New создаёт zap.Logger и настраивает его.
 func New(level, format string, output string, verbose bool) (*zap.Logger, error) {
 	var resolvedLevel zapcore.Level
 

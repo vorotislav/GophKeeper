@@ -1,3 +1,4 @@
+// Package passwords реализует HTTP обработчик для /passwords
 package passwords
 
 import (
@@ -21,6 +22,9 @@ const (
 	inputTimeFormLong = "2006-01-02 15:04:05"
 )
 
+// PasswordProvider описывает методы для работы с паролями пользователей.
+//
+//go:generate go run github.com/vektra/mockery/v2@v2.24.0 --name=PasswordProvider --with-expecter=true
 type PasswordProvider interface {
 	PasswordCreate(ctx context.Context, p models.Password) error
 	PasswordUpdate(ctx context.Context, p models.Password) error
@@ -28,11 +32,13 @@ type PasswordProvider interface {
 	Passwords(ctx context.Context) ([]models.Password, error)
 }
 
+// Handler реализует HTTP обработчик для /passwords.
 type Handler struct {
 	log              *zap.Logger
 	passwordProvider PasswordProvider
 }
 
+// NewHandler конструктор для Handler.
 func NewHandler(log *zap.Logger, pp PasswordProvider) *Handler {
 	return &Handler{
 		log:              log.Named("passwords handler"),
@@ -40,6 +46,7 @@ func NewHandler(log *zap.Logger, pp PasswordProvider) *Handler {
 	}
 }
 
+// PasswordCreate обрабатывает POST запрос на создание пароля.
 func (h *Handler) PasswordCreate(w http.ResponseWriter, r *http.Request) {
 	var (
 		in      input
@@ -94,6 +101,7 @@ func (h *Handler) PasswordCreate(w http.ResponseWriter, r *http.Request) {
 	h.log.Debug("success password create")
 }
 
+// PasswordUpdate обрабатывает PUT запрос на обновление пароля.
 func (h *Handler) PasswordUpdate(w http.ResponseWriter, r *http.Request) {
 	var (
 		in      input
@@ -134,7 +142,7 @@ func (h *Handler) PasswordUpdate(w http.ResponseWriter, r *http.Request) {
 		if errors.Is(err, models.ErrNotFound) {
 			h.log.Info("passwords not found")
 
-			responder.JSON(w, httpErr.NewNotFoundError("passwords not found"))
+			responder.JSON(w, httpErr.NewNotFoundError("failed password update"))
 
 			return
 		}
@@ -155,6 +163,7 @@ func (h *Handler) PasswordUpdate(w http.ResponseWriter, r *http.Request) {
 	setHeaders(w, http.StatusAccepted)
 }
 
+// PasswordDelete обрабатывает DELETE запрос на удаление пароля.
 func (h *Handler) PasswordDelete(w http.ResponseWriter, r *http.Request) {
 	strPasswordID := chi.URLParam(r, "passwordID")
 	passwordID, err := strconv.Atoi(strPasswordID)
@@ -173,7 +182,7 @@ func (h *Handler) PasswordDelete(w http.ResponseWriter, r *http.Request) {
 		if errors.Is(err, models.ErrNotFound) {
 			h.log.Info("passwords not found")
 
-			responder.JSON(w, httpErr.NewNotFoundError("password not found"))
+			responder.JSON(w, httpErr.NewNotFoundError("failed password delete"))
 
 			return
 		}
@@ -186,6 +195,7 @@ func (h *Handler) PasswordDelete(w http.ResponseWriter, r *http.Request) {
 	setHeaders(w, http.StatusNoContent)
 }
 
+// Passwords обрабатывает GET запрос на получение паролей.
 func (h *Handler) Passwords(w http.ResponseWriter, r *http.Request) {
 	passs, err := h.passwordProvider.Passwords(r.Context())
 	if err != nil {
@@ -205,11 +215,9 @@ func (h *Handler) Passwords(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if len(passs) == 0 {
-		if errors.Is(err, models.ErrNotFound) {
-			http.Error(w, fmt.Sprintf("failed get passwords: %s", err.Error()), http.StatusNotFound)
+		http.Error(w, fmt.Sprintf("failed get passwords"), http.StatusNotFound)
 
-			return
-		}
+		return
 	}
 
 	items := make([]item, 0, len(passs))

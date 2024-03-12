@@ -1,3 +1,4 @@
+// Package client предоставляет настройки клиента.
 package client
 
 import (
@@ -8,21 +9,25 @@ import (
 	"github.com/knadh/koanf/v2"
 )
 
+// Settings описывает структуру для хранения настроек клиента.
 type Settings struct {
 	Log    LogSettings    `koanf:"log"`
 	Server ServerSettings `koanf:"server"`
 }
 
+// LogSettings подструктура для хранения настроек логгера.
 type LogSettings struct {
 	Level   string `koanf:"level"`
 	Verbose bool   `koanf:"verbose"`
 	Format  string `koanf:"format"`
 }
 
+// ServerSettings подструктура для хранения настроек подключения к серверу.
 type ServerSettings struct {
 	Address string `koanf:"address"`
 }
 
+// NewSettings принимает путь до файла настроек и пытается создать объект Settings.
 func NewSettings(config string) (*Settings, error) {
 	k := koanf.New(".")
 

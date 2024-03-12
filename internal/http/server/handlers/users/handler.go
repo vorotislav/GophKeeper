@@ -1,3 +1,4 @@
+// Package users реализует HTTP обработчик для /login и /register
 package users
 
 import (
@@ -13,17 +14,22 @@ import (
 	"net/http"
 )
 
+// UserProvider описывает методы для работы с пользователями.
+//
+//go:generate go run github.com/vektra/mockery/v2@v2.24.0 --name=UserProvider --with-expecter=true
 type UserProvider interface {
 	UserCreate(ctx context.Context, um models.UserMachine) (models.Session, error)
 	UserLogin(ctx context.Context, um models.UserMachine) (models.Session, error)
 	//UserLogout(ctx context.Context, um models.UserMachine) error
 }
 
+// Handler реализует HTTP обработчик для /login и /register.
 type Handler struct {
 	log          *zap.Logger
 	userProvider UserProvider
 }
 
+// NewHandler конструктор для Handler.
 func NewHandler(log *zap.Logger, up UserProvider) *Handler {
 	return &Handler{
 		log:          log.Named("user handler"),
@@ -31,6 +37,7 @@ func NewHandler(log *zap.Logger, up UserProvider) *Handler {
 	}
 }
 
+// Register обрабатывает POST запрос на создание пользователя /register.
 func (h *Handler) Register(w http.ResponseWriter, r *http.Request) {
 	var in input
 
@@ -48,16 +55,14 @@ func (h *Handler) Register(w http.ResponseWriter, r *http.Request) {
 			Password: in.User.Password,
 		},
 		Machine: models.Machine{
-			IPAddress:  in.Machine.IPAddress,
-			MACAddress: in.Machine.MACAddress,
-			PublicKey:  in.Machine.PublicKey,
+			IPAddress: in.Machine.IPAddress,
 		},
 	})
 
 	if err != nil {
 		h.log.Error("failed to user register", zap.Error(err))
 
-		responder.JSON(w, httpErr.NewInternalError("failed to register user decode", err.Error()))
+		responder.JSON(w, httpErr.NewInternalError("failed to register user", err.Error()))
 
 		return
 	}
@@ -76,6 +81,7 @@ func (h *Handler) Register(w http.ResponseWriter, r *http.Request) {
 	h.log.Debug("success user register")
 }
 
+// Login обрабатывает POST запрос на входа пользователя /login.
 func (h *Handler) Login(w http.ResponseWriter, r *http.Request) {
 	var in input
 
@@ -93,9 +99,7 @@ func (h *Handler) Login(w http.ResponseWriter, r *http.Request) {
 			Password: in.User.Password,
 		},
 		Machine: models.Machine{
-			IPAddress:  in.Machine.IPAddress,
-			MACAddress: in.Machine.MACAddress,
-			PublicKey:  in.Machine.PublicKey,
+			IPAddress: in.Machine.IPAddress,
 		},
 	})
 
@@ -108,7 +112,7 @@ func (h *Handler) Login(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		h.log.Error("failed to user register", zap.Error(err))
+		h.log.Error("failed to user login", zap.Error(err))
 
 		responder.JSON(w, httpErr.NewInternalError("failed to login user", err.Error()))
 
@@ -135,9 +139,7 @@ type input struct {
 		Password string `json:"password"`
 	} `json:"user"`
 	Machine struct {
-		IPAddress  string `json:"ip_address"`
-		MACAddress string `json:"mac_address"`
-		PublicKey  string `json:"public_key"`
+		IPAddress string `json:"ip_address"`
 	} `json:"machine"`
 }
 

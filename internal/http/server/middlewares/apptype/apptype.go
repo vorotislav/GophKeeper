@@ -1,3 +1,4 @@
+// Package apptype описывает middleware для проверки наличия в заголовке Content-Type.
 package apptype
 
 import (
@@ -6,6 +7,7 @@ import (
 	"go.uber.org/zap"
 )
 
+// ApplicationType создаёт middleware для проверки заголовка.
 func ApplicationType(log *zap.Logger) func(h http.Handler) http.Handler {
 	return func(h http.Handler) http.Handler {
 		ch := func(w http.ResponseWriter, r *http.Request) {

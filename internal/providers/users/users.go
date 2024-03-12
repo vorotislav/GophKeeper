@@ -22,19 +22,19 @@ var (
 
 // storage описывает доступные методы для работы с репозиторием и хранением пользователей и их сессий.
 //
-//go:generator go run github.com/vektra/mockery/v2@v2.24.0 --name=storage --exported
+//go:generate go run github.com/vektra/mockery/v2@v2.24.0 --name=storage --exported --with-expecter=true
 type storage interface {
 	UserCreate(ctx context.Context, user models.User) (models.User, error)
 	UserLogin(ctx context.Context, user models.User) (models.User, error)
 	SessionCreate(ctx context.Context, session models.Session) (models.Session, error)
-	CheckSessionFromClient(ctx context.Context, ipAddress, macAddress string) ([]int64, error)
+	CheckSessionFromClient(ctx context.Context, ipAddress string) ([]int64, error)
 	RemoveSession(ctx context.Context, id int64) error
 }
 
-// Authorizer описывает доступные методы для генерации и парсинга jwt токенов.
+// authorizer описывает доступные методы для генерации и парсинга jwt токенов.
 //
-//go:generator go run github.com/vektra/mockery/v2@v2.24.0 --name=authorizer
-type Authorizer interface {
+//go:generate go run github.com/vektra/mockery/v2@v2.24.0 --name=authorizer --exported --with-expecter=true
+type authorizer interface {
 	GetRefreshTokenDurationLifetime() time.Duration
 	GenerateToken(payload token.Payload) (string, error)
 	ParseToken(string) (token.Payload, error)
@@ -44,11 +44,11 @@ type Authorizer interface {
 type Users struct {
 	log   *zap.Logger
 	store storage
-	auth  Authorizer
+	auth  authorizer
 }
 
 // NewUsersProvider конструктор для Users.
-func NewUsersProvider(log *zap.Logger, repo *repository.Repo, auth Authorizer) *Users {
+func NewUsersProvider(log *zap.Logger, repo *repository.Repo, auth authorizer) *Users {
 	u := &Users{
 		log:   log,
 		store: postgres.NewUserStorage(repo),
@@ -75,9 +75,7 @@ func (u *Users) UserCreate(ctx context.Context, um models.UserMachine) (models.S
 		AccessToken:           tokens.AccessToken,
 		RefreshToken:          tokens.RefreshToken,
 		IPAddress:             um.Machine.IPAddress,
-		MACAddress:            um.Machine.MACAddress,
 		RefreshTokenExpiredAt: time.Now().Add(u.auth.GetRefreshTokenDurationLifetime()).Unix(),
-		PublicKey:             um.Machine.PublicKey,
 		CreatedAt:             time.Now(),
 		UpdatedAt:             time.Now(),
 	})
@@ -98,11 +96,10 @@ func (u *Users) UserLogin(ctx context.Context, um models.UserMachine) (models.Se
 	}
 
 	// если сессия с этого устройства уже есть - удалить
-	ids, err := u.store.CheckSessionFromClient(ctx, um.Machine.IPAddress, um.Machine.MACAddress)
+	ids, err := u.store.CheckSessionFromClient(ctx, um.Machine.IPAddress)
 	if err != nil {
 		if !errors.Is(err, models.ErrNotFound) {
 			u.log.Warn("find sessions from device",
-				zap.String("mac", um.Machine.MACAddress),
 				zap.String("ip", um.Machine.IPAddress),
 				zap.Error(err))
 		}
@@ -114,7 +111,6 @@ func (u *Users) UserLogin(ctx context.Context, um models.UserMachine) (models.Se
 			if err != nil {
 				u.log.Warn("delete session from device",
 					zap.Int64("session id", id),
-					zap.String("mac", um.Machine.MACAddress),
 					zap.String("ip", um.Machine.IPAddress),
 					zap.Error(err))
 			}
@@ -132,9 +128,7 @@ func (u *Users) UserLogin(ctx context.Context, um models.UserMachine) (models.Se
 		AccessToken:           tokens.AccessToken,
 		RefreshToken:          tokens.RefreshToken,
 		IPAddress:             um.Machine.IPAddress,
-		MACAddress:            um.Machine.MACAddress,
 		RefreshTokenExpiredAt: time.Now().Add(u.auth.GetRefreshTokenDurationLifetime()).Unix(),
-		PublicKey:             um.Machine.PublicKey,
 		CreatedAt:             time.Now(),
 		UpdatedAt:             time.Now(),
 	})

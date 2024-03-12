@@ -9,9 +9,7 @@ type User struct {
 }
 
 type Machine struct {
-	IPAddress  string
-	MACAddress string
-	PublicKey  string
+	IPAddress string
 }
 
 type UserMachine struct {
@@ -25,9 +23,7 @@ type Session struct {
 	AccessToken           string
 	RefreshToken          string
 	IPAddress             string
-	MACAddress            string
 	RefreshTokenExpiredAt int64
-	PublicKey             string
 	CreatedAt             time.Time
 	UpdatedAt             time.Time
 }

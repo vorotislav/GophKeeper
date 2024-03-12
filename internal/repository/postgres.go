@@ -1,3 +1,4 @@
+// Package repository обеспечивает работу с репозиторием на базе PostgreSQL.
 package repository
 
 import (
@@ -24,19 +25,23 @@ const (
 )
 
 var (
-	ErrSourceDriver   = errors.New("cannot create source driver")
+	// ErrSourceDriver возвращается если не удалось получить объект migrations.
+	ErrSourceDriver = errors.New("cannot create source driver")
+	// ErrSourceInstance возвращается если не удалось подключиться к БД по указанным параметрам для выполнения миграций.
 	ErrSourceInstance = errors.New("cannot create migrate")
-	ErrMigrateUp      = errors.New("cannot migrate up")
-	ErrCreateStorage  = errors.New("cannot create storage")
+	// ErrMigrateUp возвращается если не удалось применить миграции.
+	ErrMigrateUp = errors.New("cannot migrate up")
+	// ErrCreateStorage возвращается если не удалось создать объект Repo.
+	ErrCreateStorage = errors.New("cannot create storage")
 )
 
-// Repo defines repository object for interacting with database repository or instances.
+// Repo описывает структуру репозитория для работы с БД.
 type Repo struct {
 	log  *zap.Logger
 	Pool *pgxpool.Pool
 }
 
-// NewRepository returns repository object.
+// NewRepository принимает строку подключения и пытается создать объект Repo и выполнить подключение к БД.
 func NewRepository(ctx context.Context, log *zap.Logger, databaseURI string) (*Repo, error) {
 	if databaseURI == "" {
 		return nil, fmt.Errorf("%w: database uri is empty", ErrCreateStorage)
@@ -74,7 +79,7 @@ func NewRepository(ctx context.Context, log *zap.Logger, databaseURI string) (*R
 	return r, nil
 }
 
-// Migrate established dedicated database connection and applies schema migrations.
+// migrate устанавливает соединение до БД и выполняет миграции схемы.
 func (r *Repo) migrate() error {
 	d, err := iofs.New(migrations, "migrations")
 	if err != nil {
@@ -101,6 +106,7 @@ func (r *Repo) migrate() error {
 	return nil
 }
 
+// Stop закрывает пул соединений до БД.
 func (r *Repo) Stop() {
 	r.Pool.Close()
 }

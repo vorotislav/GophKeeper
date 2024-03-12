@@ -1,3 +1,4 @@
+// Package medias реализует HTTP обработчик для /medias
 package medias
 
 import (
@@ -20,6 +21,9 @@ const (
 	inputTimeFormLong = "2006-01-02 15:04:05"
 )
 
+// MediaProvider описывает методы для работы с медиа пользователей.
+//
+//go:generate go run github.com/vektra/mockery/v2@v2.24.0 --name=MediaProvider --with-expecter=true
 type MediaProvider interface {
 	MediaCreate(ctx context.Context, m models.Media) error
 	MediaUpdate(ctx context.Context, m models.Media) error
@@ -27,11 +31,13 @@ type MediaProvider interface {
 	Medias(ctx context.Context) ([]models.Media, error)
 }
 
+// Handler реализует HTTP обработчик для /cards.
 type Handler struct {
 	log      *zap.Logger
 	provider MediaProvider
 }
 
+// NewHandler конструктор для Handler.
 func NewHandler(log *zap.Logger, mp MediaProvider) *Handler {
 	return &Handler{
 		log:      log.Named("media handler"),
@@ -39,6 +45,7 @@ func NewHandler(log *zap.Logger, mp MediaProvider) *Handler {
 	}
 }
 
+// MediaCreate обрабатывает POST запрос на создание медиа.
 func (h *Handler) MediaCreate(w http.ResponseWriter, r *http.Request) {
 	var (
 		in      input
@@ -92,6 +99,7 @@ func (h *Handler) MediaCreate(w http.ResponseWriter, r *http.Request) {
 	h.log.Info("success media create")
 }
 
+// MediaUpdate обрабатывает PUT запрос на обновление медиа.
 func (h *Handler) MediaUpdate(w http.ResponseWriter, r *http.Request) {
 	var (
 		in      input
@@ -154,6 +162,7 @@ func (h *Handler) MediaUpdate(w http.ResponseWriter, r *http.Request) {
 	h.log.Info("success media update")
 }
 
+// MediaDelete обрабатывает DELETE запрос на удаление медиа.
 func (h *Handler) MediaDelete(w http.ResponseWriter, r *http.Request) {
 	strMediaID := chi.URLParam(r, "mediaID")
 	mediaID, err := strconv.Atoi(strMediaID)
@@ -187,6 +196,7 @@ func (h *Handler) MediaDelete(w http.ResponseWriter, r *http.Request) {
 	h.log.Info("success media delete")
 }
 
+// Medias обрабатывает GET запрос на получение медиа.
 func (h *Handler) Medias(w http.ResponseWriter, r *http.Request) {
 	notes, err := h.provider.Medias(r.Context())
 	if err != nil {
@@ -206,11 +216,9 @@ func (h *Handler) Medias(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if len(notes) == 0 {
-		if errors.Is(err, models.ErrNotFound) {
-			responder.JSON(w, httpErr.NewNotFoundError("failed get medias"))
+		responder.JSON(w, httpErr.NewNotFoundError("failed get medias"))
 
-			return
-		}
+		return
 	}
 
 	items := make([]item, 0, len(notes))
