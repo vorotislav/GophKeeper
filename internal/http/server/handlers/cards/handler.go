@@ -2,21 +2,18 @@
 package cards
 
 import (
-	httpErr "GophKeeper/internal/http/handlererrors"
-	"GophKeeper/internal/http/responder"
-	"GophKeeper/internal/models"
 	"context"
 	"encoding/json"
 	"errors"
 	"net/http"
 	"strconv"
 
+	httpErr "GophKeeper/internal/http/handlererrors"
+	"GophKeeper/internal/http/responder"
+	"GophKeeper/internal/models"
+
 	"github.com/go-chi/chi/v5"
 	"go.uber.org/zap"
-)
-
-const (
-	inputTimeFormLong = "2006-01-02 15:04:05"
 )
 
 // CardProvider описывает методы для работы с картами пользователей.
@@ -46,11 +43,11 @@ func NewHandler(log *zap.Logger, cp CardProvider) *Handler {
 // CardCreate обрабатывает POST запрос на создание карты.
 func (h *Handler) CardCreate(w http.ResponseWriter, r *http.Request) {
 	var (
-		in  input
-		err error
+		card models.Card
+		err  error
 	)
 
-	if err := json.NewDecoder(r.Body).Decode(&in); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&card); err != nil {
 		h.log.Error("failed card decode", zap.Error(err))
 
 		responder.JSON(w, httpErr.NewInvalidInput("failed card decode", err.Error()))
@@ -58,13 +55,7 @@ func (h *Handler) CardCreate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = h.cardProvider.CardCreate(r.Context(), models.Card{
-		Name:     in.Name,
-		Number:   in.Card,
-		CVC:      strconv.Itoa(in.CVV),
-		ExpMonth: in.ExpMonth,
-		ExpYear:  in.ExpYear,
-	})
+	err = h.cardProvider.CardCreate(r.Context(), card)
 
 	if err != nil {
 		h.log.Error("failed card create", zap.Error(err))
@@ -88,11 +79,11 @@ func (h *Handler) CardCreate(w http.ResponseWriter, r *http.Request) {
 // CardUpdate обрабатывает PUT запрос на обновление карты.
 func (h *Handler) CardUpdate(w http.ResponseWriter, r *http.Request) {
 	var (
-		in  input
-		err error
+		card models.Card
+		err  error
 	)
 
-	if err := json.NewDecoder(r.Body).Decode(&in); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&card); err != nil {
 		h.log.Error("failed card decode", zap.Error(err))
 
 		responder.JSON(w, httpErr.NewInvalidInput("failed card decode", err.Error()))
@@ -100,14 +91,7 @@ func (h *Handler) CardUpdate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = h.cardProvider.CardUpdate(r.Context(), models.Card{
-		ID:       in.ID,
-		Name:     in.Name,
-		Number:   in.Card,
-		CVC:      strconv.Itoa(in.CVV),
-		ExpMonth: in.ExpMonth,
-		ExpYear:  in.ExpYear,
-	})
+	err = h.cardProvider.CardUpdate(r.Context(), card)
 
 	if err != nil {
 		if errors.Is(err, models.ErrNotFound) {
@@ -191,60 +175,16 @@ func (h *Handler) Cards(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	items := make([]item, 0, len(cards))
-	for _, c := range cards {
-
-		cvc, err := strconv.Atoi(c.CVC)
-		if err != nil {
-			responder.JSON(w, httpErr.NewInternalError("failed get cards", err.Error()))
-
-			return
-		}
-
-		i := item{
-			ID:        c.ID,
-			Name:      c.Name,
-			Card:      c.Number,
-			ExpMonth:  c.ExpMonth,
-			ExpYear:   c.ExpYear,
-			CVV:       cvc,
-			CreatedAt: c.CreatedAt.Format(inputTimeFormLong),
-			UpdatedAt: c.UpdatedAt.Format(inputTimeFormLong),
-		}
-
-		items = append(items, i)
-	}
-
 	responder.JSON(w, &output{
-		items:      items,
+		items:      cards,
 		statusCode: http.StatusOK,
 	})
 
 	h.log.Debug("success get cards")
 }
 
-type input struct {
-	ID       int    `json:"id"`
-	Name     string `json:"name"`
-	Card     string `json:"card"`
-	ExpMonth int    `json:"expired_month_at"`
-	ExpYear  int    `json:"expired_year_at"`
-	CVV      int    `json:"cvv"`
-}
-
-type item struct {
-	ID        int    `json:"id"`
-	Name      string `json:"name"`
-	Card      string `json:"card"`
-	ExpMonth  int    `json:"expired_month_at"`
-	ExpYear   int    `json:"expired_year_at"`
-	CVV       int    `json:"cvv"`
-	CreatedAt string `json:"created_at"`
-	UpdatedAt string `json:"updated_at"`
-}
-
 type output struct {
-	items      []item
+	items      []models.Card
 	statusCode int
 }
 

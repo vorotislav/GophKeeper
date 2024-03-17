@@ -39,9 +39,9 @@ func NewHandler(log *zap.Logger, up UserProvider) *Handler {
 
 // Register обрабатывает POST запрос на создание пользователя /register.
 func (h *Handler) Register(w http.ResponseWriter, r *http.Request) {
-	var in input
+	var um models.UserMachine
 
-	if err := json.NewDecoder(r.Body).Decode(&in); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&um); err != nil {
 		h.log.Error("failed to register user decode", zap.Error(err))
 
 		responder.JSON(w, httpErr.NewInvalidInput("failed to register user decode", err.Error()))
@@ -49,15 +49,7 @@ func (h *Handler) Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	res, err := h.userProvider.UserCreate(r.Context(), models.UserMachine{
-		User: models.User{
-			Login:    in.User.Login,
-			Password: in.User.Password,
-		},
-		Machine: models.Machine{
-			IPAddress: in.Machine.IPAddress,
-		},
-	})
+	res, err := h.userProvider.UserCreate(r.Context(), um)
 
 	if err != nil {
 		h.log.Error("failed to user register", zap.Error(err))
@@ -67,14 +59,8 @@ func (h *Handler) Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	s := session{
-		ID:           res.ID,
-		Token:        res.AccessToken,
-		RefreshToken: res.RefreshToken,
-	}
-
 	responder.JSON(w, &output{
-		session:    s,
+		session:    res,
 		statusCode: http.StatusOK,
 	})
 
@@ -83,9 +69,9 @@ func (h *Handler) Register(w http.ResponseWriter, r *http.Request) {
 
 // Login обрабатывает POST запрос на входа пользователя /login.
 func (h *Handler) Login(w http.ResponseWriter, r *http.Request) {
-	var in input
+	var um models.UserMachine
 
-	if err := json.NewDecoder(r.Body).Decode(&in); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&um); err != nil {
 		h.log.Error("failed to login user decode", zap.Error(err))
 
 		responder.JSON(w, httpErr.NewInvalidInput("failed to login user decode", err.Error()))
@@ -93,15 +79,7 @@ func (h *Handler) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	res, err := h.userProvider.UserLogin(r.Context(), models.UserMachine{
-		User: models.User{
-			Login:    in.User.Login,
-			Password: in.User.Password,
-		},
-		Machine: models.Machine{
-			IPAddress: in.Machine.IPAddress,
-		},
-	})
+	res, err := h.userProvider.UserLogin(r.Context(), um)
 
 	if err != nil {
 		if errors.Is(err, models.ErrNotFound) {
@@ -119,14 +97,8 @@ func (h *Handler) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	s := session{
-		ID:           res.ID,
-		Token:        res.AccessToken,
-		RefreshToken: res.RefreshToken,
-	}
-
 	responder.JSON(w, &output{
-		session:    s,
+		session:    res,
 		statusCode: http.StatusOK,
 	})
 
@@ -143,14 +115,8 @@ type input struct {
 	} `json:"machine"`
 }
 
-type session struct {
-	ID           int64  `json:"id"`
-	Token        string `json:"token"`
-	RefreshToken string `json:"refresh_token"`
-}
-
 type output struct {
-	session    session
+	session    models.Session
 	statusCode int
 }
 

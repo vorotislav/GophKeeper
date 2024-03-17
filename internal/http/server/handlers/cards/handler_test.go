@@ -453,31 +453,6 @@ func TestHandler_Cards(t *testing.T) {
 			},
 		},
 		{
-			name: "invalid cvc",
-			giveRequest: func() *http.Request {
-				req, _ := http.NewRequest(http.MethodGet, "foo/bar", http.NoBody)
-
-				return req
-			},
-			prepareProvider: func(provider *mocks.CardProvider) {
-				provider.EXPECT().Cards(mock.Anything).
-					Once().Return([]models.Card{
-					{
-						ID:       1,
-						Name:     "name",
-						Number:   "number",
-						CVC:      "cvc",
-						ExpMonth: 1,
-						ExpYear:  2,
-					},
-				}, nil)
-			},
-			checkResult: func(t *testing.T, rr *httptest.ResponseRecorder) {
-				assert.Equal(t, http.StatusInternalServerError, rr.Code)
-				assert.Contains(t, rr.Body.String(), "failed get cards")
-			},
-		},
-		{
 			name: "success",
 			giveRequest: func() *http.Request {
 				req, _ := http.NewRequest(http.MethodGet, "foo/bar", http.NoBody)
@@ -499,7 +474,7 @@ func TestHandler_Cards(t *testing.T) {
 			},
 			checkResult: func(t *testing.T, rr *httptest.ResponseRecorder) {
 				assert.Equal(t, http.StatusOK, rr.Code)
-				assert.JSONEq(t, `[{"id":1, "name":"name", "card":"number", "cvv":123, "expired_month_at":1, "expired_year_at":2, "created_at":"0001-01-01 00:00:00", "updated_at":"0001-01-01 00:00:00"}]`, rr.Body.String())
+				assert.JSONEq(t, `[{"id":1, "name":"name", "card_number":"number", "cvc":"123", "exp_month_at":1, "exp_year_at":2, "created_at":"0001-01-01T00:00:00Z", "updated_at":"0001-01-01T00:00:00Z"}]`, rr.Body.String())
 			},
 		},
 	}

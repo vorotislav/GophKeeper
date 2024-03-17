@@ -8,24 +8,13 @@ import (
 	"io"
 	"net/http"
 	"strconv"
-	"time"
 
+	ch "GophKeeper/internal/http"
+	"GophKeeper/internal/http/client"
 	"GophKeeper/internal/models"
 
 	"github.com/avast/retry-go/v4"
 	"go.uber.org/zap"
-)
-
-const (
-	httpClientTimeout = time.Millisecond * 500000
-)
-
-const (
-	cardsPath = "/v1/cards"
-)
-
-const (
-	inputTimeFormLong = "2006-01-02 15:04:05"
 )
 
 type sessionStore interface {
@@ -35,7 +24,7 @@ type sessionStore interface {
 type Client struct {
 	dc           *http.Client
 	log          *zap.Logger
-	serverURL    string
+	cardsURL     string
 	sessionStore sessionStore
 }
 
@@ -47,15 +36,15 @@ func NewClient(
 ) *Client {
 	c := &Client{
 		dc: &http.Client{
-			Timeout:   httpClientTimeout,
+			Timeout:   client.HTTPClientTimeout,
 			Transport: httpTransport,
 		},
 		log:          log.Named("cards client"),
-		serverURL:    fmt.Sprintf("https://%s", serverAddress),
+		cardsURL:     fmt.Sprintf("https://%s%s", serverAddress, ch.CardsPath),
 		sessionStore: ss,
 	}
 
-	log.Debug("Client for gophkeeper server", zap.String("url", c.serverURL))
+	log.Debug("Client for gophkeeper server", zap.String("url", c.cardsURL))
 
 	return c
 }
@@ -63,25 +52,10 @@ func NewClient(
 func (c *Client) CreateCard(card models.Card) error {
 	c.log.Debug("new request for create card")
 
-	ctx, cancel := context.WithTimeout(context.Background(), httpClientTimeout)
+	ctx, cancel := context.WithTimeout(context.Background(), client.HTTPRequestTimeout)
 	defer cancel()
 
-	cvv, err := strconv.Atoi(card.CVC)
-	if err != nil {
-		c.log.Error("create card", zap.Error(err))
-
-		return fmt.Errorf("create card: %w", err)
-	}
-
-	o := output{
-		Name:     card.Name,
-		Card:     card.Number,
-		ExpMonth: card.ExpMonth,
-		ExpYear:  card.ExpYear,
-		CVV:      cvv,
-	}
-
-	raw, err := json.Marshal(o)
+	raw, err := json.Marshal(card)
 	if err != nil {
 		c.log.Error("marshal to create card", zap.Error(err))
 
@@ -91,7 +65,7 @@ func (c *Client) CreateCard(card models.Card) error {
 	req, err := http.NewRequestWithContext(
 		ctx,
 		http.MethodPost,
-		c.serverURL+cardsPath,
+		c.cardsURL,
 		bytes.NewBuffer(raw))
 	if err != nil {
 		c.log.Error("create card request prepare", zap.Error(err))
@@ -125,26 +99,10 @@ func (c *Client) CreateCard(card models.Card) error {
 func (c *Client) UpdateCard(card models.Card) error {
 	c.log.Debug("new request for update card")
 
-	ctx, cancel := context.WithTimeout(context.Background(), httpClientTimeout)
+	ctx, cancel := context.WithTimeout(context.Background(), client.HTTPRequestTimeout)
 	defer cancel()
 
-	cvv, err := strconv.Atoi(card.CVC)
-	if err != nil {
-		c.log.Error("update card", zap.Error(err))
-
-		return fmt.Errorf("update card: %w", err)
-	}
-
-	o := output{
-		ID:       card.ID,
-		Name:     card.Name,
-		Card:     card.Number,
-		ExpMonth: card.ExpMonth,
-		ExpYear:  card.ExpYear,
-		CVV:      cvv,
-	}
-
-	raw, err := json.Marshal(o)
+	raw, err := json.Marshal(card)
 	if err != nil {
 		c.log.Error("marshal to update card", zap.Error(err))
 
@@ -154,7 +112,7 @@ func (c *Client) UpdateCard(card models.Card) error {
 	req, err := http.NewRequestWithContext(
 		ctx,
 		http.MethodPut,
-		c.serverURL+cardsPath,
+		c.cardsURL,
 		bytes.NewBuffer(raw))
 	if err != nil {
 		c.log.Error("update card request prepare", zap.Error(err))
@@ -188,13 +146,13 @@ func (c *Client) UpdateCard(card models.Card) error {
 func (c *Client) Cards() ([]models.Card, error) {
 	c.log.Debug("new request for get cards")
 
-	ctx, cancel := context.WithTimeout(context.Background(), httpClientTimeout)
+	ctx, cancel := context.WithTimeout(context.Background(), client.HTTPRequestTimeout)
 	defer cancel()
 
 	req, err := http.NewRequestWithContext(
 		ctx,
 		http.MethodGet,
-		c.serverURL+cardsPath,
+		c.cardsURL,
 		http.NoBody)
 	if err != nil {
 		c.log.Error("get cards request prepare", zap.Error(err))
@@ -224,37 +182,11 @@ func (c *Client) Cards() ([]models.Card, error) {
 		return nil, fmt.Errorf("get cards")
 	}
 
-	items := make([]item, 0)
-	if err := json.Unmarshal(body, &items); err != nil {
+	cards := make([]models.Card, 0)
+	if err := json.Unmarshal(body, &cards); err != nil {
 		c.log.Error("unmarshal cards", zap.Error(err))
 
 		return nil, fmt.Errorf("unmarshal cards: %w", err)
-	}
-
-	cards := make([]models.Card, 0, len(items))
-	for _, i := range items {
-		createdAt, err := time.Parse(inputTimeFormLong, i.CreatedAt)
-		if err != nil {
-			return nil, fmt.Errorf("cannot parsing time: %w", err)
-		}
-
-		updatedAt, err := time.Parse(inputTimeFormLong, i.CreatedAt)
-		if err != nil {
-			return nil, fmt.Errorf("cannot parsing time: %w", err)
-		}
-
-		card := models.Card{
-			ID:        i.ID,
-			Name:      i.Name,
-			Number:    i.Card,
-			CVC:       strconv.Itoa(i.CVV),
-			ExpMonth:  i.ExpMonth,
-			ExpYear:   i.ExpYear,
-			CreatedAt: createdAt,
-			UpdatedAt: updatedAt,
-		}
-
-		cards = append(cards, card)
 	}
 
 	return cards, nil
@@ -263,7 +195,7 @@ func (c *Client) Cards() ([]models.Card, error) {
 func (c *Client) DeleteCard(id int) error {
 	c.log.Debug("new request for delete card")
 
-	ctx, cancel := context.WithTimeout(context.Background(), httpClientTimeout)
+	ctx, cancel := context.WithTimeout(context.Background(), client.HTTPRequestTimeout)
 	defer cancel()
 
 	strID := strconv.Itoa(id)
@@ -271,7 +203,7 @@ func (c *Client) DeleteCard(id int) error {
 	req, err := http.NewRequestWithContext(
 		ctx,
 		http.MethodDelete,
-		c.serverURL+cardsPath+"/"+strID,
+		c.cardsURL+"/"+strID,
 		http.NoBody)
 	if err != nil {
 		c.log.Error("delete card request prepare", zap.Error(err))
@@ -340,24 +272,4 @@ func (c *Client) do(ctx context.Context, req *http.Request) ([]byte, int, error)
 	}
 
 	return body, statusCode, nil
-}
-
-type output struct {
-	ID       int    `json:"id"`
-	Name     string `json:"name"`
-	Card     string `json:"card"`
-	ExpMonth int    `json:"expired_month_at"`
-	ExpYear  int    `json:"expired_year_at"`
-	CVV      int    `json:"cvv"`
-}
-
-type item struct {
-	ID        int    `json:"id"`
-	Name      string `json:"name"`
-	Card      string `json:"card"`
-	ExpMonth  int    `json:"expired_month_at"`
-	ExpYear   int    `json:"expired_year_at"`
-	CVV       int    `json:"cvv"`
-	CreatedAt string `json:"created_at"`
-	UpdatedAt string `json:"updated_at"`
 }

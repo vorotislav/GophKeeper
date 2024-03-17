@@ -477,7 +477,7 @@ func TestHandler_Medias(t *testing.T) {
 			},
 			checkResult: func(t *testing.T, rr *httptest.ResponseRecorder) {
 				assert.Equal(t, http.StatusOK, rr.Code)
-				assert.JSONEq(t, `[{"id":1, "title":"title", "media":"", "media_type":"type", "note":"", "expired_at":"0001-01-01 00:00:00", "created_at":"0001-01-01 00:00:00", "updated_at":"0001-01-01 00:00:00"}]`, rr.Body.String())
+				assert.JSONEq(t, `[{"id":1, "title":"title", "body":"", "media_type":"type", "note":"", "expired_at":"0001-01-01T00:00:00Z", "created_at":"0001-01-01T00:00:00Z", "updated_at":"0001-01-01T00:00:00Z"}]`, rr.Body.String())
 			},
 		},
 	}

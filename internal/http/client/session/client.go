@@ -1,27 +1,18 @@
 package session
 
 import (
+	ch "GophKeeper/internal/http"
+	"GophKeeper/internal/http/client"
+	"GophKeeper/internal/models"
 	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
-	"time"
-
-	"GophKeeper/internal/models"
 
 	"github.com/avast/retry-go/v4"
 	"go.uber.org/zap"
-)
-
-const (
-	httpClientTimeout = time.Millisecond * 500000
-)
-
-const (
-	loginPath    = "/v1/users/login"
-	registerPath = "/v1/users/register"
 )
 
 type systems interface {
@@ -49,7 +40,7 @@ func NewClient(
 ) *Client {
 	c := &Client{
 		dc: &http.Client{
-			Timeout:   httpClientTimeout,
+			Timeout:   client.HTTPClientTimeout,
 			Transport: httpTransport,
 		},
 		log:          log.Named("user client"),
@@ -66,7 +57,7 @@ func NewClient(
 func (c *Client) Login(user models.User) (models.Session, error) {
 	c.log.Debug("new request for user login")
 
-	ctx, cancel := context.WithTimeout(context.Background(), httpClientTimeout)
+	ctx, cancel := context.WithTimeout(context.Background(), client.HTTPRequestTimeout)
 	defer cancel()
 
 	machine, err := c.systems.MachineInfo()
@@ -74,9 +65,10 @@ func (c *Client) Login(user models.User) (models.Session, error) {
 		c.log.Error("get machine info", zap.Error(err))
 	}
 
-	o := getOut(user, machine)
-
-	raw, err := json.Marshal(o)
+	raw, err := json.Marshal(models.UserMachine{
+		User:    user,
+		Machine: machine,
+	})
 	if err != nil {
 		c.log.Error("marshal to login", zap.Error(err))
 
@@ -86,7 +78,7 @@ func (c *Client) Login(user models.User) (models.Session, error) {
 	req, err := http.NewRequestWithContext(
 		ctx,
 		http.MethodPost,
-		c.serverURL+loginPath,
+		c.serverURL+ch.LoginPath,
 		bytes.NewBuffer(raw))
 	if err != nil {
 		c.log.Error("login request prepare", zap.Error(err))
@@ -141,17 +133,11 @@ func (c *Client) Login(user models.User) (models.Session, error) {
 		return models.Session{}, fmt.Errorf("login user")
 	}
 
-	i := in{}
+	s := models.Session{}
 
-	err = json.Unmarshal(body, &i)
+	err = json.Unmarshal(body, &s)
 	if err != nil {
 		return models.Session{}, fmt.Errorf("cannot unmarshal: %w", err)
-	}
-
-	s := models.Session{
-		ID:           i.ID,
-		AccessToken:  i.Token,
-		RefreshToken: i.RefreshToken,
 	}
 
 	c.sessionStore.SaveSession(s)
@@ -162,7 +148,7 @@ func (c *Client) Login(user models.User) (models.Session, error) {
 func (c *Client) Register(user models.User) (models.Session, error) {
 	c.log.Debug("new request for user register")
 
-	ctx, cancel := context.WithTimeout(context.Background(), httpClientTimeout)
+	ctx, cancel := context.WithTimeout(context.Background(), client.HTTPRequestTimeout)
 	defer cancel()
 
 	machine, err := c.systems.MachineInfo()
@@ -170,9 +156,10 @@ func (c *Client) Register(user models.User) (models.Session, error) {
 		c.log.Error("get machine info", zap.Error(err))
 	}
 
-	o := getOut(user, machine)
-
-	raw, err := json.Marshal(o)
+	raw, err := json.Marshal(models.UserMachine{
+		User:    user,
+		Machine: machine,
+	})
 	if err != nil {
 		c.log.Error("marshal to register", zap.Error(err))
 
@@ -182,7 +169,7 @@ func (c *Client) Register(user models.User) (models.Session, error) {
 	req, err := http.NewRequestWithContext(
 		ctx,
 		http.MethodPost,
-		c.serverURL+registerPath,
+		c.serverURL+ch.RegisterPath,
 		bytes.NewBuffer(raw))
 	if err != nil {
 		c.log.Error("register request prepare", zap.Error(err))
@@ -231,50 +218,16 @@ func (c *Client) Register(user models.User) (models.Session, error) {
 		return models.Session{}, fmt.Errorf("register user")
 	}
 
-	i := in{}
+	s := models.Session{}
 
-	err = json.Unmarshal(body, &i)
+	err = json.Unmarshal(body, &s)
 	if err != nil {
 		return models.Session{}, fmt.Errorf("cannot unmarshal: %w", err)
 	}
 
-	c.log.Debug("Session", zap.Int64("id", i.ID), zap.String("access token", i.Token))
+	c.log.Debug("Session", zap.Int64("id", s.ID), zap.String("access token", s.AccessToken))
 
-	return models.Session{
-		ID:           i.ID,
-		AccessToken:  i.Token,
-		RefreshToken: i.RefreshToken,
-	}, nil
-}
+	c.sessionStore.SaveSession(s)
 
-func getOut(u models.User, m models.Machine) out {
-	return out{
-		User: user{
-			Login:    u.Login,
-			Password: u.Password,
-		},
-		Machine: machine{
-			IPAddress: m.IPAddress,
-		},
-	}
-}
-
-type out struct {
-	User    user    `json:"user"`
-	Machine machine `json:"machine"`
-}
-
-type user struct {
-	Login    string `json:"login"`
-	Password string `json:"password"`
-}
-
-type machine struct {
-	IPAddress string `json:"ip_address"`
-}
-
-type in struct {
-	ID           int64  `json:"id"`
-	Token        string `json:"token"`
-	RefreshToken string `json:"refresh_token"`
+	return s, nil
 }

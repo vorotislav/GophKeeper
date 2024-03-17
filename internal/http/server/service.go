@@ -1,6 +1,7 @@
 package server
 
 import (
+	ch "GophKeeper/internal/http"
 	"context"
 	"crypto/tls"
 	"crypto/x509"
@@ -8,7 +9,6 @@ import (
 	"fmt"
 	"net"
 	"net/http"
-	"os"
 	"strconv"
 	"time"
 
@@ -27,21 +27,21 @@ import (
 	"go.uber.org/zap"
 )
 
+type asymmetryManager interface {
+	PublicKeyPath() string
+	PrivateKeyPath() string
+	ReadPublicKey() ([]byte, error)
+}
+
 type Service struct {
-	logger     *zap.Logger
-	server     *http.Server
-	privateKey string
-	publicKey  string
+	logger    *zap.Logger
+	server    *http.Server
+	asManager asymmetryManager
 }
 
 var (
 	ErrCreateService = errors.New("create service")
 )
-
-type Route struct {
-	Pattern string
-	Handler http.Handler
-}
 
 type authorizer interface {
 	ParseToken(string) (token.Payload, error)
@@ -56,8 +56,7 @@ func NewService(
 	cardProvider cards.CardProvider,
 	notesProvider notes.NoteProvider,
 	mediaProvider medias.MediaProvider,
-	privateKey string,
-	publicKey string,
+	asManager asymmetryManager,
 ) (*Service, error) {
 	serlog := log.Named("http-service")
 
@@ -85,7 +84,7 @@ func NewService(
 	)
 
 	// load CA certificate file and add it to list of client CAs
-	caCertFile, err := os.ReadFile(publicKey)
+	caCertFile, err := asManager.ReadPublicKey()
 	if err != nil {
 		log.Fatal("error reading CA certificate: %v", zap.Error(err))
 
@@ -109,17 +108,16 @@ func NewService(
 	}
 
 	return &Service{
-		logger:     serlog,
-		server:     s,
-		privateKey: privateKey,
-		publicKey:  publicKey,
+		logger:    serlog,
+		server:    s,
+		asManager: asManager,
 	}, nil
 }
 
 func (s *Service) Run() error {
 	s.logger.Debug("Running server on", zap.String("address", s.server.Addr))
 
-	return s.server.ListenAndServeTLS(s.publicKey, s.privateKey)
+	return s.server.ListenAndServeTLS(s.asManager.PublicKeyPath(), s.asManager.PrivateKeyPath())
 }
 
 func (s *Service) Stop(ctx context.Context) error {
@@ -133,15 +131,10 @@ func createUserHandlerRoutes(
 	mux *chi.Mux,
 	provider users.UserProvider,
 ) {
-	const (
-		registerPath = "/v1/users/register"
-		loginPath    = "/v1/users/login"
-	)
-
 	uh := users.NewHandler(log, provider)
 
-	mux.Post(registerPath, uh.Register)
-	mux.Post(loginPath, uh.Login)
+	mux.Post(ch.RegisterPath, uh.Register)
+	mux.Post(ch.LoginPath, uh.Login)
 }
 
 func createPasswordsHandlerRoutes(
@@ -149,14 +142,12 @@ func createPasswordsHandlerRoutes(
 	mux *chi.Mux,
 	passProvider passwords.PasswordProvider,
 ) {
-	const passwordPath = "/v1/passwords"
-
 	ph := passwords.NewHandler(log, passProvider)
 
-	mux.Post(passwordPath, ph.PasswordCreate)
-	mux.Put(passwordPath, ph.PasswordUpdate)
-	mux.Get(passwordPath, ph.Passwords)
-	mux.Delete(passwordPath+"/{passwordID}", ph.PasswordDelete)
+	mux.Post(ch.PasswordsPath, ph.PasswordCreate)
+	mux.Put(ch.PasswordsPath, ph.PasswordUpdate)
+	mux.Get(ch.PasswordsPath, ph.Passwords)
+	mux.Delete(ch.PasswordsPath+"/{passwordID}", ph.PasswordDelete)
 }
 
 func createCardsHandlerRoutes(
@@ -164,14 +155,12 @@ func createCardsHandlerRoutes(
 	mux *chi.Mux,
 	provider cards.CardProvider,
 ) {
-	const cardsPath = "/v1/cards"
+	crh := cards.NewHandler(log, provider)
 
-	ch := cards.NewHandler(log, provider)
-
-	mux.Post(cardsPath, ch.CardCreate)
-	mux.Put(cardsPath, ch.CardUpdate)
-	mux.Get(cardsPath, ch.Cards)
-	mux.Delete(cardsPath+"/{cardID}", ch.CardDelete)
+	mux.Post(ch.CardsPath, crh.CardCreate)
+	mux.Put(ch.CardsPath, crh.CardUpdate)
+	mux.Get(ch.CardsPath, crh.Cards)
+	mux.Delete(ch.CardsPath+"/{cardID}", crh.CardDelete)
 }
 
 func createNoteHandlerRoutes(
@@ -179,14 +168,12 @@ func createNoteHandlerRoutes(
 	mux *chi.Mux,
 	provider notes.NoteProvider,
 ) {
-	const notePath = "/v1/notes"
-
 	nh := notes.NewHandler(log, provider)
 
-	mux.Post(notePath, nh.NoteCreate)
-	mux.Put(notePath, nh.NoteUpdate)
-	mux.Get(notePath, nh.Notes)
-	mux.Delete(notePath+"/{noteID}", nh.NoteDelete)
+	mux.Post(ch.NotesPath, nh.NoteCreate)
+	mux.Put(ch.NotesPath, nh.NoteUpdate)
+	mux.Get(ch.NotesPath, nh.Notes)
+	mux.Delete(ch.NotesPath+"/{noteID}", nh.NoteDelete)
 }
 
 func createMediasHandlerRoutes(
@@ -194,12 +181,10 @@ func createMediasHandlerRoutes(
 	mux *chi.Mux,
 	provider medias.MediaProvider,
 ) {
-	const mediaPath = "/v1/medias"
-
 	mh := medias.NewHandler(log, provider)
 
-	mux.Post(mediaPath, mh.MediaCreate)
-	mux.Put(mediaPath, mh.MediaUpdate)
-	mux.Get(mediaPath, mh.Medias)
-	mux.Delete(mediaPath+"/{mediaID}", mh.MediaDelete)
+	mux.Post(ch.MediaPath, mh.MediaCreate)
+	mux.Put(ch.MediaPath, mh.MediaUpdate)
+	mux.Get(ch.MediaPath, mh.Medias)
+	mux.Delete(ch.MediaPath+"/{mediaID}", mh.MediaDelete)
 }

@@ -1,6 +1,9 @@
 package notes
 
 import (
+	ch "GophKeeper/internal/http"
+	"GophKeeper/internal/http/client"
+	"GophKeeper/internal/models"
 	"bytes"
 	"context"
 	"encoding/json"
@@ -9,22 +12,8 @@ import (
 	"io"
 	"net/http"
 	"strconv"
-	"time"
-
-	"GophKeeper/internal/models"
 
 	"go.uber.org/zap"
-)
-
-const (
-	httpClientTimeout = time.Millisecond * 500000
-)
-
-const (
-	notesPath = "/v1/notes"
-)
-const (
-	inputTimeFormLong = "2006-01-02 15:04:05"
 )
 
 type sessionStore interface {
@@ -34,7 +23,7 @@ type sessionStore interface {
 type Client struct {
 	dc           *http.Client
 	log          *zap.Logger
-	serverURL    string
+	noteURL      string
 	sessionStore sessionStore
 }
 
@@ -46,15 +35,15 @@ func NewClient(
 ) *Client {
 	c := &Client{
 		dc: &http.Client{
-			Timeout:   httpClientTimeout,
+			Timeout:   client.HTTPClientTimeout,
 			Transport: httpTransport,
 		},
 		log:          log.Named("notes client"),
-		serverURL:    fmt.Sprintf("https://%s", serverAddress),
+		noteURL:      fmt.Sprintf("https://%s%s", serverAddress, ch.NotesPath),
 		sessionStore: ss,
 	}
 
-	log.Debug("Client for gophkeeper server", zap.String("url", c.serverURL))
+	log.Debug("Client for gophkeeper server", zap.String("url", c.noteURL))
 
 	return c
 }
@@ -62,21 +51,10 @@ func NewClient(
 func (c *Client) CreateNote(n models.Note) error {
 	c.log.Debug("new request for create note")
 
-	ctx, cancel := context.WithTimeout(context.Background(), httpClientTimeout)
+	ctx, cancel := context.WithTimeout(context.Background(), client.HTTPRequestTimeout)
 	defer cancel()
 
-	var expDate string
-	if !n.ExpiredAt.IsZero() {
-		expDate = n.ExpiredAt.Format(inputTimeFormLong)
-	}
-
-	o := output{
-		Title:     n.Title,
-		Note:      n.Text,
-		ExpiredAt: expDate,
-	}
-
-	raw, err := json.Marshal(o)
+	raw, err := json.Marshal(n)
 	if err != nil {
 		c.log.Error("marshal to create note", zap.Error(err))
 
@@ -86,7 +64,7 @@ func (c *Client) CreateNote(n models.Note) error {
 	req, err := http.NewRequestWithContext(
 		ctx,
 		http.MethodPost,
-		c.serverURL+notesPath,
+		c.noteURL,
 		bytes.NewBuffer(raw))
 	if err != nil {
 		c.log.Error("create note request prepare", zap.Error(err))
@@ -120,22 +98,10 @@ func (c *Client) CreateNote(n models.Note) error {
 func (c *Client) UpdateNote(n models.Note) error {
 	c.log.Debug("new request for update note")
 
-	ctx, cancel := context.WithTimeout(context.Background(), httpClientTimeout)
+	ctx, cancel := context.WithTimeout(context.Background(), client.HTTPRequestTimeout)
 	defer cancel()
 
-	var expDate string
-	if !n.ExpiredAt.IsZero() {
-		expDate = n.ExpiredAt.Format(inputTimeFormLong)
-	}
-
-	o := output{
-		ID:        n.ID,
-		Title:     n.Title,
-		Note:      n.Text,
-		ExpiredAt: expDate,
-	}
-
-	raw, err := json.Marshal(o)
+	raw, err := json.Marshal(n)
 	if err != nil {
 		c.log.Error("marshal to update note", zap.Error(err))
 
@@ -145,7 +111,7 @@ func (c *Client) UpdateNote(n models.Note) error {
 	req, err := http.NewRequestWithContext(
 		ctx,
 		http.MethodPut,
-		c.serverURL+notesPath,
+		c.noteURL,
 		bytes.NewBuffer(raw))
 	if err != nil {
 		c.log.Error("update note request prepare", zap.Error(err))
@@ -179,13 +145,13 @@ func (c *Client) UpdateNote(n models.Note) error {
 func (c *Client) Notes() ([]models.Note, error) {
 	c.log.Debug("new request for get notes")
 
-	ctx, cancel := context.WithTimeout(context.Background(), httpClientTimeout)
+	ctx, cancel := context.WithTimeout(context.Background(), client.HTTPRequestTimeout)
 	defer cancel()
 
 	req, err := http.NewRequestWithContext(
 		ctx,
 		http.MethodGet,
-		c.serverURL+notesPath,
+		c.noteURL,
 		http.NoBody)
 	if err != nil {
 		c.log.Error("get notes request prepare", zap.Error(err))
@@ -215,44 +181,11 @@ func (c *Client) Notes() ([]models.Note, error) {
 		return nil, fmt.Errorf("get notes")
 	}
 
-	items := make([]item, 0)
-	if err := json.Unmarshal(body, &items); err != nil {
+	notes := make([]models.Note, 0)
+	if err := json.Unmarshal(body, &notes); err != nil {
 		c.log.Error("notes unmarshal", zap.Error(err))
 
 		return nil, fmt.Errorf("notes unmarshal: %w", err)
-	}
-
-	notes := make([]models.Note, 0, len(items))
-	for _, i := range items {
-		createdAt, err := time.Parse(inputTimeFormLong, i.CreatedAt)
-		if err != nil {
-			return nil, fmt.Errorf("cannot parsing time: %w", err)
-		}
-
-		updatedAt, err := time.Parse(inputTimeFormLong, i.CreatedAt)
-		if err != nil {
-			return nil, fmt.Errorf("cannot parsing time: %w", err)
-		}
-
-		var expDate time.Time
-
-		if i.ExpiredAt != "" {
-			expDate, err = time.Parse(inputTimeFormLong, i.ExpiredAt)
-			if err != nil {
-				return nil, fmt.Errorf("cannot parsing time: %w", err)
-			}
-		}
-
-		note := models.Note{
-			ID:        i.ID,
-			Title:     i.Title,
-			Text:      i.Note,
-			ExpiredAt: expDate,
-			CreatedAt: createdAt,
-			UpdatedAt: updatedAt,
-		}
-
-		notes = append(notes, note)
 	}
 
 	return notes, nil
@@ -261,7 +194,7 @@ func (c *Client) Notes() ([]models.Note, error) {
 func (c *Client) DeleteNote(id int) error {
 	c.log.Debug("new request for delete note")
 
-	ctx, cancel := context.WithTimeout(context.Background(), httpClientTimeout)
+	ctx, cancel := context.WithTimeout(context.Background(), client.HTTPRequestTimeout)
 	defer cancel()
 
 	strID := strconv.Itoa(id)
@@ -269,7 +202,7 @@ func (c *Client) DeleteNote(id int) error {
 	req, err := http.NewRequestWithContext(
 		ctx,
 		http.MethodDelete,
-		c.serverURL+notesPath+"/"+strID,
+		c.noteURL+"/"+strID,
 		http.NoBody)
 	if err != nil {
 		c.log.Error("delete note request prepare", zap.Error(err))
@@ -338,20 +271,4 @@ func (c *Client) do(ctx context.Context, req *http.Request) ([]byte, int, error)
 	}
 
 	return body, statusCode, nil
-}
-
-type output struct {
-	ID        int    `json:"id"`
-	Title     string `json:"title"`
-	Note      string `json:"note"`
-	ExpiredAt string `json:"expired_at"`
-}
-
-type item struct {
-	ID        int    `json:"id"`
-	Title     string `json:"title"`
-	Note      string `json:"note"`
-	ExpiredAt string `json:"expired_at"`
-	CreatedAt string `json:"created_at"`
-	UpdatedAt string `json:"updated_at"`
 }

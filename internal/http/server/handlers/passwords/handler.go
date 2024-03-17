@@ -2,24 +2,18 @@
 package passwords
 
 import (
+	httpErr "GophKeeper/internal/http/handlererrors"
+	"GophKeeper/internal/http/responder"
+	"GophKeeper/internal/models"
 	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"net/http"
 	"strconv"
-	"time"
-
-	httpErr "GophKeeper/internal/http/handlererrors"
-	"GophKeeper/internal/http/responder"
-	"GophKeeper/internal/models"
 
 	"github.com/go-chi/chi/v5"
 	"go.uber.org/zap"
-)
-
-const (
-	inputTimeFormLong = "2006-01-02 15:04:05"
 )
 
 // PasswordProvider описывает методы для работы с паролями пользователей.
@@ -49,12 +43,11 @@ func NewHandler(log *zap.Logger, pp PasswordProvider) *Handler {
 // PasswordCreate обрабатывает POST запрос на создание пароля.
 func (h *Handler) PasswordCreate(w http.ResponseWriter, r *http.Request) {
 	var (
-		in      input
-		expDate time.Time
-		err     error
+		pass models.Password
+		err  error
 	)
 
-	if err := json.NewDecoder(r.Body).Decode(&in); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&pass); err != nil {
 		h.log.Error("failed password decode", zap.Error(err))
 
 		responder.JSON(w, httpErr.NewInvalidInput("failed password decode", err.Error()))
@@ -62,25 +55,7 @@ func (h *Handler) PasswordCreate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if in.ExpiredAt != "" {
-		expDate, err = time.Parse(inputTimeFormLong, in.ExpiredAt)
-		if err != nil {
-			h.log.Error("failed password exp date parse", zap.Error(err))
-
-			responder.JSON(w, httpErr.NewInvalidInput("failed password exp date parse", err.Error()))
-
-			return
-		}
-	}
-
-	err = h.passwordProvider.PasswordCreate(r.Context(), models.Password{
-		Title:          in.Title,
-		Login:          in.Login,
-		Password:       in.Password,
-		URL:            in.URL,
-		Note:           in.Notes,
-		ExpirationDate: expDate,
-	})
+	err = h.passwordProvider.PasswordCreate(r.Context(), pass)
 
 	if err != nil {
 		h.log.Error("failed password create", zap.Error(err))
@@ -104,12 +79,11 @@ func (h *Handler) PasswordCreate(w http.ResponseWriter, r *http.Request) {
 // PasswordUpdate обрабатывает PUT запрос на обновление пароля.
 func (h *Handler) PasswordUpdate(w http.ResponseWriter, r *http.Request) {
 	var (
-		in      input
-		expDate time.Time
-		err     error
+		pass models.Password
+		err  error
 	)
 
-	if err := json.NewDecoder(r.Body).Decode(&in); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&pass); err != nil {
 		h.log.Error("failed password decode", zap.Error(err))
 
 		responder.JSON(w, httpErr.NewInvalidInput("failed password decode", err.Error()))
@@ -117,26 +91,7 @@ func (h *Handler) PasswordUpdate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if in.ExpiredAt != "" {
-		expDate, err = time.Parse(inputTimeFormLong, in.ExpiredAt)
-		if err != nil {
-			h.log.Error("failed exp date password parse", zap.Error(err))
-
-			responder.JSON(w, httpErr.NewInvalidInput("failed password exp date parse", err.Error()))
-
-			return
-		}
-	}
-
-	err = h.passwordProvider.PasswordUpdate(r.Context(), models.Password{
-		ID:             in.ID,
-		Title:          in.Title,
-		Login:          in.Login,
-		Password:       in.Password,
-		URL:            in.URL,
-		Note:           in.Notes,
-		ExpirationDate: expDate,
-	})
+	err = h.passwordProvider.PasswordUpdate(r.Context(), pass)
 
 	if err != nil {
 		if errors.Is(err, models.ErrNotFound) {
@@ -220,59 +175,16 @@ func (h *Handler) Passwords(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	items := make([]item, 0, len(passs))
-	for _, p := range passs {
-		var expDate string
-		if !p.ExpirationDate.IsZero() {
-			expDate = p.ExpirationDate.Format(inputTimeFormLong)
-		}
-		i := item{
-			ID:        p.ID,
-			Title:     p.Title,
-			Login:     p.Login,
-			Password:  p.Password,
-			URL:       p.URL,
-			Notes:     p.Note,
-			ExpiredAt: expDate,
-			CreatedAt: p.CreatedAt.Format(inputTimeFormLong),
-			UpdatedAt: p.UpdatedAt.Format(inputTimeFormLong),
-		}
-
-		items = append(items, i)
-	}
-
 	responder.JSON(w, &output{
-		items:      items,
+		items:      passs,
 		statusCode: http.StatusOK,
 	})
 
 	h.log.Debug("success get passwords")
 }
 
-type input struct {
-	ID        int    `json:"id"`
-	Title     string `json:"title"`
-	Login     string `json:"login"`
-	Password  string `json:"password"`
-	URL       string `json:"url"`
-	Notes     string `json:"notes"`
-	ExpiredAt string `json:"expired_at"`
-}
-
-type item struct {
-	ID        int    `json:"id"`
-	Title     string `json:"title"`
-	Login     string `json:"login"`
-	Password  string `json:"password"`
-	URL       string `json:"url"`
-	Notes     string `json:"notes"`
-	ExpiredAt string `json:"expired_at"`
-	CreatedAt string `json:"created_at"`
-	UpdatedAt string `json:"updated_at"`
-}
-
 type output struct {
-	items      []item
+	items      []models.Password
 	statusCode int
 }
 

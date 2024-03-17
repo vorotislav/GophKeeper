@@ -1,6 +1,9 @@
 package media
 
 import (
+	ch "GophKeeper/internal/http"
+	"GophKeeper/internal/http/client"
+	"GophKeeper/internal/models"
 	"bytes"
 	"context"
 	"encoding/json"
@@ -9,23 +12,8 @@ import (
 	"io"
 	"net/http"
 	"strconv"
-	"time"
-
-	"GophKeeper/internal/models"
 
 	"go.uber.org/zap"
-)
-
-const (
-	httpClientTimeout = time.Millisecond * 500000
-)
-
-const (
-	mediaPath = "/v1/medias"
-)
-
-const (
-	inputTimeFormLong = "2006-01-02 15:04:05"
 )
 
 type sessionStore interface {
@@ -35,7 +23,7 @@ type sessionStore interface {
 type Client struct {
 	dc           *http.Client
 	log          *zap.Logger
-	serverURL    string
+	mediaURL     string
 	sessionStore sessionStore
 }
 
@@ -47,15 +35,15 @@ func NewClient(
 ) *Client {
 	c := &Client{
 		dc: &http.Client{
-			Timeout:   httpClientTimeout,
+			Timeout:   client.HTTPClientTimeout,
 			Transport: httpTransport,
 		},
 		log:          log.Named("media client"),
-		serverURL:    fmt.Sprintf("https://%s", serverAddress),
+		mediaURL:     fmt.Sprintf("https://%s%s", serverAddress, ch.MediaPath),
 		sessionStore: ss,
 	}
 
-	log.Debug("Client for gophkeeper server", zap.String("url", c.serverURL))
+	log.Debug("Client for gophkeeper server", zap.String("url", c.mediaURL))
 
 	return c
 }
@@ -63,23 +51,10 @@ func NewClient(
 func (c *Client) CreateMedia(m models.Media) error {
 	c.log.Debug("new request for create media")
 
-	ctx, cancel := context.WithTimeout(context.Background(), httpClientTimeout)
+	ctx, cancel := context.WithTimeout(context.Background(), client.HTTPRequestTimeout)
 	defer cancel()
 
-	var expDate string
-	if !m.ExpiredAt.IsZero() {
-		expDate = m.ExpiredAt.Format(inputTimeFormLong)
-	}
-
-	o := output{
-		Title:     m.Title,
-		Media:     m.Body,
-		MediaType: m.MediaType,
-		Note:      m.Note,
-		ExpiredAt: expDate,
-	}
-
-	raw, err := json.Marshal(o)
+	raw, err := json.Marshal(m)
 	if err != nil {
 		c.log.Error("marshal to create media", zap.Error(err))
 
@@ -89,7 +64,7 @@ func (c *Client) CreateMedia(m models.Media) error {
 	req, err := http.NewRequestWithContext(
 		ctx,
 		http.MethodPost,
-		c.serverURL+mediaPath,
+		c.mediaURL,
 		bytes.NewBuffer(raw))
 	if err != nil {
 		c.log.Error("create media request prepare", zap.Error(err))
@@ -123,24 +98,10 @@ func (c *Client) CreateMedia(m models.Media) error {
 func (c *Client) UpdateMedia(m models.Media) error {
 	c.log.Debug("new request for update media")
 
-	ctx, cancel := context.WithTimeout(context.Background(), httpClientTimeout)
+	ctx, cancel := context.WithTimeout(context.Background(), client.HTTPRequestTimeout)
 	defer cancel()
 
-	var expDate string
-	if !m.ExpiredAt.IsZero() {
-		expDate = m.ExpiredAt.Format(inputTimeFormLong)
-	}
-
-	o := output{
-		ID:        m.ID,
-		Title:     m.Title,
-		Media:     m.Body,
-		MediaType: m.MediaType,
-		Note:      m.Note,
-		ExpiredAt: expDate,
-	}
-
-	raw, err := json.Marshal(o)
+	raw, err := json.Marshal(m)
 	if err != nil {
 		c.log.Error("marshal to update media", zap.Error(err))
 
@@ -150,7 +111,7 @@ func (c *Client) UpdateMedia(m models.Media) error {
 	req, err := http.NewRequestWithContext(
 		ctx,
 		http.MethodPut,
-		c.serverURL+mediaPath,
+		c.mediaURL,
 		bytes.NewBuffer(raw))
 	if err != nil {
 		c.log.Error("update media request prepare", zap.Error(err))
@@ -184,13 +145,13 @@ func (c *Client) UpdateMedia(m models.Media) error {
 func (c *Client) Medias() ([]models.Media, error) {
 	c.log.Debug("new request for get notes")
 
-	ctx, cancel := context.WithTimeout(context.Background(), httpClientTimeout)
+	ctx, cancel := context.WithTimeout(context.Background(), client.HTTPRequestTimeout)
 	defer cancel()
 
 	req, err := http.NewRequestWithContext(
 		ctx,
 		http.MethodGet,
-		c.serverURL+mediaPath,
+		c.mediaURL,
 		http.NoBody)
 	if err != nil {
 		c.log.Error("get notes request prepare", zap.Error(err))
@@ -220,47 +181,11 @@ func (c *Client) Medias() ([]models.Media, error) {
 		return nil, fmt.Errorf("get notes")
 	}
 
-	items := make([]item, 0)
-	if err := json.Unmarshal(body, &items); err != nil {
+	medias := make([]models.Media, 0)
+	if err := json.Unmarshal(body, &medias); err != nil {
 		c.log.Error("notes unmarshal", zap.Error(err))
 
 		return nil, fmt.Errorf("notes unmarshal: %w", err)
-	}
-
-	medias := make([]models.Media, 0, len(items))
-
-	for _, i := range items {
-		createdAt, err := time.Parse(inputTimeFormLong, i.CreatedAt)
-		if err != nil {
-			return nil, fmt.Errorf("cannot parsing time: %w", err)
-		}
-
-		updatedAt, err := time.Parse(inputTimeFormLong, i.CreatedAt)
-		if err != nil {
-			return nil, fmt.Errorf("cannot parsing time: %w", err)
-		}
-
-		var expDate time.Time
-
-		if i.ExpiredAt != "" {
-			expDate, err = time.Parse(inputTimeFormLong, i.ExpiredAt)
-			if err != nil {
-				return nil, fmt.Errorf("cannot parsing time: %w", err)
-			}
-		}
-
-		media := models.Media{
-			ID:        i.ID,
-			Title:     i.Title,
-			Body:      i.Media,
-			MediaType: i.MediaType,
-			Note:      i.Note,
-			ExpiredAt: expDate,
-			CreatedAt: createdAt,
-			UpdatedAt: updatedAt,
-		}
-
-		medias = append(medias, media)
 	}
 
 	return medias, nil
@@ -269,7 +194,7 @@ func (c *Client) Medias() ([]models.Media, error) {
 func (c *Client) DeleteMedia(id int) error {
 	c.log.Debug("new request for delete media")
 
-	ctx, cancel := context.WithTimeout(context.Background(), httpClientTimeout)
+	ctx, cancel := context.WithTimeout(context.Background(), client.HTTPRequestTimeout)
 	defer cancel()
 
 	strID := strconv.Itoa(id)
@@ -277,7 +202,7 @@ func (c *Client) DeleteMedia(id int) error {
 	req, err := http.NewRequestWithContext(
 		ctx,
 		http.MethodDelete,
-		c.serverURL+mediaPath+"/"+strID,
+		c.mediaURL+"/"+strID,
 		http.NoBody)
 	if err != nil {
 		c.log.Error("delete media request prepare", zap.Error(err))
@@ -346,24 +271,4 @@ func (c *Client) do(ctx context.Context, req *http.Request) ([]byte, int, error)
 	}
 
 	return body, statusCode, nil
-}
-
-type output struct {
-	ID        int    `json:"id"`
-	Title     string `json:"title"`
-	Media     []byte `json:"media"`
-	MediaType string `json:"media_type"`
-	Note      string `json:"note"`
-	ExpiredAt string `json:"expired_at"`
-}
-
-type item struct {
-	ID        int    `json:"id"`
-	Title     string `json:"title"`
-	Media     []byte `json:"media"`
-	MediaType string `json:"media_type"`
-	Note      string `json:"note"`
-	ExpiredAt string `json:"expired_at"`
-	CreatedAt string `json:"created_at"`
-	UpdatedAt string `json:"updated_at"`
 }

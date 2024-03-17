@@ -109,7 +109,7 @@ func TestHandler_Login(t *testing.T) {
 			},
 			checkResult: func(t *testing.T, rr *httptest.ResponseRecorder) {
 				assert.Equal(t, http.StatusOK, rr.Code)
-				assert.JSONEq(t, `{"id":1, "token":"access", "refresh_token":"refresh"}`, rr.Body.String())
+				assert.JSONEq(t, `{"IPAddress":"ip_address", "RefreshTokenExpiredAt":0, "UserID":1, "access_token":"access", "created_at":"0001-01-01T00:00:00Z", "id":1, "refresh_token":"refresh", "updated_at":"0001-01-01T00:00:00Z"}`, rr.Body.String())
 			},
 		},
 	}
@@ -207,7 +207,7 @@ func TestHandler_Register(t *testing.T) {
 			},
 			checkResult: func(t *testing.T, rr *httptest.ResponseRecorder) {
 				assert.Equal(t, http.StatusOK, rr.Code)
-				assert.JSONEq(t, `{"id":1, "token":"access", "refresh_token":"refresh"}`, rr.Body.String())
+				assert.JSONEq(t, `{"IPAddress":"ip_address", "RefreshTokenExpiredAt":0, "UserID":1, "access_token":"access", "created_at":"0001-01-01T00:00:00Z", "id":1, "refresh_token":"refresh", "updated_at":"0001-01-01T00:00:00Z"}`, rr.Body.String())
 			},
 		},
 	}

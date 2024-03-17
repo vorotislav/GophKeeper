@@ -1,6 +1,9 @@
 package password
 
 import (
+	ch "GophKeeper/internal/http"
+	"GophKeeper/internal/http/client"
+	"GophKeeper/internal/models"
 	"bytes"
 	"context"
 	"encoding/json"
@@ -8,24 +11,9 @@ import (
 	"io"
 	"net/http"
 	"strconv"
-	"time"
-
-	"GophKeeper/internal/models"
 
 	"github.com/avast/retry-go/v4"
 	"go.uber.org/zap"
-)
-
-const (
-	httpClientTimeout = time.Millisecond * 500000
-)
-
-const (
-	passwordsPath = "/v1/passwords"
-)
-
-const (
-	inputTimeFormLong = "2006-01-02 15:04:05"
 )
 
 type sessionStore interface {
@@ -35,7 +23,7 @@ type sessionStore interface {
 type Client struct {
 	dc           *http.Client
 	log          *zap.Logger
-	serverURL    string
+	passwordsURL string
 	sessionStore sessionStore
 }
 
@@ -47,15 +35,15 @@ func NewClient(
 ) *Client {
 	c := &Client{
 		dc: &http.Client{
-			Timeout:   httpClientTimeout,
+			Timeout:   client.HTTPClientTimeout,
 			Transport: httpTransport,
 		},
 		log:          log.Named("passwords client"),
-		serverURL:    fmt.Sprintf("https://%s", serverAddress),
+		passwordsURL: fmt.Sprintf("https://%s%s", serverAddress, ch.PasswordsPath),
 		sessionStore: ss,
 	}
 
-	log.Debug("Client for gophkeeper server", zap.String("url", c.serverURL))
+	log.Debug("Client for gophkeeper server", zap.String("url", c.passwordsURL))
 
 	return c
 }
@@ -63,24 +51,10 @@ func NewClient(
 func (c *Client) CreatePassword(pass models.Password) error {
 	c.log.Debug("new request for create password")
 
-	ctx, cancel := context.WithTimeout(context.Background(), httpClientTimeout)
+	ctx, cancel := context.WithTimeout(context.Background(), client.HTTPRequestTimeout)
 	defer cancel()
 
-	var expDate string
-	if !pass.ExpirationDate.IsZero() {
-		expDate = pass.ExpirationDate.Format(inputTimeFormLong)
-	}
-
-	o := out{
-		Title:     pass.Title,
-		Login:     pass.Login,
-		Password:  pass.Password,
-		URL:       pass.URL,
-		Notes:     pass.Note,
-		ExpiredAt: expDate,
-	}
-
-	raw, err := json.Marshal(o)
+	raw, err := json.Marshal(pass)
 	if err != nil {
 		c.log.Error("marshal to create password", zap.Error(err))
 
@@ -90,7 +64,7 @@ func (c *Client) CreatePassword(pass models.Password) error {
 	req, err := http.NewRequestWithContext(
 		ctx,
 		http.MethodPost,
-		c.serverURL+passwordsPath,
+		c.passwordsURL,
 		bytes.NewBuffer(raw))
 	if err != nil {
 		c.log.Error("create password request prepare", zap.Error(err))
@@ -124,25 +98,10 @@ func (c *Client) CreatePassword(pass models.Password) error {
 func (c *Client) UpdatePassword(pass models.Password) error {
 	c.log.Debug("new request for update password")
 
-	ctx, cancel := context.WithTimeout(context.Background(), httpClientTimeout)
+	ctx, cancel := context.WithTimeout(context.Background(), client.HTTPRequestTimeout)
 	defer cancel()
 
-	var expDate string
-	if !pass.ExpirationDate.IsZero() {
-		expDate = pass.ExpirationDate.Format(inputTimeFormLong)
-	}
-
-	o := out{
-		ID:        pass.ID,
-		Title:     pass.Title,
-		Login:     pass.Login,
-		Password:  pass.Password,
-		URL:       pass.URL,
-		Notes:     pass.Note,
-		ExpiredAt: expDate,
-	}
-
-	raw, err := json.Marshal(o)
+	raw, err := json.Marshal(pass)
 	if err != nil {
 		c.log.Error("marshal to update password", zap.Error(err))
 
@@ -152,7 +111,7 @@ func (c *Client) UpdatePassword(pass models.Password) error {
 	req, err := http.NewRequestWithContext(
 		ctx,
 		http.MethodPut,
-		c.serverURL+passwordsPath,
+		c.passwordsURL,
 		bytes.NewBuffer(raw))
 	if err != nil {
 		c.log.Error("update password request prepare", zap.Error(err))
@@ -186,13 +145,13 @@ func (c *Client) UpdatePassword(pass models.Password) error {
 func (c *Client) Passwords() ([]models.Password, error) {
 	c.log.Debug("new request for get passwords")
 
-	ctx, cancel := context.WithTimeout(context.Background(), httpClientTimeout)
+	ctx, cancel := context.WithTimeout(context.Background(), client.HTTPRequestTimeout)
 	defer cancel()
 
 	req, err := http.NewRequestWithContext(
 		ctx,
 		http.MethodGet,
-		c.serverURL+passwordsPath,
+		c.passwordsURL,
 		http.NoBody)
 	if err != nil {
 		c.log.Error("get passwords request prepare", zap.Error(err))
@@ -222,46 +181,10 @@ func (c *Client) Passwords() ([]models.Password, error) {
 		return nil, fmt.Errorf("get passwords")
 	}
 
-	items := make([]item, 0)
-	err = json.Unmarshal(body, &items)
+	passwords := make([]models.Password, 0)
+	err = json.Unmarshal(body, &passwords)
 	if err != nil {
 		return nil, fmt.Errorf("cannot unmarshal: %w", err)
-	}
-
-	passwords := make([]models.Password, 0, len(items))
-	for _, i := range items {
-		createdAt, err := time.Parse(inputTimeFormLong, i.CreatedAt)
-		if err != nil {
-			return nil, fmt.Errorf("cannot parsing time: %w", err)
-		}
-
-		updatedAt, err := time.Parse(inputTimeFormLong, i.CreatedAt)
-		if err != nil {
-			return nil, fmt.Errorf("cannot parsing time: %w", err)
-		}
-
-		var expDate time.Time
-
-		if i.ExpiredAt != "" {
-			expDate, err = time.Parse(inputTimeFormLong, i.ExpiredAt)
-			if err != nil {
-				return nil, fmt.Errorf("cannot parsing time: %w", err)
-			}
-		}
-
-		p := models.Password{
-			ID:             i.ID,
-			Title:          i.Title,
-			Login:          i.Login,
-			Password:       i.Password,
-			URL:            i.URL,
-			Note:           i.Notes,
-			CreatedAt:      createdAt,
-			UpdatedAt:      updatedAt,
-			ExpirationDate: expDate,
-		}
-
-		passwords = append(passwords, p)
 	}
 
 	return passwords, nil
@@ -270,7 +193,7 @@ func (c *Client) Passwords() ([]models.Password, error) {
 func (c *Client) DeletePassword(id int) error {
 	c.log.Debug("new request for delete password")
 
-	ctx, cancel := context.WithTimeout(context.Background(), httpClientTimeout)
+	ctx, cancel := context.WithTimeout(context.Background(), client.HTTPRequestTimeout)
 	defer cancel()
 
 	strID := strconv.Itoa(id)
@@ -278,7 +201,7 @@ func (c *Client) DeletePassword(id int) error {
 	req, err := http.NewRequestWithContext(
 		ctx,
 		http.MethodDelete,
-		c.serverURL+passwordsPath+"/"+strID,
+		c.passwordsURL+"/"+strID,
 		http.NoBody)
 	if err != nil {
 		c.log.Error("delete password request prepare", zap.Error(err))
@@ -347,26 +270,4 @@ func (c *Client) do(ctx context.Context, req *http.Request) ([]byte, int, error)
 	}
 
 	return body, statusCode, nil
-}
-
-type out struct {
-	ID        int    `json:"id"`
-	Title     string `json:"title"`
-	Login     string `json:"login"`
-	Password  string `json:"password"`
-	URL       string `json:"url"`
-	Notes     string `json:"notes"`
-	ExpiredAt string `json:"expired_at"`
-}
-
-type item struct {
-	ID        int    `json:"id"`
-	Title     string `json:"title"`
-	Login     string `json:"login"`
-	Password  string `json:"password"`
-	URL       string `json:"url"`
-	Notes     string `json:"notes"`
-	ExpiredAt string `json:"expired_at"`
-	CreatedAt string `json:"created_at"`
-	UpdatedAt string `json:"updated_at"`
 }

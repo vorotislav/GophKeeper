@@ -475,7 +475,7 @@ func TestHandler_Notes(t *testing.T) {
 			},
 			checkResult: func(t *testing.T, rr *httptest.ResponseRecorder) {
 				assert.Equal(t, http.StatusOK, rr.Code)
-				assert.JSONEq(t, `[{"id":1, "title":"title", "note":"text", "created_at":"0001-01-01 00:00:00", "expired_at":"", "updated_at":"0001-01-01 00:00:00"}]`, rr.Body.String())
+				assert.JSONEq(t, `[{"id":1, "title":"title", "text":"text", "created_at":"0001-01-01T00:00:00Z", "expired_at":"0001-01-01T00:00:00Z", "updated_at":"0001-01-01T00:00:00Z"}]`, rr.Body.String())
 			},
 		},
 	}
