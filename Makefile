@@ -4,8 +4,10 @@ BUILD_VERSION=$(shell git describe --tags)
 BUILD_DATE=$(shell date +%FT%T%z)
 BUILD_COMMIT=$(shell git rev-parse --short HEAD)
 
-LDFLAGS_CLIENT=-X main.buildVersion=$(BUILD_VERSION) -X main.buildDate=$(BUILD_DATE) -X main.buildCommit=$(BUILD_COMMIT)
-LDFLAGS_SERVER=-X main.buildVersion=$(BUILD_VERSION) -X main.buildDate=$(BUILD_DATE) -X main.buildCommit=$(BUILD_COMMIT)
+PKG_PATH=GophKeeper/cmd/util
+
+LDFLAGS_CLIENT=-X ${PKG_PATH}.buildVersion=$(BUILD_VERSION) -X ${PKG_PATH}.buildDate=$(BUILD_DATE) -X ${PKG_PATH}.buildCommit=$(BUILD_COMMIT)
+LDFLAGS_SERVER=-X ${PKG_PATH}.buildVersion=$(BUILD_VERSION) -X ${PKG_PATH}.buildDate=$(BUILD_DATE) -X ${PKG_PATH}.buildCommit=$(BUILD_COMMIT)
 
 EXECUTABLE=gophkeeper_cli
 WINDOWS=$(EXECUTABLE)_windows_amd64.exe
