@@ -1,6 +1,8 @@
 package models
 
-import "errors"
+import (
+	"errors"
+)
 
 // описаны глобальные ошибки, которые могут проходить сквозь слои приложения.
 var (
@@ -10,4 +12,9 @@ var (
 	ErrInvalidPassword = errors.New("invalid password")
 	// ErrInvalidInput возвращается, когда было обнаружено, что данные некорректные.
 	ErrInvalidInput = errors.New("invalid input")
+)
+
+const (
+	// InputTimeFormLong описывает формат вывода времени, используемый во всем приложении.
+	InputTimeFormLong = "2006-01-02 15:04:05"
 )

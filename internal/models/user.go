@@ -3,27 +3,27 @@ package models
 import "time"
 
 type User struct {
-	ID       int
-	Login    string
-	Password string
+	ID       int    `json:"id"`
+	Login    string `json:"login"`
+	Password string `json:"password"`
 }
 
 type Machine struct {
-	IPAddress string
+	IPAddress string `json:"ip_address"`
 }
 
 type UserMachine struct {
-	User    User
-	Machine Machine
+	User    User    `json:"user"`
+	Machine Machine `json:"machine"`
 }
 
 type Session struct {
-	ID                    int64
+	ID                    int64 `json:"id"`
 	UserID                int
-	AccessToken           string
-	RefreshToken          string
+	AccessToken           string `json:"access_token"`
+	RefreshToken          string `json:"refresh_token"`
 	IPAddress             string
 	RefreshTokenExpiredAt int64
-	CreatedAt             time.Time
-	UpdatedAt             time.Time
+	CreatedAt             time.Time `json:"created_at"`
+	UpdatedAt             time.Time `json:"updated_at"`
 }
