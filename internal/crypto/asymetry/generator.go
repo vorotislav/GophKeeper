@@ -1,6 +1,7 @@
-package generator
+package asymetry
 
 import (
+	"GophKeeper/internal/settings/common"
 	"bytes"
 	"crypto/rand"
 	"crypto/rsa"
@@ -18,42 +19,69 @@ import (
 )
 
 const (
-	defaultKeysPath   = "./.cert/"
+	defaultKeysPath   = "./.cert"
 	defaultPrivateKey = "private.pem"
 	defaultPublicKey  = "public.pem"
 )
 
-type Generator struct {
+type Manager struct {
 	log            *zap.Logger
 	keysDir        string
 	privateKeyPath string
 	publicKeyPath  string
 }
 
-func NewGenerator(log *zap.Logger) (*Generator, error) {
-	if _, err := os.Stat(defaultKeysPath + defaultPrivateKey); errors.Is(err, os.ErrNotExist) {
-		err := generate(log)
+func NewManager(log *zap.Logger, as common.Asymmetry) (*Manager, error) {
+	path := as.KeysPath
+	if path == "" {
+		path = defaultKeysPath
+	}
+
+	privKeyName := as.PrivateKey
+	if privKeyName == "" {
+		privKeyName = defaultPrivateKey
+	}
+
+	pubKeyName := as.PublicKey
+	if pubKeyName == "" {
+		pubKeyName = defaultPublicKey
+	}
+
+	if _, err := os.Stat(path + string(os.PathSeparator) + privKeyName); errors.Is(err, os.ErrNotExist) {
+		err := generate(log, path, privKeyName, pubKeyName)
 		if err != nil {
 			return nil, fmt.Errorf("read keys: %w", err)
 		}
 	}
 
-	return &Generator{log: log}, nil
+	return &Manager{
+		log:            log.Named("asymetry manager"),
+		keysDir:        path,
+		privateKeyPath: path + string(os.PathSeparator) + privKeyName,
+		publicKeyPath:  path + string(os.PathSeparator) + pubKeyName,
+	}, nil
 }
 
-func (g *Generator) PublicKeyPath() string {
-	return g
+func (m *Manager) PublicKeyPath() string {
+	return m.publicKeyPath
 }
 
-func (g *Generator) PrivateKeyPath() string {
-
+func (m *Manager) PrivateKeyPath() string {
+	return m.privateKeyPath
 }
 
-func (g *Generator) ReadPublicKey() ([]byte, error) {
+func (m *Manager) ReadPublicKey() ([]byte, error) {
+	pk, err := os.ReadFile(m.publicKeyPath)
+	if err != nil {
+		m.log.Error("error reading CA certificate", zap.Error(err))
 
+		return nil, fmt.Errorf("error reading CA certificate: %w", err)
+	}
+
+	return pk, nil
 }
 
-func generate(log *zap.Logger) error {
+func generate(log *zap.Logger, path, privateKeyName, publicKeyName string) error {
 	log = log.Named("generator")
 	// создаём шаблон сертификата
 	cert := &x509.Certificate{
@@ -106,21 +134,21 @@ func generate(log *zap.Logger) error {
 		Bytes: x509.MarshalPKCS1PrivateKey(privateKey),
 	})
 
-	err = os.Mkdir(defaultKeysPath, 0750)
+	err = os.Mkdir(path, 0750)
 	if err != nil {
 		log.Error("create cert dir", zap.Error(err))
 
 		return fmt.Errorf("create cert dir: %w", err)
 	}
 
-	err = os.WriteFile(defaultKeysPath+defaultPrivateKey, privateKeyPEM.Bytes(), 0o644)
+	err = os.WriteFile(path+string(os.PathSeparator)+privateKeyName, privateKeyPEM.Bytes(), 0o644)
 	if err != nil {
 		log.Error("write private key into file", zap.Error(err))
 
 		return fmt.Errorf("write private key: %w", err)
 	}
 
-	err = os.WriteFile(defaultKeysPath+defaultPublicKey, certPEM.Bytes(), 0o644)
+	err = os.WriteFile(path+string(os.PathSeparator)+publicKeyName, certPEM.Bytes(), 0o644)
 	if err != nil {
 		log.Error("write public key into file", zap.Error(err))
 

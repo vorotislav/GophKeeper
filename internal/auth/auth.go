@@ -21,6 +21,9 @@ var (
 
 	// errSignMethod is returned when token parse failed due to unexpected signing method.
 	errSignMethod = errors.New("unexpected signing method")
+
+	// errEmptySecret is returned when empty secret received in the settings.
+	errEmptySecret = errors.New("authorizer empty JWT secret not allowed")
 )
 
 // LeewayDuration defines the leeway for matching NotBefore/Expiry claims.
