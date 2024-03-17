@@ -3,6 +3,7 @@ package auth
 import (
 	"errors"
 	"fmt"
+	"github.com/xhit/go-str2duration/v2"
 	"time"
 
 	"GophKeeper/internal/settings/server"
@@ -32,27 +33,42 @@ type Claims struct {
 }
 
 type Authorizer struct {
-	cfg Config
+	Secret               string
+	AccessTokenLifetime  int
+	RefreshTokenLifetime int
 }
 
 // NewAuthorizer returns Authorizer.
 func NewAuthorizer(settings server.JwtSettings) (*Authorizer, error) {
-	cfg, err := NewConfig(settings)
-	if err != nil {
-		return nil, err
+	if settings.Secret == "" {
+		return nil, errEmptySecret
 	}
 
-	return &Authorizer{cfg: cfg}, nil
+	accessDuration, err := str2duration.ParseDuration(settings.Lifetime.Access)
+	if err != nil {
+		return nil, fmt.Errorf("authorizer access token lifetime parsing failed: %w", err)
+	}
+
+	refreshDuration, err := str2duration.ParseDuration(settings.Lifetime.Refresh)
+	if err != nil {
+		return nil, fmt.Errorf("authorizer refresh token lifetime parsing failed: %w", err)
+	}
+
+	return &Authorizer{
+		Secret:               settings.Secret,
+		AccessTokenLifetime:  int(accessDuration),
+		RefreshTokenLifetime: int(refreshDuration),
+	}, nil
 }
 
 func (a *Authorizer) GetRefreshTokenDurationLifetime() time.Duration {
-	return time.Duration(a.cfg.RefreshTokenLifetime)
+	return time.Duration(a.RefreshTokenLifetime)
 }
 
 func (a *Authorizer) GenerateToken(payload token.Payload) (string, error) {
 	claims := Claims{
 		RegisteredClaims: jwt.RegisteredClaims{
-			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Duration(a.cfg.AccessTokenLifetime))),
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Duration(a.AccessTokenLifetime))),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
 			ID:        "",
 		},
@@ -61,7 +77,7 @@ func (a *Authorizer) GenerateToken(payload token.Payload) (string, error) {
 
 	tkn := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
-	ss, err := tkn.SignedString([]byte(a.cfg.Secret))
+	ss, err := tkn.SignedString([]byte(a.Secret))
 	if err != nil {
 		return "", fmt.Errorf("sign token: %w", err)
 	}
@@ -75,7 +91,7 @@ func (a *Authorizer) ParseToken(tokenString string) (token.Payload, error) {
 			return nil, fmt.Errorf("%w: %v", errSignMethod, token.Header["alg"])
 		}
 
-		return []byte(a.cfg.Secret), nil
+		return []byte(a.Secret), nil
 	}, jwt.WithLeeway(LeewayDuration*time.Second))
 
 	if err != nil {
