@@ -7,6 +7,7 @@ import (
 	"crypto/x509"
 	"crypto/x509/pkix"
 	"encoding/pem"
+	"errors"
 	"fmt"
 	"math/big"
 	"net"
@@ -17,10 +18,42 @@ import (
 )
 
 const (
-	defaultKeysPath = "./.cert/"
+	defaultKeysPath   = "./.cert/"
+	defaultPrivateKey = "private.pem"
+	defaultPublicKey  = "public.pem"
 )
 
-func Generate(log *zap.Logger) error {
+type Generator struct {
+	log            *zap.Logger
+	keysDir        string
+	privateKeyPath string
+	publicKeyPath  string
+}
+
+func NewGenerator(log *zap.Logger) (*Generator, error) {
+	if _, err := os.Stat(defaultKeysPath + defaultPrivateKey); errors.Is(err, os.ErrNotExist) {
+		err := generate(log)
+		if err != nil {
+			return nil, fmt.Errorf("read keys: %w", err)
+		}
+	}
+
+	return &Generator{log: log}, nil
+}
+
+func (g *Generator) PublicKeyPath() string {
+	return g
+}
+
+func (g *Generator) PrivateKeyPath() string {
+
+}
+
+func (g *Generator) ReadPublicKey() ([]byte, error) {
+
+}
+
+func generate(log *zap.Logger) error {
 	log = log.Named("generator")
 	// создаём шаблон сертификата
 	cert := &x509.Certificate{
@@ -80,14 +113,14 @@ func Generate(log *zap.Logger) error {
 		return fmt.Errorf("create cert dir: %w", err)
 	}
 
-	err = os.WriteFile("./.cert/private.pem", privateKeyPEM.Bytes(), 0o644)
+	err = os.WriteFile(defaultKeysPath+defaultPrivateKey, privateKeyPEM.Bytes(), 0o644)
 	if err != nil {
 		log.Error("write private key into file", zap.Error(err))
 
 		return fmt.Errorf("write private key: %w", err)
 	}
 
-	err = os.WriteFile("./.cert/public.pem", certPEM.Bytes(), 0o644)
+	err = os.WriteFile(defaultKeysPath+defaultPublicKey, certPEM.Bytes(), 0o644)
 	if err != nil {
 		log.Error("write public key into file", zap.Error(err))
 
