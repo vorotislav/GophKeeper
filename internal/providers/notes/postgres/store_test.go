@@ -2,6 +2,7 @@ package postgres
 
 import (
 	"context"
+	"go.uber.org/zap"
 	"testing"
 	"time"
 
@@ -42,7 +43,11 @@ func TestNoteStore(t *testing.T) {
 	repo := repository.TestRepository(t)
 	require.NotNil(t, repo)
 
-	ns := NewNotesStorage(repo)
+	log, err := zap.NewDevelopment()
+	require.NoError(t, err)
+	require.NotNil(t, log)
+
+	ns := NewNotesStorage(repo, log)
 	require.NotNil(t, ns)
 
 	userID := createUser(t, repo)
@@ -56,7 +61,7 @@ func TestNoteStore(t *testing.T) {
 		UpdatedAt: time.Date(2024, 1, 1, 0, 0, 0, 0, time.Local),
 	}
 
-	err := ns.NoteCreate(context.Background(), n, userID)
+	err = ns.NoteCreate(context.Background(), n, userID)
 	require.NoError(t, err)
 
 	createdNotes, err := ns.Notes(context.Background(), userID)

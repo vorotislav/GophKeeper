@@ -8,17 +8,20 @@ import (
 	"errors"
 	"fmt"
 	"github.com/jackc/pgx/v5"
+	"go.uber.org/zap"
 )
 
 // Storage описывает методы для создания, обновления, удаления и получения паролей пользователей.
 type Storage struct {
 	repo *repository.Repo
+	log  *zap.Logger
 }
 
 // NewPasswordsStorage создаёт объект Storage.
-func NewPasswordsStorage(r *repository.Repo) *Storage {
+func NewPasswordsStorage(r *repository.Repo, log *zap.Logger) *Storage {
 	return &Storage{
 		repo: r,
+		log:  log.Named("password storage"),
 	}
 }
 
@@ -27,10 +30,33 @@ func (s *Storage) PasswordCreate(ctx context.Context, p models.Password, userID 
 	q := `INSERT INTO passwords (user_id, title, login, password, site, note, expiration_at, created_at, updated_at)
 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`
 
-	_, err := s.repo.Pool.Exec(ctx, q,
-		userID, p.Title, p.Login, p.Password, p.URL, p.Note, p.ExpirationDate, p.CreatedAt, p.UpdatedAt)
+	tx, err := s.repo.Pool.Begin(ctx)
 	if err != nil {
+		s.log.Error("start transaction for password create", zap.Error(err))
+
+		return fmt.Errorf("start transaction for password create: %w", err)
+	}
+
+	defer func(tx pgx.Tx, ctx context.Context) {
+		err := tx.Rollback(ctx)
+		if err != nil {
+			s.log.Error("rollback transaction for password create", zap.Error(err))
+		}
+	}(tx, ctx)
+
+	_, err = tx.Exec(ctx, q,
+		userID, p.Title, p.Login, p.Password, p.URL, p.Note, p.ExpiredAt, p.CreatedAt, p.UpdatedAt)
+	if err != nil {
+		s.log.Error("password create in repo", zap.Error(err))
+
 		return fmt.Errorf("password create in repo: %w", err)
+	}
+
+	err = tx.Commit(ctx)
+	if err != nil {
+		s.log.Error("commit transaction for password create", zap.Error(err))
+
+		return fmt.Errorf("commit transaction for password create: %w", err)
 	}
 
 	return nil
@@ -41,22 +67,47 @@ func (s *Storage) PasswordUpdate(ctx context.Context, p models.Password, userID 
 	q := `UPDATE passwords SET (title, login, password, site, note, expiration_at, updated_at) 
 = ($1, $2, $3, $4, $5, $6, $7) WHERE id = $8 AND user_id = $9`
 
-	tag, err := s.repo.Pool.Exec(ctx, q,
+	tx, err := s.repo.Pool.Begin(ctx)
+	if err != nil {
+		s.log.Error("start transaction for password update", zap.Error(err))
+
+		return fmt.Errorf("start transaction for password update: %w", err)
+	}
+
+	defer func(tx pgx.Tx, ctx context.Context) {
+		err := tx.Rollback(ctx)
+		if err != nil {
+			s.log.Error("rollback transaction for password update", zap.Error(err))
+		}
+	}(tx, ctx)
+
+	tag, err := tx.Exec(ctx, q,
 		p.Title,
 		p.Login,
 		p.Password,
 		p.URL,
 		p.Note,
-		p.ExpirationDate,
+		p.ExpiredAt,
 		p.UpdatedAt,
 		p.ID,
 		userID)
 	if err != nil {
+		s.log.Error("password update in repo", zap.Error(err))
+
 		return fmt.Errorf("update password in repo: %w", err)
 	}
 
 	if tag.RowsAffected() == 0 {
+		s.log.Error("password update in repo: no rows affected")
+
 		return fmt.Errorf("update password in repo: %w", models.ErrNotFound)
+	}
+
+	err = tx.Commit(ctx)
+	if err != nil {
+		s.log.Error("commit transaction for password update", zap.Error(err))
+
+		return fmt.Errorf("commit transaction for password update: %w", err)
 	}
 
 	return nil
@@ -66,13 +117,38 @@ func (s *Storage) PasswordUpdate(ctx context.Context, p models.Password, userID 
 func (s *Storage) PasswordDelete(ctx context.Context, id, userID int) error {
 	q := `DELETE FROM passwords WHERE id = $1 AND user_id = $2`
 
-	tag, err := s.repo.Pool.Exec(ctx, q, id, userID)
+	tx, err := s.repo.Pool.Begin(ctx)
 	if err != nil {
+		s.log.Error("start transaction for password delete", zap.Error(err))
+
+		return fmt.Errorf("start transaction for password delete: %w", err)
+	}
+
+	defer func(tx pgx.Tx, ctx context.Context) {
+		err := tx.Rollback(ctx)
+		if err != nil {
+			s.log.Error("rollback transaction for password delete", zap.Error(err))
+		}
+	}(tx, ctx)
+
+	tag, err := tx.Exec(ctx, q, id, userID)
+	if err != nil {
+		s.log.Error("password delete in repo", zap.Error(err))
+
 		return fmt.Errorf("delete password from repo: %w", err)
 	}
 
 	if tag.RowsAffected() == 0 {
+		s.log.Error("password delete in repo: no rows affected")
+
 		return fmt.Errorf("delete password from repo: %w", models.ErrNotFound)
+	}
+
+	err = tx.Commit(ctx)
+	if err != nil {
+		s.log.Error("commit transaction for password delete", zap.Error(err))
+
+		return fmt.Errorf("commit transaction for password delete: %w", err)
 	}
 
 	return nil
@@ -83,8 +159,24 @@ func (s *Storage) Passwords(ctx context.Context, userID int) ([]models.Password,
 	q := `SELECT id, title, login, password, site, note, expiration_at, created_at, updated_at
 FROM passwords WHERE user_id = $1`
 
-	rows, err := s.repo.Pool.Query(ctx, q, userID)
+	tx, err := s.repo.Pool.Begin(ctx)
 	if err != nil {
+		s.log.Error("start transaction for get passwords", zap.Error(err))
+
+		return nil, fmt.Errorf("start transaction for get passwords: %w", err)
+	}
+
+	defer func(tx pgx.Tx, ctx context.Context) {
+		err := tx.Rollback(ctx)
+		if err != nil {
+			s.log.Error("rollback transaction for get passwords", zap.Error(err))
+		}
+	}(tx, ctx)
+
+	rows, err := tx.Query(ctx, q, userID)
+	if err != nil {
+		s.log.Error("get passwords form repo", zap.Error(err))
+
 		if errors.Is(err, pgx.ErrNoRows) {
 			return nil, models.ErrNotFound
 		}
@@ -106,15 +198,24 @@ FROM passwords WHERE user_id = $1`
 			&p.Password,
 			&p.URL,
 			&p.Note,
-			&p.ExpirationDate,
+			&p.ExpiredAt,
 			&p.CreatedAt,
 			&p.UpdatedAt,
 		)
 		if err != nil {
+			s.log.Error("get passwords form repo", zap.Error(err))
+
 			return nil, fmt.Errorf("get passwords from repo: %w", err)
 		}
 
 		passwords = append(passwords, p)
+	}
+
+	err = tx.Commit(ctx)
+	if err != nil {
+		s.log.Error("commit transaction for get passwords", zap.Error(err))
+
+		return nil, fmt.Errorf("commit transaction for get passwords: %w", err)
 	}
 
 	return passwords, nil

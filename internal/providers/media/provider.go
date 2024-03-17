@@ -48,7 +48,7 @@ type Provider struct {
 func NewProvider(log *zap.Logger, repo *repository.Repo, crypto crypto) *Provider {
 	return &Provider{
 		log:    log.Named("media provider"),
-		store:  postgres.NewMediaStorage(repo),
+		store:  postgres.NewMediaStorage(repo, log),
 		crypto: crypto,
 	}
 }

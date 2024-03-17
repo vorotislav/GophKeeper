@@ -48,7 +48,7 @@ type Provider struct {
 func NewProvider(log *zap.Logger, repo *repository.Repo, crypto crypto) *Provider {
 	return &Provider{
 		log:    log.Named("notes provider"),
-		store:  postgres.NewNotesStorage(repo),
+		store:  postgres.NewNotesStorage(repo, log),
 		crypto: crypto,
 	}
 }

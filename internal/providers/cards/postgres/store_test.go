@@ -3,6 +3,7 @@ package postgres
 import (
 	"context"
 	"github.com/stretchr/testify/assert"
+	"go.uber.org/zap"
 	"testing"
 	"time"
 
@@ -42,7 +43,11 @@ func TestCardsStore(t *testing.T) {
 	repo := repository.TestRepository(t)
 	require.NotNil(t, repo)
 
-	cs := NewCardsStorage(repo)
+	log, err := zap.NewDevelopment()
+	require.NoError(t, err)
+	require.NotNil(t, log)
+
+	cs := NewCardsStorage(repo, log)
 	require.NotNil(t, cs)
 
 	userID := createUser(t, repo)
@@ -58,7 +63,7 @@ func TestCardsStore(t *testing.T) {
 		UpdatedAt: time.Date(2024, 1, 1, 0, 0, 0, 0, time.Local),
 	}
 
-	err := cs.CardCreate(context.Background(), c, userID)
+	err = cs.CardCreate(context.Background(), c, userID)
 	require.NoError(t, err)
 
 	createdCards, err := cs.Cards(context.Background(), userID)

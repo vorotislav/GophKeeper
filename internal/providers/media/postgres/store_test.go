@@ -3,6 +3,7 @@ package postgres
 import (
 	"context"
 	"github.com/stretchr/testify/assert"
+	"go.uber.org/zap"
 	"testing"
 	"time"
 
@@ -42,7 +43,11 @@ func TestMediaStore(t *testing.T) {
 	repo := repository.TestRepository(t)
 	require.NotNil(t, repo)
 
-	ms := NewMediaStorage(repo)
+	log, err := zap.NewDevelopment()
+	require.NoError(t, err)
+	require.NotNil(t, log)
+
+	ms := NewMediaStorage(repo, log)
 	require.NotNil(t, ms)
 
 	userID := createUser(t, repo)
@@ -58,7 +63,7 @@ func TestMediaStore(t *testing.T) {
 		UpdatedAt: time.Date(2024, 1, 1, 0, 0, 0, 0, time.Local),
 	}
 
-	err := ms.MediaCreate(context.Background(), m, userID)
+	err = ms.MediaCreate(context.Background(), m, userID)
 	require.NoError(t, err)
 
 	createdMedias, err := ms.Medias(context.Background(), userID)

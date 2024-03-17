@@ -6,6 +6,7 @@ import (
 	"context"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"go.uber.org/zap"
 	"testing"
 	"time"
 )
@@ -40,24 +41,28 @@ func TestPasswordsStore(t *testing.T) {
 	repo := repository.TestRepository(t)
 	require.NotNil(t, repo)
 
-	ps := NewPasswordsStorage(repo)
+	log, err := zap.NewDevelopment()
+	require.NoError(t, err)
+	require.NotNil(t, log)
+
+	ps := NewPasswordsStorage(repo, log)
 	require.NotNil(t, ps)
 
 	userID := createUser(t, repo)
 	defer removeUser(t, repo, userID)
 
 	p := models.Password{
-		Title:          "title",
-		Login:          "login",
-		Password:       "pass",
-		URL:            "url",
-		Note:           "note",
-		CreatedAt:      time.Date(2024, 1, 1, 0, 0, 0, 0, time.Local),
-		UpdatedAt:      time.Date(2024, 1, 1, 0, 0, 0, 0, time.Local),
-		ExpirationDate: time.Date(2025, 1, 1, 0, 0, 0, 0, time.Local),
+		Title:     "title",
+		Login:     "login",
+		Password:  "pass",
+		URL:       "url",
+		Note:      "note",
+		CreatedAt: time.Date(2024, 1, 1, 0, 0, 0, 0, time.Local),
+		UpdatedAt: time.Date(2024, 1, 1, 0, 0, 0, 0, time.Local),
+		ExpiredAt: time.Date(2025, 1, 1, 0, 0, 0, 0, time.Local),
 	}
 
-	err := ps.PasswordCreate(context.Background(), p, userID)
+	err = ps.PasswordCreate(context.Background(), p, userID)
 	require.NoError(t, err)
 
 	createdPasswords, err := ps.Passwords(context.Background(), userID)
