@@ -19,3 +19,8 @@ jwt:
 crypto:
   key: "key"
   salt: "salt"
+
+asymmetry:
+  path: "./.cert"
+  public: "public.pem"
+  private: "private.pem"
