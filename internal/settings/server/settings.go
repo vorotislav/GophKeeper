@@ -2,6 +2,7 @@
 package server
 
 import (
+	"GophKeeper/internal/settings/common"
 	"fmt"
 	"github.com/knadh/koanf/parsers/yaml"
 	"github.com/knadh/koanf/providers/file"
@@ -9,13 +10,18 @@ import (
 	"github.com/knadh/koanf/v2"
 )
 
+const (
+	defaultConfigFile = "config.yaml"
+)
+
 // Settings описывает структуру для хранения настроек сервера.
 type Settings struct {
-	API      APISettings      `koanf:"api"`
-	Database DatabaseSettings `koanf:"database"`
-	Log      LogSettings      `koanf:"log"`
-	JWT      JwtSettings      `koanf:"jwt"`
-	Crypto   CryptoSettings   `koanf:"crypto"`
+	API       APISettings      `koanf:"api"`
+	Database  DatabaseSettings `koanf:"database"`
+	Log       LogSettings      `koanf:"log"`
+	JWT       JwtSettings      `koanf:"jwt"`
+	Crypto    CryptoSettings   `koanf:"crypto"`
+	Asymmetry common.Asymmetry `koanf:"asymmetry"`
 }
 
 // APISettings подструктура для хранения настроек API.
@@ -53,6 +59,10 @@ type CryptoSettings struct {
 
 // NewSettings принимает путь до файла настроек и пытается создать объект Settings.
 func NewSettings(config string) (*Settings, error) {
+	if config == "" {
+		config = defaultConfigFile
+	}
+
 	k := koanf.New(".")
 
 	// Read configuration file if exists.

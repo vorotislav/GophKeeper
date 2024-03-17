@@ -2,6 +2,7 @@
 package client
 
 import (
+	"GophKeeper/internal/settings/common"
 	"fmt"
 
 	"github.com/knadh/koanf/parsers/yaml"
@@ -9,10 +10,15 @@ import (
 	"github.com/knadh/koanf/v2"
 )
 
+const (
+	defaultConfigFile = "config.yaml"
+)
+
 // Settings описывает структуру для хранения настроек клиента.
 type Settings struct {
-	Log    LogSettings    `koanf:"log"`
-	Server ServerSettings `koanf:"server"`
+	Log       LogSettings      `koanf:"log"`
+	Server    ServerSettings   `koanf:"server"`
+	Asymmetry common.Asymmetry `koanf:"asymmetry"`
 }
 
 // LogSettings подструктура для хранения настроек логгера.
@@ -29,6 +35,10 @@ type ServerSettings struct {
 
 // NewSettings принимает путь до файла настроек и пытается создать объект Settings.
 func NewSettings(config string) (*Settings, error) {
+	if config == "" {
+		config = defaultConfigFile
+	}
+
 	k := koanf.New(".")
 
 	// Read configuration file if exists.
