@@ -1,25 +1,24 @@
 package main
 
 import (
+	"GophKeeper/internal/crypto/asymetry"
+	"context"
+	stdlog "log"
+	"os"
+	"sync"
+	"time"
+
+	"GophKeeper/cmd/util"
 	"GophKeeper/internal/auth"
-	"GophKeeper/internal/crypto/asymetry/generator"
 	"GophKeeper/internal/crypto/cipher"
+	"GophKeeper/internal/http/server"
+	"GophKeeper/internal/logger"
 	"GophKeeper/internal/providers/cards"
 	"GophKeeper/internal/providers/media"
 	"GophKeeper/internal/providers/notes"
 	"GophKeeper/internal/providers/passwords"
 	"GophKeeper/internal/providers/users"
 	"GophKeeper/internal/repository"
-	"context"
-	"errors"
-	"fmt"
-	stdlog "log"
-	"os"
-	"sync"
-	"time"
-
-	"GophKeeper/internal/http/server"
-	"GophKeeper/internal/logger"
 	serverSettings "GophKeeper/internal/settings/server"
 	"GophKeeper/internal/signals"
 
@@ -27,24 +26,11 @@ import (
 )
 
 const (
-	defaultKeysPath        = ".cert/"
-	defaultPrivateKey      = "private.pem"
-	defaultPublicKey       = "public.pem"
-	defaultConfigFile      = "config.yaml"
 	serviceShutdownTimeout = 1 * time.Second
 )
 
-var (
-	buildVersion = "N/A" //nolint:gochecknoglobals
-	buildDate    = "N/A" //nolint:gochecknoglobals
-	buildCommit  = "N/A" //nolint:gochecknoglobals
-)
-
 func main() {
-	configFile := parseFlag()
-	if configFile == "" {
-		configFile = defaultConfigFile
-	}
+	configFile := util.ParseFlags()
 
 	sets, err := serverSettings.NewSettings(configFile)
 	if err != nil {
@@ -58,8 +44,7 @@ func main() {
 
 	nlog := log.Named("main")
 	nlog.Debug("Server starting...")
-	nlog.Debug(fmt.Sprintf("Build version: %s\nBuild date: %s\nBuild commit: %s\n",
-		buildVersion, buildDate, buildCommit))
+	nlog.Debug(util.Version())
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
@@ -91,9 +76,9 @@ func main() {
 	notesProvider := notes.NewProvider(log, repo, ciph)
 	mediaProvider := media.NewProvider(log, repo, ciph)
 
-	err = checkKeys(log)
+	am, err := asymetry.NewManager(log, sets.Asymmetry)
 	if err != nil {
-		nlog.Fatal("read keys", zap.Error(err))
+		nlog.Fatal("create asymmetry manager", zap.Error(err))
 	}
 
 	httpService, err := server.NewService(
@@ -105,8 +90,7 @@ func main() {
 		cardProvider,
 		notesProvider,
 		mediaProvider,
-		defaultKeysPath+defaultPrivateKey,
-		defaultKeysPath+defaultPublicKey,
+		am,
 	)
 	if err != nil {
 		nlog.Fatal("create http service", zap.Error(err))
@@ -138,19 +122,10 @@ func main() {
 			nlog.Error("cannot stop server", zap.Error(err))
 		}
 
+		repo.Stop()
+
 		ctxCancelShutdown()
 	}
 
 	wg.Wait()
-}
-
-func checkKeys(log *zap.Logger) error {
-	if _, err := os.Stat(defaultKeysPath + defaultPrivateKey); errors.Is(err, os.ErrNotExist) {
-		err := generator.Generate(log)
-		if err != nil {
-			return fmt.Errorf("read keys: %w", err)
-		}
-	}
-
-	return nil
 }

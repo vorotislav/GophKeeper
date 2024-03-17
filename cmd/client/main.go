@@ -3,16 +3,14 @@ package main
 import (
 	"crypto/tls"
 	"crypto/x509"
-	"errors"
-	"fmt"
 	"github.com/robfig/cron/v3"
 	"go.uber.org/zap"
 	stdlog "log"
 	"net/http"
-	"os"
 	"time"
 
-	"GophKeeper/internal/crypto/asymetry/generator"
+	"GophKeeper/cmd/util"
+	"GophKeeper/internal/crypto/asymetry"
 	"GophKeeper/internal/http/client/cards"
 	"GophKeeper/internal/http/client/media"
 	"GophKeeper/internal/http/client/notes"
@@ -27,24 +25,8 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 )
 
-var (
-	buildVersion = "N/A" //nolint:gochecknoglobals
-	buildDate    = "N/A" //nolint:gochecknoglobals
-	buildCommit  = "N/A" //nolint:gochecknoglobals
-)
-
-const (
-	defaultKeysPath   = ".cert/"
-	defaultPrivateKey = "private.pem"
-	defaultPublicKey  = "public.pem"
-	defaultConfigFile = "config.yaml"
-)
-
 func main() {
-	configFile := parseFlag()
-	if configFile == "" {
-		configFile = defaultConfigFile
-	}
+	configFile := util.ParseFlags()
 
 	sets, err := client.NewSettings(configFile)
 	if err != nil {
@@ -62,12 +44,12 @@ func main() {
 
 	sessionStore := &sesStore.Storage{}
 
-	err = checkKeys(log)
+	am, err := asymetry.NewManager(log, sets.Asymmetry)
 	if err != nil {
-		log.Fatal("check keys", zap.Error(err))
+		log.Fatal("create asymmetry manager", zap.Error(err))
 	}
 
-	transport, err := getTransport()
+	transport, err := getTransport(am)
 	if err != nil {
 		log.Fatal("cannot create transport for http", zap.Error(err))
 	}
@@ -89,24 +71,13 @@ func main() {
 	}
 }
 
-func checkKeys(log *zap.Logger) error {
-	if _, err := os.Stat(defaultKeysPath + defaultPrivateKey); errors.Is(err, os.ErrNotExist) {
-		err := generator.Generate(log)
-		if err != nil {
-			return fmt.Errorf("read keys: %w", err)
-		}
-	}
-
-	return nil
-}
-
-func getTransport() (*http.Transport, error) {
-	cert, err := tls.LoadX509KeyPair(defaultKeysPath+defaultPublicKey, defaultKeysPath+defaultPrivateKey)
+func getTransport(am *asymetry.Manager) (*http.Transport, error) {
+	cert, err := tls.LoadX509KeyPair(am.PublicKeyPath(), am.PrivateKeyPath())
 	if err != nil {
 		return nil, err
 	}
 
-	caCert, err := os.ReadFile(defaultKeysPath + defaultPublicKey)
+	caCert, err := am.ReadPublicKey()
 	if err != nil {
 		return nil, err
 	}
