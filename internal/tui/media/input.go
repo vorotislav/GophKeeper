@@ -29,7 +29,6 @@ type inputState int
 
 const (
 	InvisibleState inputState = iota
-	ViewState
 	CancelState
 	SubmitState
 )

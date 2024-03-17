@@ -24,16 +24,10 @@ const (
 	inputSubmitButton
 )
 
-const (
-	inputTimeFormShort = "2006-01-02"
-	inputTimeFormLong  = "2006-01-02 15:04:05"
-)
-
 type inputState int
 
 const (
 	InvisibleState inputState = iota
-	ViewState
 	CancelState
 	SubmitState
 )
@@ -80,7 +74,7 @@ func (nim *NoteInputModel) SetNote(n models.Note) {
 	if nim.note.ID > 0 {
 		nim.inputs[inputTitleField].SetValue(nim.note.Title)
 		nim.inputs[inputTextField].SetValue(nim.note.Text)
-		nim.inputs[inputExpDateField].SetValue(nim.note.ExpiredAt.Format(inputTimeFormLong))
+		nim.inputs[inputExpDateField].SetValue(nim.note.ExpiredAt.Format(common.InputTimeFormLong))
 	}
 }
 
@@ -264,11 +258,11 @@ func (nim *NoteInputModel) validateInputs() error {
 		if title == "" || text == "" {
 			return fmt.Errorf("empty fields")
 		}
-		timeFormat := inputTimeFormLong
+		timeFormat := common.InputTimeFormLong
 
 		if expDate != "" {
-			if len(expDate) < len(inputTimeFormLong) {
-				timeFormat = inputTimeFormShort
+			if len(expDate) < len(common.InputTimeFormLong) {
+				timeFormat = common.InputTimeFormShort
 			}
 
 			ts, err := time.ParseInLocation(timeFormat, expDate, time.UTC)
@@ -290,11 +284,11 @@ func (nim *NoteInputModel) validateInputs() error {
 		text := nim.inputs[inputTextField].Value()
 		expDate := nim.inputs[inputExpDateField].Value()
 
-		timeFormat := inputTimeFormLong
+		timeFormat := common.InputTimeFormLong
 
 		if expDate != "" {
-			if len(expDate) < len(inputTimeFormLong) {
-				timeFormat = inputTimeFormShort
+			if len(expDate) < len(common.InputTimeFormLong) {
+				timeFormat = common.InputTimeFormShort
 			}
 
 			ts, err := time.ParseInLocation(timeFormat, expDate, time.UTC)

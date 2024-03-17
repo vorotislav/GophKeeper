@@ -27,11 +27,6 @@ const (
 	inputSubmitButton
 )
 
-const (
-	inputTimeFormShort = "2006-01-02"
-	inputTimeFormLong  = "2006-01-02 15:04:05"
-)
-
 type inputState int
 
 const (
@@ -85,7 +80,7 @@ func (pim *PasswordInputModel) SetPass(p models.Password) {
 		pim.inputs[inputPasswordField].SetValue(pim.pass.Password)
 		pim.inputs[inputURLField].SetValue(pim.pass.URL)
 		pim.inputs[inputNoteField].SetValue(pim.pass.Note)
-		pim.inputs[inputExpDateField].SetValue(pim.pass.ExpirationDate.Format(inputTimeFormLong))
+		pim.inputs[inputExpDateField].SetValue(pim.pass.ExpiredAt.Format(common.InputTimeFormLong))
 	}
 }
 
@@ -296,11 +291,11 @@ func (pim *PasswordInputModel) validateInputs() error {
 		if title == "" || login == "" || password == "" {
 			return fmt.Errorf("empty fields")
 		}
-		timeFormat := inputTimeFormLong
+		timeFormat := common.InputTimeFormLong
 
 		if expDate != "" {
-			if len(expDate) < len(inputTimeFormLong) {
-				timeFormat = inputTimeFormShort
+			if len(expDate) < len(common.InputTimeFormLong) {
+				timeFormat = common.InputTimeFormShort
 			}
 
 			ts, err := time.ParseInLocation(timeFormat, expDate, time.UTC)
@@ -311,7 +306,7 @@ func (pim *PasswordInputModel) validateInputs() error {
 				return fmt.Errorf("expiration date is in the past")
 			}
 
-			pim.pass.ExpirationDate = ts
+			pim.pass.ExpiredAt = ts
 		}
 
 		pim.pass.Title = title
@@ -328,11 +323,11 @@ func (pim *PasswordInputModel) validateInputs() error {
 		note := pim.inputs[inputNoteField].Value()
 		expDate := pim.inputs[inputExpDateField].Value()
 
-		timeFormat := inputTimeFormLong
+		timeFormat := common.InputTimeFormLong
 
 		if expDate != "" {
-			if len(expDate) < len(inputTimeFormLong) {
-				timeFormat = inputTimeFormShort
+			if len(expDate) < len(common.InputTimeFormLong) {
+				timeFormat = common.InputTimeFormShort
 			}
 
 			ts, err := time.ParseInLocation(timeFormat, expDate, time.UTC)
@@ -343,7 +338,7 @@ func (pim *PasswordInputModel) validateInputs() error {
 				return fmt.Errorf("expiration date is in the past")
 			}
 
-			pim.pass.ExpirationDate = ts
+			pim.pass.ExpiredAt = ts
 		}
 
 		if title != "" {

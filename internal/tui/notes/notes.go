@@ -273,9 +273,9 @@ func renderNote(i item) string {
 	title := fmt.Sprintf("\n\nTitle: %s\n", i.Title)
 	text := fmt.Sprintf("\n\nLogin: %s\n", i.Text)
 
-	createdAt := fmt.Sprintf("\n\nCreated: %s\n", i.CreatedAt.Format(inputTimeFormLong))
-	updatedAt := fmt.Sprintf("\n\nUpdated: %s\n", i.UpdatedAt.Format(inputTimeFormLong))
-	expiredAt := fmt.Sprintf("\n\nExpiration: %s\n", i.ExpiredAt.Format(inputTimeFormLong))
+	createdAt := fmt.Sprintf("\n\nCreated: %s\n", i.CreatedAt.Format(common.InputTimeFormLong))
+	updatedAt := fmt.Sprintf("\n\nUpdated: %s\n", i.UpdatedAt.Format(common.InputTimeFormLong))
+	expiredAt := fmt.Sprintf("\n\nExpiration: %s\n", i.ExpiredAt.Format(common.InputTimeFormLong))
 
 	return title + text + createdAt + updatedAt + expiredAt
 }

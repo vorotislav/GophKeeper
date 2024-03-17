@@ -1,42 +1,19 @@
 package common
 
 import (
-	"github.com/charmbracelet/bubbles/list"
 	"github.com/charmbracelet/lipgloss"
-	"time"
 )
 
 const (
-	secondsPerYear     = 31557600
-	secondsPerDay      = 86400
-	secondsPerHour     = 3600
-	secondsPerMinute   = 60
-	timeout            = 365 * 24 * time.Hour
-	defaultListWidth   = 28
-	defaultListHeight  = 40
-	defaultDetailWidth = 45
-	defaultInputWidth  = 22
-	defaultHelpHeight  = 4
-	eventsFile         = "events.json"
-	inputTimeFormShort = "2006-01-02"
-	inputTimeFormLong  = "2006-01-02 15:04:05"
-	cError             = "#CF002E"
-	cItemTitleDark     = "#F5EB6D"
-	cItemTitleLight    = "#F3B512"
-	cItemDescDark      = "#9E9742"
-	cItemDescLight     = "#FFD975"
-	cTitle             = "#2389D3"
-	cDetailTitle       = "#3d719c"
-	cPromptBorder      = "#569cd6"
-	cDimmedTitleDark   = "#DDDDDD"
-	cDimmedTitleLight  = "#222222"
-	cDimmedDescDark    = "#999999"
-	cDimmedDescLight   = "#555555"
-	cTextLightGray     = "#FFFDF5"
+	defaultInputWidth = 22
+	cError            = "#CF002E"
+	cTitle            = "#2389D3"
+	cDetailTitle      = "#3d719c"
+	cPromptBorder     = "#569cd6"
+	cTextLightGray    = "#FFFDF5"
 )
 
 var (
-	AppStyle  = lipgloss.NewStyle().Margin(0, 1)
 	ListStyle = lipgloss.NewStyle().
 			Width(35).
 			MarginTop(1).
@@ -56,11 +33,6 @@ var (
 			Foreground(lipgloss.AdaptiveColor{Light: "#9B9B9B", Dark: "#5C5C5C"}).
 			PaddingTop(1).
 			PaddingBottom(1)
-	TableMainStyle = lipgloss.NewStyle().
-			Align(lipgloss.Center)
-	TableHeaderStyle = lipgloss.NewStyle().
-				Foreground(lipgloss.Color("#569cd6")).
-				Bold(true)
 	HeaderStyle = lipgloss.NewStyle().
 			Foreground(lipgloss.Color("#569cd6")).
 			PaddingBottom(1).
@@ -87,21 +59,5 @@ var (
 			Foreground(lipgloss.Color(cTextLightGray)).
 			Background(lipgloss.Color(cTitle)).
 			Padding(0, 1)
-	HelpStyle     = list.DefaultStyles().HelpStyle.Width(defaultListWidth).Height(5)
-	SelectedTitle = lipgloss.NewStyle().
-			Border(lipgloss.NormalBorder(), false, false, false, true).
-			BorderForeground(lipgloss.AdaptiveColor{Light: cItemTitleLight, Dark: cItemTitleDark}).
-			Foreground(lipgloss.AdaptiveColor{Light: cItemTitleLight, Dark: cItemTitleDark}).
-			Padding(0, 0, 0, 1)
-	SelectedDesc = SelectedTitle.Copy().
-			Foreground(lipgloss.AdaptiveColor{Light: cItemDescLight, Dark: cItemDescDark})
-	DimmedTitle = lipgloss.NewStyle().
-			Foreground(lipgloss.AdaptiveColor{Light: cDimmedTitleLight, Dark: cDimmedTitleDark}).
-			Padding(0, 0, 0, 2)
-	DimmedDesc = DimmedTitle.Copy().
-			Foreground(lipgloss.AdaptiveColor{Light: cDimmedDescDark, Dark: cDimmedDescLight})
-	TitleBackgroundColor   lipgloss.AdaptiveColor
-	TitleForegroundColor   lipgloss.AdaptiveColor
-	ActiveBoxBorderColor   lipgloss.AdaptiveColor
 	InactiveBoxBorderColor lipgloss.AdaptiveColor
 )

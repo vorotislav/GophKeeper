@@ -30,13 +30,13 @@ func (i item) Description() string { return i.Note }
 func (i item) FilterValue() string { return i.Title }
 func (i item) GetPass() models.Password {
 	return models.Password{
-		ID:             i.ID,
-		Title:          i.Title,
-		Login:          i.Login,
-		Password:       i.Password,
-		URL:            i.URL,
-		Note:           i.Note,
-		ExpirationDate: i.ExpirationDate,
+		ID:        i.ID,
+		Title:     i.Title,
+		Login:     i.Login,
+		Password:  i.Password,
+		URL:       i.URL,
+		Note:      i.Note,
+		ExpiredAt: i.ExpiredAt,
 	}
 }
 
@@ -264,15 +264,15 @@ func (pm *PasswordModel) LoadData() {
 	items := make([]list.Item, 0, len(passwords))
 	for _, p := range passwords {
 		i := item{
-			ID:             p.ID,
-			Title:          p.Title,
-			Login:          p.Login,
-			Password:       p.Password,
-			URL:            p.URL,
-			Note:           p.Note,
-			CreatedAt:      p.CreatedAt,
-			UpdatedAt:      p.UpdatedAt,
-			ExpirationDate: p.ExpirationDate,
+			ID:        p.ID,
+			Title:     p.Title,
+			Login:     p.Login,
+			Password:  p.Password,
+			URL:       p.URL,
+			Note:      p.Note,
+			CreatedAt: p.CreatedAt,
+			UpdatedAt: p.UpdatedAt,
+			ExpiredAt: p.ExpiredAt,
 		}
 
 		items = append(items, i)
@@ -320,9 +320,9 @@ func renderPassword(i item, echo echoPasswordMode) string {
 	}
 	url := fmt.Sprintf("\n\nURL: %s\n", i.URL)
 	note := fmt.Sprintf("\n\nNote: %s\n", i.Note)
-	createdAt := fmt.Sprintf("\n\nCreated: %s\n", i.CreatedAt.Format(inputTimeFormLong))
-	updatedAt := fmt.Sprintf("\n\nUpdated: %s\n", i.UpdatedAt.Format(inputTimeFormLong))
-	expirationAt := fmt.Sprintf("\n\nExpiration: %s\n", i.ExpirationDate.Format(inputTimeFormLong))
+	createdAt := fmt.Sprintf("\n\nCreated: %s\n", i.CreatedAt.Format(common.InputTimeFormLong))
+	updatedAt := fmt.Sprintf("\n\nUpdated: %s\n", i.UpdatedAt.Format(common.InputTimeFormLong))
+	expirationAt := fmt.Sprintf("\n\nExpiration: %s\n", i.ExpiredAt.Format(common.InputTimeFormLong))
 
 	return title + login + pass + url + note + createdAt + updatedAt + expirationAt
 }

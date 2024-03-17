@@ -25,16 +25,10 @@ const (
 	inputSubmitButton
 )
 
-const (
-	inputTimeFormShort = "2006-01-02"
-	inputTimeFormLong  = "2006-01-02 15:04:05"
-)
-
 type inputState int
 
 const (
 	InvisibleState inputState = iota
-	ViewState
 	CancelState
 	SubmitState
 )
