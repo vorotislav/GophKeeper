@@ -1,116 +1,20 @@
 ## Описание системы
-```plantuml
-@startuml
-!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+![schema](Описание%20системы.png)
 
-LAYOUT_WITH_LEGEND()
-LAYOUT_LANDSCAPE()
-
-title
-  <b>GophKeeperArch v2024.02.17</b>
-  <i>Управление паролями GophKeeper</i>
-end title
-
-Person(user, "Пользователь")
-System(goph_keeper, "Менеджер паролей")
-
-Rel(user, goph_keeper, "Создание\получение\удаление паролей", "Text-User Interface")
-
-@enduml
-```
+Весь HTTP-трафик обарачивается в TLS, через настройки HTTP-клиента со стороны клиента, а не сервере HTTP-сервер так же поднят в режиме TLS.
 
 ## Описание контейнеров
-```plantuml
-@startuml
-!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+![schema](Описание%20контейнеров.png)
 
-LAYOUT_WITH_LEGEND()
-LAYOUT_TOP_DOWN()
-
-title
-  <b>GophKeeperContainers v2024.02.17</b>
-  <i>Описание контейнеров GophKeeper</i>
-end title
-
-Person(user, "Пользователь")
-System_Boundary(password_managing_desktop, "Клиент системы хранения паролей") {
-  Container(goph_keeper_cli, "Менеджер паролей")
-  Rel(user, goph_keeper_cli, "Создание\получение\удаление паролей", "Text-User Interface")
-}
-
-System_Boundary(passmword_managing_server, "Сервер системы хранения паролей") {
-  Container(goph_keeper_server, "Сервер хранения паролей")
-  ContainerDb(db, "База данных", "PostgreSQL", "Хранит пользователей, сессии, пароли и т.д.", "")
-  Rel_D(goph_keeper_cli, goph_keeper_server, "Запросы к серверу", "HTTP")
-  Rel_D(goph_keeper_server, db, "Чтение\Запись")
-}
-
-@enduml
-```
-
-## Описание компонентов
-```plantuml
-@startuml
-!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
-
-LAYOUT_WITH_LEGEND()
-LAYOUT_TOP_DOWN()
-
-title
-  <b>GophKeeperComponents v2024.02.17</b>
-  <i>Описание компонентов GophKeeper</i>
-end title
-
-@enduml
-```
 
 ### Регистрация пользователя
-```plantuml
-@startuml
-
-actor user
-collections "goph_keeper_cli" as desktop
-collections "gopj_keeper_srv" as server
-collections "postgresql" as db
-user -> desktop : TUI enter the login and password
-desktop -> server : POST: /v1/register {"username": "", "password":""}
-server -> db : check username and insert into users
-server -> desktop : {"token": ""}
-desktop -> user: successful register
-
-@enduml
-```
+![schema](https://www.plantuml.com/plantuml/png/TLBDpj905DttAMvc_IbnsuNX3JJgdjGoGQHqwio02qF2Js9Oa10Nhbtu0WMfDEM7LxZpHfvfRIJgjs7cNiwSdvDsZOsqdOoJ88gjqZGnKWUnIX8Psw5A3Oc1ojxrHb9cKlVYP2WeCjINPcHLzW_mVGiqUbe3mJRzcp1JnWwqD1-IXkjju4NfoVEMbaBYRtpbazlm4UUUSxVami-4OO_LWKkt93xX-eDBlX2Nn3VWvisxUlx9P_V5mog-O7tZogtebHmCZOMdLWowZKl8ldpn-ar8dUcpZluDeq_2kqkZiHGX2V40_v4n7vNkYr28MT2y1Gk2rCPh2oKV__Xq2xU5SHnBph6kE8VP_mRSFYN-wXO8LZu6sP1RKCrKGUPC_WT_NBZ0u5P8NH0NNinj7eXtM1qmeuQhMmEyy_gjxVlI4TMgaKphdBFxVdm3YFOTncwWMaCiHoGaBNpzjTOSgy-uRuEkJFlue7u1)
 
 ### Аутентификация пользователя
-```plantuml
-@startuml
+![schema](https://www.plantuml.com/plantuml/png/RP51IiD058RtSuh7h9NYDWlf3HHqNz9aY37JJ9mtZGifQ44G57e45rwWL8lHKdk5DpVoJKAWL5UJ2V_x_kynGtInTTE95d7YZ8KfAYiIexLAN6vA19cPwcfKA5KfEqfqBY56I1KMpbH_WjTz46tT1fbM7m8hWowp2czqnngBK0h7fpqM8g1N-g6DVw5FFbUqz7DQXplmPSM_FgZnSw0DVxvJGrkW1cZ7kVjkJlGefdOE33q_kxYCO52V3BJ9yXBkP2WkuucI4KXvn6enugsngOoad8bki1KRjqw1plLhFhzfoON_IYuEP1Rxe7v3BdUcK6NRFDlN3KvSzkOVQCTLJxJrp_J5Y_l7iBWOgZBbz_e5)
 
-actor user
-collections "goph_keeper_cli" as desktop
-collections "gopj_keeper_srv" as server
-collections "postgresql" as db
-user -> desktop : TUI enter the login and password
-desktop -> server : POST: /v1/login {"username": "", "password":""}
-server -> db : check username and create token
-server -> desktop : {"token": ""}
-desktop -> user: successful login
+### Пароли
+#### Создание записи с паролем
 
-@enduml
-```
+![schema](https://www.plantuml.com/plantuml/png/PL5DJi905DxFALvcZI0kkp3SG1FTar8cY1HQPmekZ8c88IwC2o_W5IgAL7xA5RwvaM-iJK1NpVVUr-_dJSCalaw6_L08FqWYJKEZj0YYC5H1qeq6XcGdYY-QFQLYfPj1s9Na6sehqqkY-1_niYGQFVeXijhehs0ScQIZbRaA2wsMSAPqS5pAaaTuHOwLVSA2lpEazXvpXmah7hmZmuQG4RQykYke5K9Ap4kn97nYJbXZxh0ZsmVaJ5mpVOhCFfCZBNYtPJH69afhJb5a9ezEJyxEFQgDwhNOD-OwqcswaGE_hwH7KbP8bcFfELYjLc-5-_ctJClrUB5Zbu4xB97kMH9cHTmth7WojPETEjpsgzJQEypHONqtgxkSjtS6iXDMttBrHsoG4uESRJ_OQ2D4GmtQ_DhV)
 
-### Создание записи с паролем
-```plantuml
-@startuml
-
-actor user
-collections "goph_keeper_cli" as desktop
-collections "gopj_keeper_srv" as server
-collections "postgresql" as db
-user -> desktop : TUI enter the login and password
-desktop -> server : POST: /v1/password {"name": "", "password":"", ...}
-server -> db : validate password model and insert into password
-server -> desktop : 201
-desktop -> user: successful create new password
-
-@enduml
-```

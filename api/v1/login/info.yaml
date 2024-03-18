@@ -1,0 +1,83 @@
+components:
+  requestBodies:
+    PostLogin:
+      description: Describes a form for user login.
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AddLogin'
+
+  responses:
+    AddLogin200:
+      description: operation successful
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  session:
+                    type: object
+                    properties:
+                      id:
+                        description: Session ID
+                        type: integer
+                        format: int64
+                        example: 123
+                      token:
+                        title: User token for authentication
+                        type: string
+                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+                      refresh_token:
+                        description: Refresh token for session
+                        type: string
+                        example: 123e4567-e89b-12d3-a456-426655440000
+                    required:
+                      - id
+                      - token
+                      - refresh_token
+
+  schemas:
+    AddLogin:
+      type: object
+      properties:
+        user:
+          type: object
+          properties:
+            login:
+              title: Login
+              type: string
+              minLength: 3
+              maxLength: 200
+            password:
+              title: Password
+              type: string
+              format: password
+              minLength: 3
+              maxLength: 200
+          required:
+            - login
+            - password
+        machine:
+          type: object
+          properties:
+            ip_address:
+              type: string
+              example: '1.2.3.4'
+              minLength: 2
+              maxLength: 64
+            mac_address:
+              type: string
+              example: '00:AB:CD:EF:11:22'
+              minLength: 2
+              maxLength: 64
+            public_key:
+              type: string
+              minLength: 2
+              maxLength: 64
+      required:
+        - user
+        - machine

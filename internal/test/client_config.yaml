@@ -1,0 +1,12 @@
+log:
+  level: "debug"
+  verbose: true
+  format: "json"
+
+server:
+  address: "127.0.0.1:8080"
+
+asymmetry:
+  path: "./.cert"
+  public: "public.pem"
+  private: "private.pem"

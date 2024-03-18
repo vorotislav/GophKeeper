@@ -1,0 +1,26 @@
+database:
+  uri: "database_uri"
+
+api:
+  address: "127.0.0.1"
+  port: 8080
+
+log:
+  level: "debug"
+  verbose: true
+  format: "text"
+
+jwt:
+  secret: "jwt"
+  lifetime:
+    access: "1d"
+    refresh: "2d"
+
+crypto:
+  key: "key"
+  salt: "salt"
+
+asymmetry:
+  path: "./.cert"
+  public: "public.pem"
+  private: "private.pem"

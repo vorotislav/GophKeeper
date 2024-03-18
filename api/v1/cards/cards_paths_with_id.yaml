@@ -1,0 +1,21 @@
+delete:
+  operationId: deleteCard
+  tags:
+    - cards
+  security:
+    - BearerAuth: [ ]
+  summary: Delete card
+  parameters:
+    - name: cardID
+      in: path
+      required: true
+      description: ID of card
+      schema:
+        type: integer
+        minimum: 1
+        example: 1
+  responses:
+    '204':
+      description: Cards was deleted successfully
+    'default':
+      $ref: '../schemas.yaml#/components/responses/Errors'

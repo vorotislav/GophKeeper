@@ -1,0 +1,10 @@
+get:
+  operationId: getKey
+  tags:
+    - key
+  summary: Get goph keeper server's public key for encrypting messages to server
+  responses:
+    '202':
+      $ref: 'info.yaml#/components/responses/GetKey200'
+    default:
+      $ref: '../schemas.yaml#/components/responses/Errors'

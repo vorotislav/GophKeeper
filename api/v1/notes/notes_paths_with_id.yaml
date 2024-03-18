@@ -1,0 +1,21 @@
+delete:
+  operationId: deleteNotes
+  tags:
+    - notes
+  security:
+    - BearerAuth: [ ]
+  summary: Delete notes.
+  parameters:
+    - name: noteID
+      in: path
+      required: true
+      description: ID of note
+      schema:
+        type: integer
+        minimum: 1
+        example: 1
+  responses:
+    '204':
+      description: Notes was deleted successfully
+    'default':
+      $ref: '../schemas.yaml#/components/responses/Errors'
