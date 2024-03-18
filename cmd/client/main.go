@@ -3,8 +3,6 @@ package main
 import (
 	"crypto/tls"
 	"crypto/x509"
-	"github.com/robfig/cron/v3"
-	"go.uber.org/zap"
 	stdlog "log"
 	"net/http"
 	"time"
@@ -23,6 +21,8 @@ import (
 	"GophKeeper/internal/tui"
 
 	tea "github.com/charmbracelet/bubbletea"
+	"github.com/robfig/cron/v3"
+	"go.uber.org/zap"
 )
 
 func main() {

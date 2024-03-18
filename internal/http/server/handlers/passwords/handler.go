@@ -2,15 +2,16 @@
 package passwords
 
 import (
-	httpErr "GophKeeper/internal/http/handlererrors"
-	"GophKeeper/internal/http/responder"
-	"GophKeeper/internal/models"
 	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"net/http"
 	"strconv"
+
+	httpErr "GophKeeper/internal/http/handlererrors"
+	"GophKeeper/internal/http/responder"
+	"GophKeeper/internal/models"
 
 	"github.com/go-chi/chi/v5"
 	"go.uber.org/zap"

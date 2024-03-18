@@ -10,10 +10,6 @@ import (
 	"github.com/knadh/koanf/v2"
 )
 
-const (
-	defaultConfigFile = "config.yaml"
-)
-
 // Settings описывает структуру для хранения настроек сервера.
 type Settings struct {
 	API       APISettings      `koanf:"api"`
@@ -60,7 +56,7 @@ type CryptoSettings struct {
 // NewSettings принимает путь до файла настроек и пытается создать объект Settings.
 func NewSettings(config string) (*Settings, error) {
 	if config == "" {
-		config = defaultConfigFile
+		config = common.DefaultConfigFile
 	}
 
 	k := koanf.New(".")

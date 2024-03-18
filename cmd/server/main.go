@@ -1,7 +1,6 @@
 package main
 
 import (
-	"GophKeeper/internal/crypto/asymetry"
 	"context"
 	stdlog "log"
 	"os"
@@ -10,6 +9,7 @@ import (
 
 	"GophKeeper/cmd/util"
 	"GophKeeper/internal/auth"
+	"GophKeeper/internal/crypto/asymetry"
 	"GophKeeper/internal/crypto/cipher"
 	"GophKeeper/internal/http/server"
 	"GophKeeper/internal/logger"

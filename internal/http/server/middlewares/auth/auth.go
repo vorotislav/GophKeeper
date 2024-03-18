@@ -1,11 +1,13 @@
 package auth
 
 import (
-	"GophKeeper/internal/token"
 	"fmt"
-	"go.uber.org/zap"
 	"net/http"
 	"strings"
+
+	"GophKeeper/internal/token"
+
+	"go.uber.org/zap"
 )
 
 // authorizer описывает метод для парсинга и проверка входящего токена.

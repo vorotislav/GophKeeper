@@ -3,13 +3,13 @@ package auth
 import (
 	"errors"
 	"fmt"
-	"github.com/xhit/go-str2duration/v2"
 	"time"
 
 	"GophKeeper/internal/settings/server"
 	"GophKeeper/internal/token"
 
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/xhit/go-str2duration/v2"
 )
 
 var (

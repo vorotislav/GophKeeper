@@ -2,16 +2,17 @@
 package notes
 
 import (
-	httpErr "GophKeeper/internal/http/handlererrors"
-	"GophKeeper/internal/http/responder"
-	"GophKeeper/internal/models"
 	"context"
 	"encoding/json"
 	"errors"
-	"github.com/go-chi/chi/v5"
 	"net/http"
 	"strconv"
 
+	httpErr "GophKeeper/internal/http/handlererrors"
+	"GophKeeper/internal/http/responder"
+	"GophKeeper/internal/models"
+
+	"github.com/go-chi/chi/v5"
 	"go.uber.org/zap"
 )
 

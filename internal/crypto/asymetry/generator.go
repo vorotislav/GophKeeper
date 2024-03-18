@@ -1,7 +1,6 @@
 package asymetry
 
 import (
-	"GophKeeper/internal/settings/common"
 	"bytes"
 	"crypto/rand"
 	"crypto/rsa"
@@ -14,6 +13,8 @@ import (
 	"net"
 	"os"
 	"time"
+
+	"GophKeeper/internal/settings/common"
 
 	"go.uber.org/zap"
 )

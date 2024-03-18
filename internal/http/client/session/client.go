@@ -1,15 +1,16 @@
 package session
 
 import (
-	ch "GophKeeper/internal/http"
-	"GophKeeper/internal/http/client"
-	"GophKeeper/internal/models"
 	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
+
+	ch "GophKeeper/internal/http"
+	"GophKeeper/internal/http/client"
+	"GophKeeper/internal/models"
 
 	"github.com/avast/retry-go/v4"
 	"go.uber.org/zap"

@@ -2,9 +2,10 @@
 package systems
 
 import (
-	"GophKeeper/internal/models"
 	"fmt"
 	"net"
+
+	"GophKeeper/internal/models"
 )
 
 // Systems описывает структуру для реализации интерфейса по получению информации о системе.

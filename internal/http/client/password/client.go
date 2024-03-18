@@ -1,9 +1,6 @@
 package password
 
 import (
-	ch "GophKeeper/internal/http"
-	"GophKeeper/internal/http/client"
-	"GophKeeper/internal/models"
 	"bytes"
 	"context"
 	"encoding/json"
@@ -11,6 +8,10 @@ import (
 	"io"
 	"net/http"
 	"strconv"
+
+	ch "GophKeeper/internal/http"
+	"GophKeeper/internal/http/client"
+	"GophKeeper/internal/models"
 
 	"github.com/avast/retry-go/v4"
 	"go.uber.org/zap"

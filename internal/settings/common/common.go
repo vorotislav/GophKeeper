@@ -1,5 +1,9 @@
 package common
 
+const (
+	DefaultConfigFile = "config.yaml"
+)
+
 // Asymmetry подструктура для хранения пути ключей и названия ключей ассиметричного шифрования.
 type Asymmetry struct {
 	KeysPath   string `koanf:"path"`
