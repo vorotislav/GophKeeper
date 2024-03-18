@@ -20,5 +20,9 @@ func TestNewSettings(t *testing.T) {
 	expectedSet.Log.Verbose = true
 	expectedSet.Log.Format = "json"
 
+	expectedSet.Asymmetry.KeysPath = "./.cert"
+	expectedSet.Asymmetry.PrivateKey = "private.pem"
+	expectedSet.Asymmetry.PublicKey = "public.pem"
+
 	require.Equal(t, expectedSet, *set)
 }

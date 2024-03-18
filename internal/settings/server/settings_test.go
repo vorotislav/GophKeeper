@@ -28,5 +28,9 @@ func TestNewSettings(t *testing.T) {
 	expectedSet.Crypto.Key = "key"
 	expectedSet.Crypto.Salt = "salt"
 
+	expectedSet.Asymmetry.KeysPath = "./.cert"
+	expectedSet.Asymmetry.PrivateKey = "private.pem"
+	expectedSet.Asymmetry.PublicKey = "public.pem"
+
 	require.Equal(t, expectedSet, *set)
 }
